@@ -56,6 +56,10 @@ data class SessionLog(
     val distanceMeters: Int = 0,
 )
 
+/** Pekan program yang terakhir diterapkan; [startedOn] adalah tanggal ISO (yyyy-MM-dd) saat pekan itu diterapkan. */
+@Serializable
+data class ActiveProgram(val programId: String, val week: Int, val startedOn: String)
+
 @Serializable
 data class Settings(
     val theme: ThemeMode,
@@ -73,6 +77,8 @@ data class Settings(
     val gpsTracking: Boolean = false,
     /** Usia untuk perkiraan zona detak jantung; null = belum diisi (zona tampil dalam persen). */
     val age: Int? = null,
+    /** Program bertahap yang sedang dijalani; null bila belum ada. Diisi saat pekan program diterapkan, dihapus bersama semua data. */
+    val activeProgram: ActiveProgram? = null,
 ) {
     companion object {
         /** Nilai awal sebelum pengguna mengubah setelan; waktu default 16.30. */

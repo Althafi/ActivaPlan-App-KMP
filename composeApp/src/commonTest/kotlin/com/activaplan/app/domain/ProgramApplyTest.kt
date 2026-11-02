@@ -9,6 +9,7 @@ import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.data.repository.WeeklyPlanRepository
 import com.activaplan.app.domain.i18n.Language
+import com.activaplan.app.domain.model.ActiveProgram
 import com.activaplan.app.domain.model.ApplyPlanResult
 import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.PlanDay
@@ -16,13 +17,17 @@ import com.activaplan.app.domain.model.PlanDayType
 import com.activaplan.app.domain.model.PlanItem
 import com.activaplan.app.domain.model.Program
 import com.activaplan.app.domain.model.ProgramWeek
+import com.activaplan.app.domain.time.LocalClock
 import com.activaplan.app.domain.usecase.ApplyWeeklyPlanUseCase
+import com.activaplan.app.domain.usecase.ClearAllDataUseCase
 import com.activaplan.app.domain.validation.ProgramValidator
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -58,7 +63,8 @@ class ProgramApplyTest {
     private val cardio = CardioRepository(source, json)
     private val plans = WeeklyPlanRepository(source, json)
     private val userData = UserDataRepository(UserDataStore(InMemoryPreferencesDataStore(), json), exercises, cardio)
-    private val apply = ApplyWeeklyPlanUseCase(userData, plans, exercises, cardio)
+    private val clock = LocalClock { LocalDateTime(2026, 10, 26, 16, 0) }
+    private val apply = ApplyWeeklyPlanUseCase(userData, plans, exercises, cardio, clock = clock)
     private val time = 16 * 60 + 30
 
     @Test
@@ -86,6 +92,41 @@ class ProgramApplyTest {
         assertEquals(4, routines.getValue("prog_t_d1").items.single().sets)
         assertEquals(listOf(1, 3), userData.schedule.first().map { it.dayOfWeek }.sorted())
         assertTrue(userData.validated.first().issues.isEmpty())
+    }
+
+    @Test
+    fun applyingAProgramWeekMarksItActive() = runTest {
+        assertNull(userData.settings.first().activeProgram)
+
+        apply("prog_t_w1", Language.ID, time, reminder = false)
+        assertEquals(ActiveProgram("prog_t", 1, "2026-10-26"), userData.settings.first().activeProgram)
+
+        apply("prog_t_w2", Language.ID, time, reminder = false)
+        assertEquals(ActiveProgram("prog_t", 2, "2026-10-26"), userData.settings.first().activeProgram)
+    }
+
+    @Test
+    fun aStandalonePlanOrAConflictDoesNotChangeTheActiveProgram() = runTest {
+        apply("prog_t_w1", Language.ID, time, reminder = false)
+
+        // Jam berbeda agar tidak bentrok dengan hari 1 milik program; rencana mandiri berhasil diterapkan.
+        assertEquals(ApplyPlanResult.Applied(1), apply("plan_t", Language.ID, time + 180, reminder = false))
+        assertEquals(1, userData.settings.first().activeProgram?.week)
+
+        // Jadwal lain di hari dan jam yang sama membuat pekan 2 ditolak; program aktif tetap pekan 1.
+        userData.saveRoutine(Routine("other", "Lain", listOf(RoutineItem("a", 3, 10, null, 60))))
+        userData.saveScheduleEntry(ScheduleEntry("s_other", dayOfWeek = 3, timeMinutes = time, routineId = "other", reminder = false))
+        assertIs<ApplyPlanResult.Conflict>(apply("prog_t_w2", Language.ID, time, reminder = false))
+        assertEquals(1, userData.settings.first().activeProgram?.week)
+    }
+
+    @Test
+    fun clearingAllDataAlsoClearsTheActiveProgram() = runTest {
+        apply("prog_t_w1", Language.ID, time, reminder = false)
+
+        ClearAllDataUseCase(userData)()
+
+        assertNull(userData.settings.first().activeProgram)
     }
 
     @Test

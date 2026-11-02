@@ -5,6 +5,7 @@ import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.data.repository.WeeklyPlanRepository
 import com.activaplan.app.domain.i18n.Language
+import com.activaplan.app.domain.model.ActiveProgram
 import com.activaplan.app.domain.model.ApplyPlanResult
 import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.ConflictPolicy
@@ -23,9 +24,13 @@ import com.activaplan.app.domain.model.Routine
 import com.activaplan.app.domain.model.RoutineItem
 import com.activaplan.app.domain.model.RoutineRules
 import com.activaplan.app.domain.model.ScheduleEntry
+import com.activaplan.app.domain.model.Settings
 import com.activaplan.app.domain.model.WeeklyPlan
 import com.activaplan.app.domain.model.WeeklyPlanDetail
 import com.activaplan.app.domain.schedule.ScheduleConflicts
+import com.activaplan.app.domain.time.LocalClock
+import com.activaplan.app.domain.time.SystemLocalClock
+import kotlinx.coroutines.flow.first
 
 /** Katalog yang dibutuhkan untuk membaca isi rencana, dimuat sekali per pemanggilan dalam bahasa tampilan. */
 internal class PlanCatalog(val strength: Map<String, Exercise>, val cardio: Map<String, CardioWorkout>) {
@@ -106,6 +111,7 @@ class GetProgramDetailUseCase(
     private val exercises: ExerciseRepository,
     private val cardio: CardioRepository,
     private val estimate: EstimateRoutineMinutesUseCase = EstimateRoutineMinutesUseCase(),
+    private val userData: UserDataRepository? = null,
 ) {
 
     suspend operator fun invoke(programId: String, language: Language): ProgramDetail? {
@@ -117,8 +123,9 @@ class GetProgramDetailUseCase(
             difficulty = summary.difficulty,
             summary = summary.summary,
             tips = program.tips,
-            weeks = summary.weeks.zip(program.weeks) { plan, week -> ProgramWeekCard(plan, week.focus) },
+            weeks = summary.weeks.zip(program.weeks) { plan, week -> ProgramWeekCard(week.week, plan, week.focus) },
             modes = summary.modes,
+            activeWeek = userData?.settings?.first()?.activeProgram?.takeIf { it.programId == programId }?.week,
         )
     }
 }
@@ -158,7 +165,7 @@ class GetWeeklyPlanDetailUseCase(
 
 /**
  * Memakai rencana: satu rutinitas per hari latihan (ID tetap, jadi memakai ulang memperbarui) dan satu jadwal per hari
- * pada [timeMinutes]. Semuanya satu transaksi. Jadwal lain yang bertumpuk ditangani [ConflictPolicy] seperti di layar Jadwal;
+ * pada [timeMinutes]. Semuanya satu transaksi. Menerapkan pekan sebuah program juga menandainya sebagai program aktif. Jadwal lain yang bertumpuk ditangani [ConflictPolicy] seperti di layar Jadwal;
  * jadwal lama milik rencana ini sendiri selalu diganti.
  */
 class ApplyWeeklyPlanUseCase(
@@ -167,6 +174,7 @@ class ApplyWeeklyPlanUseCase(
     private val exercises: ExerciseRepository,
     private val cardio: CardioRepository,
     private val estimate: EstimateRoutineMinutesUseCase = EstimateRoutineMinutesUseCase(),
+    private val clock: LocalClock = SystemLocalClock,
 ) {
 
     suspend operator fun invoke(
@@ -191,7 +199,13 @@ class ApplyWeeklyPlanUseCase(
         }
 
         var result: ApplyPlanResult = ApplyPlanResult.NotFound
-        userData.updateRoutinesAndSchedule { routines, schedule ->
+        val active = plan.programId?.let { programId ->
+            plan.week?.let { week -> ActiveProgram(programId, week, clock.now().date.toString()) }
+        }
+        val settings: (Settings) -> Settings = { s ->
+            if (active != null && result is ApplyPlanResult.Applied) s.copy(activeProgram = active) else s
+        }
+        userData.updateRoutinesAndSchedule(settings) { routines, schedule ->
             // Jadwal lama milik rencana ini diganti seluruhnya; yang lain hanya diperiksa bentroknya.
             val others = schedule.filterNot { it.routineId in ownIds }
             val allRoutines = routines.filterNot { it.id in ownIds } + built.map { it.second }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
@@ -60,6 +62,7 @@ import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.GreetingPeriod
 import com.activaplan.app.domain.model.HomeData
 import com.activaplan.app.domain.model.Mode
+import com.activaplan.app.domain.model.ProgramProgress
 import com.activaplan.app.domain.model.SessionStatus
 import com.activaplan.app.domain.model.StreakDay
 import com.activaplan.app.domain.model.TemplateRecommendation
@@ -85,6 +88,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     dataClearedNotice: Boolean = false,
     onDataClearedNoticeShown: () -> Unit = {},
+    onOpenPlan: (String) -> Unit = {},
+    onOpenProgram: (String) -> Unit = {},
 ) {
     val observeHome = koinInject<ObserveHomeUseCase>()
     val viewModel = viewModel { HomeViewModel(observeHome) }
@@ -103,7 +108,7 @@ fun HomeScreen(
     }
 
     Box(modifier) {
-        HomeContent(state, onOpenSchedule, onStartWorkout, onOpenTemplate, viewModel::reload)
+        HomeContent(state, onOpenSchedule, onStartWorkout, onOpenTemplate, viewModel::reload, onOpenPlan = onOpenPlan, onOpenProgram = onOpenProgram)
         ActivaSnackbarHost(snackbarHostState, Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 12.dp))
     }
 }
@@ -116,12 +121,14 @@ fun HomeContent(
     onOpenTemplate: (String) -> Unit,
     onReload: () -> Unit,
     modifier: Modifier = Modifier,
+    onOpenPlan: (String) -> Unit = {},
+    onOpenProgram: (String) -> Unit = {},
 ) {
     Box(modifier.fillMaxSize().background(ActivaPlanTheme.colors.bg).statusBarsPadding()) {
         if (rememberShowSkeleton(state == HomeUiState.Loading, state is HomeUiState.Ready)) ScreenListSkeleton(cardCount = 4) else when (state) {
             HomeUiState.Loading -> Unit
             HomeUiState.Error -> LoadError(onReload)
-            is HomeUiState.Ready -> HomeReady(state.data, onOpenSchedule, onStartWorkout, onOpenTemplate)
+            is HomeUiState.Ready -> HomeReady(state.data, onOpenSchedule, onStartWorkout, onOpenTemplate, onOpenPlan, onOpenProgram)
         }
     }
 }
@@ -132,6 +139,8 @@ private fun HomeReady(
     onOpenSchedule: () -> Unit,
     onStartWorkout: (TodayWorkout) -> Unit,
     onOpenTemplate: (String) -> Unit,
+    onOpenPlan: (String) -> Unit,
+    onOpenProgram: (String) -> Unit,
 ) {
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState())
@@ -141,6 +150,7 @@ private fun HomeReady(
         Header(data.greeting, onOpenSchedule)
         val today = data.today
         if (today != null) TodayCard(today, onStartWorkout) else EmptyTodayCard(onOpenSchedule)
+        data.program?.let { ProgramSection(it, onOpenPlan, onOpenProgram) }
         StreakSection(data.week)
         if (data.recommendations.isNotEmpty()) Recommendations(data.recommendations, onOpenTemplate)
     }
@@ -219,6 +229,63 @@ private fun TodayCard(today: TodayWorkout, onStartWorkout: (TodayWorkout) -> Uni
                 style = ButtonStyle.SECONDARY,
                 icon = ActivaIconKind.PLAY,
             )
+        }
+    }
+}
+
+/** Program aktif: nama, pekan ke berapa, penanda kemajuan, dan ajakan lanjut ke pekan berikutnya setelah tujuh hari. */
+@Composable
+private fun ProgramSection(program: ProgramProgress, onOpenPlan: (String) -> Unit, onOpenProgram: (String) -> Unit) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    val progress = strings.format(StringKey.HOME_PROGRAM_WEEK, program.week, program.totalWeeks)
+    ActivaCard(Modifier.fillMaxWidth()) {
+        Text(
+            strings[StringKey.HOME_PROGRAM_EYEBROW].uppercase(),
+            style = ActivaPlanTheme.type.label.copy(fontWeight = FontWeight.SemiBold, letterSpacing = 0.6.sp),
+            color = c.textMuted,
+        )
+        Spacer(Modifier.height(6.dp))
+        Text(program.programName, style = ActivaPlanTheme.type.cardTitle, color = c.text)
+        Text(program.weekTitle, style = ActivaPlanTheme.type.body, color = c.textMuted)
+        Spacer(Modifier.height(12.dp))
+        Row(
+            Modifier.fillMaxWidth().semantics { contentDescription = progress },
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            repeat(program.totalWeeks) { index ->
+                Box(
+                    Modifier.weight(1f).height(6.dp).clip(RoundedCornerShape(3.dp))
+                        .background(if (index < program.week) c.primary else c.surfaceVar),
+                )
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        Text(progress, style = ActivaPlanTheme.type.label.copy(fontWeight = FontWeight.SemiBold), color = c.text)
+        Spacer(Modifier.height(12.dp))
+        val nextPlanId = program.nextPlanId
+        when {
+            program.finished -> {
+                Text(strings[StringKey.HOME_PROGRAM_DONE], style = ActivaPlanTheme.type.body, color = c.textMuted)
+                Spacer(Modifier.height(12.dp))
+                ActivaButton(strings[StringKey.HOME_PROGRAM_VIEW], { onOpenProgram(program.programId) }, Modifier.fillMaxWidth(), style = ButtonStyle.SOFT, compact = true)
+            }
+            nextPlanId != null -> {
+                Text(
+                    if (program.weekCompleted) strings[StringKey.HOME_PROGRAM_READY] else strings.format(StringKey.HOME_PROGRAM_DAY, program.dayInWeek),
+                    style = ActivaPlanTheme.type.body,
+                    color = c.textMuted,
+                )
+                Spacer(Modifier.height(12.dp))
+                ActivaButton(
+                    strings.format(StringKey.HOME_PROGRAM_NEXT, program.nextWeek ?: program.week),
+                    { onOpenPlan(nextPlanId) },
+                    Modifier.fillMaxWidth(),
+                    style = if (program.weekCompleted) ButtonStyle.PRIMARY else ButtonStyle.SOFT,
+                    compact = true,
+                )
+            }
+            else -> Text(strings.format(StringKey.HOME_PROGRAM_DAY, program.dayInWeek), style = ActivaPlanTheme.type.body, color = c.textMuted)
         }
     }
 }

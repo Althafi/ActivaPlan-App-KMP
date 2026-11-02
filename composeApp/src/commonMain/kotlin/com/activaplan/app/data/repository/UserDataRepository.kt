@@ -81,12 +81,16 @@ class UserDataRepository(
     suspend fun updateSchedule(transform: (routines: List<Routine>, schedule: List<ScheduleEntry>) -> List<ScheduleEntry>) =
         store.update { d -> d.copy(schedule = transform(d.routines, d.schedule)) }
 
-    /** Mengganti rutinitas dan jadwal sekaligus secara atomik, mis. saat memakai rencana mingguan. */
+    /**
+     * Mengganti rutinitas dan jadwal sekaligus secara atomik, mis. saat memakai rencana mingguan. [settings] dipanggil
+     * sesudah [transform] dan ikut dalam transaksi yang sama, jadi boleh membaca hasil yang ditangkap dari [transform].
+     */
     suspend fun updateRoutinesAndSchedule(
+        settings: (Settings) -> Settings = { it },
         transform: (routines: List<Routine>, schedule: List<ScheduleEntry>) -> Pair<List<Routine>, List<ScheduleEntry>>,
     ) = store.update { d ->
         val (routines, schedule) = transform(d.routines, d.schedule)
-        d.copy(routines = routines, schedule = schedule)
+        d.copy(routines = routines, schedule = schedule, settings = settings(d.settings))
     }
 
     /** Membuang entri jadwal yang rutinitasnya sudah tidak ada. Mengembalikan jumlah yang dibuang. */
@@ -117,9 +121,14 @@ class UserDataRepository(
         d.copy(settings = transform(d.settings))
     }
 
-    /** Menghapus rutinitas, jadwal, dan riwayat. Setelan dipertahankan. */
+    /** Menghapus rutinitas, jadwal, riwayat, dan program aktif. Setelan lain dipertahankan. */
     suspend fun clearAllData() = store.update {
-        it.copy(routines = emptyList(), schedule = emptyList(), sessionLogs = emptyList())
+        it.copy(
+            routines = emptyList(),
+            schedule = emptyList(),
+            sessionLogs = emptyList(),
+            settings = it.settings.copy(activeProgram = null),
+        )
     }
 
     private inline fun <T> List<T>.upsert(item: T, id: (T) -> String): List<T> {

@@ -43,9 +43,30 @@ data class TemplateRecommendation(
     val primaryMode: Mode?,
 )
 
+/**
+ * Kemajuan program bertahap di Beranda. [dayInWeek] = hari ke berapa sejak pekan ini diterapkan (1 dan seterusnya);
+ * [weekCompleted] true setelah tujuh hari. [nextWeek] dan [nextPlanId] null bila ini pekan terakhir.
+ */
+data class ProgramProgress(
+    val programId: String,
+    val programName: String,
+    val week: Int,
+    val totalWeeks: Int,
+    val weekTitle: String,
+    val dayInWeek: Int,
+    val weekCompleted: Boolean,
+    val nextWeek: Int?,
+    val nextPlanId: String?,
+) {
+    /** Pekan terakhir sudah lewat tujuh hari. */
+    val finished: Boolean get() = nextWeek == null && weekCompleted
+}
+
 data class HomeData(
     val greeting: GreetingPeriod,
     val today: TodayWorkout?,
     val week: WeekStreak,
     val recommendations: List<TemplateRecommendation>,
+    /** Null bila tidak ada program yang sedang dijalani. */
+    val program: ProgramProgress? = null,
 )

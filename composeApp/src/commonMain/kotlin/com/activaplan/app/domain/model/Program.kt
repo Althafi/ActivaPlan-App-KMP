@@ -60,7 +60,7 @@ data class ProgramSummary(
 }
 
 /** Satu pekan di layar program: [plan] untuk statistik dan membuka pratinjau, [focus] tujuan pekan itu. */
-data class ProgramWeekCard(val plan: PlanSummary, val focus: String)
+data class ProgramWeekCard(val week: Int, val plan: PlanSummary, val focus: String)
 
 /** Isi layar program: ringkasan, tips, dan pekan-pekannya. */
 data class ProgramDetail(
@@ -71,4 +71,6 @@ data class ProgramDetail(
     val tips: List<String>,
     val weeks: List<ProgramWeekCard>,
     val modes: List<Mode>,
+    /** Nomor pekan program ini yang sedang dijalani; null bila program ini bukan program aktif. */
+    val activeWeek: Int? = null,
 )

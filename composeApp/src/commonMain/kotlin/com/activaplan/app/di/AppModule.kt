@@ -72,7 +72,7 @@ val commonModule = module {
     single { UserDataStore(get(), get()) }
     single { UserDataRepository(get(), get(), get()) }
     single<LocalClock> { SystemLocalClock }
-    factory { ObserveHomeUseCase(get(), get(), get()) }
+    factory { ObserveHomeUseCase(get(), get(), get(), plans = get()) }
     factory { FilterExercisesUseCase() }
     factory { FilterCardioUseCase() }
     factory { GetCardioDetailUseCase(get()) }
@@ -81,8 +81,8 @@ val commonModule = module {
     factory { EstimateRoutineMinutesUseCase() }
     factory { ObserveRoutinesUseCase(get(), get(), get(), get(), get()) }
     factory { GetWeeklyPlanDetailUseCase(get(), get(), get()) }
-    factory { GetProgramDetailUseCase(get(), get(), get()) }
-    factory { ApplyWeeklyPlanUseCase(get(), get(), get(), get()) }
+    factory { GetProgramDetailUseCase(get(), get(), get(), userData = get()) }
+    factory { ApplyWeeklyPlanUseCase(get(), get(), get(), get(), clock = get()) }
     factory { LoadRoutineDraftUseCase(get(), get(), cardio = get()) }
     factory { ObserveHistoryUseCase(get()) }
     factory { SaveRoutineUseCase(get()) }

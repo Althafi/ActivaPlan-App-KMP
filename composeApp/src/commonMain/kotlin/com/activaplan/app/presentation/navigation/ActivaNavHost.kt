@@ -33,6 +33,8 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 onOpenSchedule = { navController.navigateToTab(TopLevelDestination.SCHEDULE) },
                 onStartWorkout = { navController.navigate(SessionRoute(it.routineId)) { launchSingleTop = true } },
                 onOpenTemplate = { navController.navigate(TemplatePreviewRoute(it)) },
+                onOpenPlan = { navController.navigate(PlanPreviewRoute(it)) },
+                onOpenProgram = { navController.navigate(ProgramPreviewRoute(it)) },
                 dataClearedNotice = dataCleared,
                 onDataClearedNoticeShown = { entry.savedStateHandle[DATA_CLEARED_KEY] = false },
             )

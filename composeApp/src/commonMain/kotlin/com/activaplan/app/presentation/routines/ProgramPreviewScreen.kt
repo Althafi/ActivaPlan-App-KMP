@@ -111,14 +111,14 @@ private fun ReadyContent(detail: ProgramDetail, onOpenWeek: (String) -> Unit) {
         }
         Spacer(Modifier.height(4.dp))
         Text(strings[StringKey.PROGRAM_WEEKS_TITLE], style = ActivaPlanTheme.type.cardTitle, color = c.text)
-        detail.weeks.forEach { WeekCard(it, onOpenWeek) }
+        detail.weeks.forEach { WeekCard(it, it.week == detail.activeWeek, onOpenWeek) }
         Spacer(Modifier.height(16.dp))
     }
 }
 
 /** Kartu pekan: judul, fokus, tujuh titik hari berwarna, statistik, dan tombol membuka pratinjau pekan. */
 @Composable
-private fun WeekCard(week: ProgramWeekCard, onOpenWeek: (String) -> Unit) {
+private fun WeekCard(week: ProgramWeekCard, active: Boolean, onOpenWeek: (String) -> Unit) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     val plan = week.plan
@@ -126,6 +126,7 @@ private fun WeekCard(week: ProgramWeekCard, onOpenWeek: (String) -> Unit) {
     ActivaCard(Modifier.fillMaxWidth(), onClick = { onOpenWeek(plan.id) }) {
         Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(plan.name, style = ActivaPlanTheme.type.cardTitle, color = c.text)
+            if (active) TextBadge(strings[StringKey.PROGRAM_WEEK_ACTIVE])
             Text(week.focus, style = ActivaPlanTheme.type.body, color = c.textMuted)
             Row(Modifier.semantics { contentDescription = weekDescription }, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 plan.days.forEachIndexed { index, type ->
