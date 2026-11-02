@@ -18,6 +18,10 @@ data class TemplatePreviewRoute(val id: String)
 @Serializable
 data class PlanPreviewRoute(val id: String)
 
+/** Layar program bertahap; [id] adalah `Program.id`. */
+@Serializable
+data class ProgramPreviewRoute(val id: String)
+
 /** Sesi latihan; [routineId] adalah `Routine.id`. */
 @Serializable
 data class SessionRoute(val routineId: String)

@@ -16,6 +16,7 @@ import com.activaplan.app.presentation.history.HistoryScreen
 import com.activaplan.app.presentation.home.HomeScreen
 import com.activaplan.app.presentation.onboarding.IntroReplayScreen
 import com.activaplan.app.presentation.routines.PlanPreviewScreen
+import com.activaplan.app.presentation.routines.ProgramPreviewScreen
 import com.activaplan.app.presentation.routines.RoutineBuilderScreen
 import com.activaplan.app.presentation.routines.RoutinesScreen
 import com.activaplan.app.presentation.routines.TemplatePreviewScreen
@@ -72,6 +73,7 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 onUseTemplate = { navController.navigate(RoutineBuilderRoute(it)) },
                 onOpenTemplate = { navController.navigate(TemplatePreviewRoute(it)) },
                 onOpenPlan = { navController.navigate(PlanPreviewRoute(it)) },
+                onOpenProgram = { navController.navigate(ProgramPreviewRoute(it)) },
                 savedNotice = saved,
                 onSavedNoticeShown = { entry.savedStateHandle[ROUTINE_SAVED_KEY] = false },
             )
@@ -107,6 +109,14 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 onUsed = { routineId ->
                     navController.navigate(RoutineBuilderRoute(routineId)) { popUpTo<TemplatePreviewRoute> { inclusive = true } }
                 },
+            )
+        }
+        composable<ProgramPreviewRoute> { entry ->
+            ProgramPreviewScreen(
+                id = entry.toRoute<ProgramPreviewRoute>().id,
+                onBack = { navController.popBackStack() },
+                // Rencana pekan dibuka di atas program agar Kembali menuju daftar pekan.
+                onOpenWeek = { navController.navigate(PlanPreviewRoute(it)) },
             )
         }
         composable<PlanPreviewRoute> { entry ->

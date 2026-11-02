@@ -28,6 +28,7 @@ import com.activaplan.app.domain.usecase.FinishSessionUseCase
 import com.activaplan.app.domain.usecase.GetCardioDetailUseCase
 import com.activaplan.app.domain.usecase.GetExerciseDetailUseCase
 import com.activaplan.app.domain.usecase.GetTemplateDetailUseCase
+import com.activaplan.app.domain.usecase.GetProgramDetailUseCase
 import com.activaplan.app.domain.usecase.GetWeeklyPlanDetailUseCase
 import com.activaplan.app.domain.usecase.LoadRoutineDraftUseCase
 import com.activaplan.app.domain.usecase.LoadSessionPlanUseCase
@@ -80,6 +81,7 @@ val commonModule = module {
     factory { EstimateRoutineMinutesUseCase() }
     factory { ObserveRoutinesUseCase(get(), get(), get(), get(), get()) }
     factory { GetWeeklyPlanDetailUseCase(get(), get(), get()) }
+    factory { GetProgramDetailUseCase(get(), get(), get()) }
     factory { ApplyWeeklyPlanUseCase(get(), get(), get(), get()) }
     factory { LoadRoutineDraftUseCase(get(), get(), cardio = get()) }
     factory { ObserveHistoryUseCase(get()) }

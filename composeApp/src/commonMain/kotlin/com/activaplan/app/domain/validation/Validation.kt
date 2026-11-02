@@ -9,6 +9,7 @@ import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.PlanDay
 import com.activaplan.app.domain.model.PlanDayType
 import com.activaplan.app.domain.model.PlanItem
+import com.activaplan.app.domain.model.Program
 import com.activaplan.app.domain.model.Exercise
 import com.activaplan.app.domain.model.Mode
 import com.activaplan.app.domain.model.Routine
@@ -244,6 +245,78 @@ object WeeklyPlanValidator {
         }
         val ids = plans.map { it.id }.toSet()
         pack.plans.keys.filter { it !in ids }.forEach { issues += ValidationIssue(it, "Terjemahan yatim: rencana tidak ada di sumber") }
+        return issues
+    }
+}
+
+/**
+ * Aturan program bertahap: ID unik, pekan bernomor 1..n berurutan dengan n paling banyak [Program.MAX_WEEKS], judul dan fokus
+ * terisi, serta setiap pekan lolos [WeeklyPlanValidator] (sebagai rencana mingguan penuh).
+ */
+object ProgramValidator {
+
+    fun validate(
+        programs: List<Program>,
+        strengthById: Map<String, Exercise>,
+        cardioById: Map<String, CardioWorkout>,
+    ): List<ValidationIssue> {
+        val issues = mutableListOf<ValidationIssue>()
+        programs.groupBy { it.id }.filterValues { it.size > 1 }.keys.forEach { issues += ValidationIssue(it, "ID program duplikat") }
+        programs.forEach { program ->
+            val id = program.id
+            if (program.name.isBlank() || program.summary.isBlank()) issues += ValidationIssue(id, "Nama atau ringkasan program kosong")
+            val numbers = program.weeks.map { it.week }
+            if (numbers.isEmpty() || numbers.size > Program.MAX_WEEKS || numbers != (1..numbers.size).toList()) {
+                issues += ValidationIssue(id, "Pekan wajib bernomor 1..n berurutan, paling banyak ${Program.MAX_WEEKS}")
+            }
+            program.weeks.forEach { week ->
+                if (week.title.isBlank() || week.focus.isBlank()) issues += ValidationIssue(id, "Judul atau fokus pekan ${week.week} kosong")
+                if (week.days.none { it.type == PlanDayType.CARDIO } || week.days.none { it.type == PlanDayType.STRENGTH }) {
+                    issues += ValidationIssue(id, "Pekan ${week.week} wajib memadukan kekuatan dan kardio")
+                }
+            }
+            issues += WeeklyPlanValidator.validate(program.weekPlans, strengthById, cardioById)
+        }
+        return issues
+    }
+
+    /** Terjemahan program untuk [language]: teks program, tiap pekan, dan nama tiap hari (catatan wajib di hari istirahat). */
+    fun validateTranslation(programs: List<Program>, dictionary: ExerciseDictionary, language: Language): List<ValidationIssue> {
+        val pack = dictionary.packs[language.code]
+            ?: return listOf(ValidationIssue(language.code, "Pack bahasa '${language.code}' tidak ada"))
+        val issues = mutableListOf<ValidationIssue>()
+        programs.forEach { program ->
+            val text = pack.programs[program.id]
+            if (text == null) {
+                issues += ValidationIssue(program.id, "Terjemahan program '${language.code}' tidak ada")
+                return@forEach
+            }
+            if (text.name.isBlank() || text.summary.isBlank()) issues += ValidationIssue(program.id, "Nama atau ringkasan terjemahan kosong")
+            if (text.tips.size != program.tips.size) issues += ValidationIssue(program.id, "Jumlah tips program berbeda dari sumber")
+            program.weeks.forEach { week ->
+                val weekText = text.weeks[week.week.toString()]
+                if (weekText == null) {
+                    issues += ValidationIssue(program.id, "Terjemahan pekan ${week.week} tidak ada")
+                    return@forEach
+                }
+                if (weekText.title.isBlank() || weekText.focus.isBlank()) issues += ValidationIssue(program.id, "Judul atau fokus terjemahan pekan ${week.week} kosong")
+                if (weekText.tips.size != week.tips.size) issues += ValidationIssue(program.id, "Jumlah tips pekan ${week.week} berbeda dari sumber")
+                week.days.forEach { day ->
+                    val dayText = weekText.days[day.dayOfWeek.toString()]
+                    when {
+                        dayText == null -> issues += ValidationIssue(program.id, "Terjemahan pekan ${week.week} hari ${day.dayOfWeek} tidak ada")
+                        dayText.name.isBlank() || dayText.name.length > RoutineRules.MAX_NAME_LENGTH ->
+                            issues += ValidationIssue(program.id, "Nama terjemahan pekan ${week.week} hari ${day.dayOfWeek} kosong atau lebih dari ${RoutineRules.MAX_NAME_LENGTH} karakter")
+                        day.type == PlanDayType.REST && dayText.note.isNullOrBlank() ->
+                            issues += ValidationIssue(program.id, "Catatan terjemahan pekan ${week.week} hari ${day.dayOfWeek} kosong")
+                    }
+                }
+            }
+            val weekKeys = program.weeks.map { it.week.toString() }.toSet()
+            text.weeks.keys.filter { it !in weekKeys }.forEach { issues += ValidationIssue(program.id, "Terjemahan yatim: pekan $it tidak ada di sumber") }
+        }
+        val ids = programs.map { it.id }.toSet()
+        pack.programs.keys.filter { it !in ids }.forEach { issues += ValidationIssue(it, "Terjemahan yatim: program tidak ada di sumber") }
         return issues
     }
 }

@@ -36,6 +36,9 @@ data class WeeklyPlan(
     val summary: String,
     val tips: List<String>,
     val days: List<PlanDay>,
+    /** Diisi bila rencana ini satu pekan dari sebuah [Program]; routine dan jadwalnya dipakai bersama semua pekan program. */
+    val programId: String? = null,
+    val week: Int? = null,
 ) {
     val trainingDays: List<PlanDay> get() = days.filter { it.type != PlanDayType.REST }
 }

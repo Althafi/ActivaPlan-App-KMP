@@ -26,6 +26,8 @@ data class RoutinesData(
     val templates: List<TemplateSummary>,
     /** Rencana mingguan; kosong bila katalog rencana tidak tersedia. */
     val plans: List<PlanSummary> = emptyList(),
+    /** Program bertahap beberapa pekan; kosong bila katalog program tidak tersedia. */
+    val programs: List<ProgramSummary> = emptyList(),
 )
 
 /** Isi pratinjau template; [exercises] hanya latihan yang ada di katalog, sudah diterjemahkan. */

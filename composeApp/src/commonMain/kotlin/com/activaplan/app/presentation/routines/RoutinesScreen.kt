@@ -60,6 +60,7 @@ import com.activaplan.app.domain.i18n.Strings
 import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.PlanDayType
 import com.activaplan.app.domain.model.PlanSummary
+import com.activaplan.app.domain.model.ProgramSummary
 import com.activaplan.app.domain.model.RoutineSummary
 import com.activaplan.app.domain.model.RoutinesData
 import com.activaplan.app.domain.model.ScheduleSlot
@@ -84,6 +85,7 @@ class RoutinesActions(
     val onOpenTemplate: (String) -> Unit,
     val onReload: () -> Unit,
     val onOpenPlan: (String) -> Unit = {},
+    val onOpenProgram: (String) -> Unit = {},
 )
 
 private const val TAB_MINE = 0
@@ -104,6 +106,7 @@ fun RoutinesScreen(
     onSavedNoticeShown: () -> Unit,
     modifier: Modifier = Modifier,
     onOpenPlan: (String) -> Unit = {},
+    onOpenProgram: (String) -> Unit = {},
 ) {
     val observe = koinInject<ObserveRoutinesUseCase>()
     val delete = koinInject<DeleteRoutineUseCase>()
@@ -144,7 +147,7 @@ fun RoutinesScreen(
     }
 
     val actions = RoutinesActions(
-        onCreate, onEdit, onStart, { deleteTarget = it }, viewModel::useTemplate, onOpenTemplate, viewModel::reload, onOpenPlan,
+        onCreate, onEdit, onStart, { deleteTarget = it }, viewModel::useTemplate, onOpenTemplate, viewModel::reload, onOpenPlan, onOpenProgram,
     )
     RoutinesContent(state, tab, { tab = it }, actions, snackbarHostState, modifier)
 
@@ -206,6 +209,16 @@ private fun ReadyContent(data: RoutinesData, tab: Int, onTab: (Int) -> Unit, act
             }
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
+                if (data.programs.isNotEmpty()) {
+                    item(key = "programs-title") {
+                        Text(
+                            strings[StringKey.PROGRAM_SECTION_TITLE],
+                            style = ActivaPlanTheme.type.cardTitle,
+                            color = ActivaPlanTheme.colors.text,
+                        )
+                    }
+                    items(data.programs, key = { it.id }) { ProgramCard(it, actions) }
+                }
                 if (data.plans.isNotEmpty()) {
                     item(key = "plans-title") {
                         Text(
@@ -297,6 +310,30 @@ private fun RoutineCard(routine: RoutineSummary, actions: RoutinesActions) {
                 style = ButtonStyle.SECONDARY, compact = true,
             )
         }
+    }
+}
+
+/** Kartu program bertahap: nama, level, alat yang dibutuhkan, dan jumlah pekan dengan rentang menit per pekan. */
+@Composable
+private fun ProgramCard(program: ProgramSummary, actions: RoutinesActions) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    val minutes = program.weeks.map { it.weeklyMinutes }
+    ActivaCard(Modifier.fillMaxWidth(), onClick = { actions.onOpenProgram(program.id) }) {
+        Text(program.name, style = ActivaPlanTheme.type.cardTitle, color = c.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        Spacer(Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            LevelBadge(program.difficulty)
+            if (program.modes.isNotEmpty()) TextBadge(strings.format(StringKey.PLAN_NEEDS, program.modes.joinToString(", ") { strings.label(it) }))
+        }
+        Spacer(Modifier.height(8.dp))
+        Text(program.summary, style = metaStyle(), color = c.textMuted, maxLines = 3, overflow = TextOverflow.Ellipsis)
+        Spacer(Modifier.height(8.dp))
+        Text(
+            strings.format(StringKey.PROGRAM_CARD_META, program.weeks.size, minutes.minOrNull() ?: 0, minutes.maxOrNull() ?: 0),
+            style = metaStyle(),
+            color = c.textMuted,
+        )
     }
 }
 

@@ -964,6 +964,448 @@
           ]
         }
       },
+      "programs": {
+        "prog_easy_4w": {
+          "name": "Easy · 4-Week Foundation",
+          "summary": "A four-week bodyweight program for beginners: three full-body sessions a week paired with brisk walks that gradually turn into walk-jogs. Week 1 introduces the moves, week 2 builds the habit, week 3 raises the challenge, and week 4 gives you recovery plus a progress test.",
+          "tips": [
+            "Use a full week before moving to the next one; apply the new week when the old one is done and the old schedule is replaced automatically.",
+            "Good form beats rep count; stop two reps before failure.",
+            "If it feels like too much, repeat the same week once more. There is no deadline."
+          ],
+          "weeks": {
+            "1": {
+              "title": "Easy · Week 1: Adaptation",
+              "focus": "Learn the moves and let your body adapt. Two light sets, wall push-ups, and brisk walks. The goal is to feel fresh, not tired.",
+              "tips": [
+                "Move slowly: count two seconds up and two seconds down.",
+                "Brisk walking means you can talk but not sing.",
+                "Sleep well; adaptation happens while you rest."
+              ],
+              "days": {
+                "1": {
+                  "name": "Easy · Week 1 · Full Body A"
+                },
+                "2": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "3": {
+                  "name": "Easy · Week 1 · Brisk Walk"
+                },
+                "4": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "5": {
+                  "name": "Easy · Week 1 · Full Body B"
+                },
+                "6": {
+                  "name": "Easy · Week 1 · Brisk Walk"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "2": {
+              "title": "Easy · Week 2: Build the Habit",
+              "focus": "Three strength days with three sets, incline push-ups, and the first walk-jog intervals on the weekend.",
+              "tips": [
+                "Add a set; if it feels heavy, stay at two sets for that day.",
+                "The 1-minute jogs should stay easy; your breathing must stay under control.",
+                "Train at the same time each day so it becomes a habit."
+              ],
+              "days": {
+                "1": {
+                  "name": "Easy · Week 2 · Full Body A"
+                },
+                "2": {
+                  "name": "Easy · Week 2 · Brisk Walk"
+                },
+                "3": {
+                  "name": "Easy · Week 2 · Full Body B"
+                },
+                "4": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "5": {
+                  "name": "Easy · Week 2 · Full Body C"
+                },
+                "6": {
+                  "name": "Easy · Week 2 · Beginner Run-Walk"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "3": {
+              "title": "Easy · Week 3: Raise the Challenge",
+              "focus": "The busiest week: knee push-ups, more reps, shorter rests, and a 35-minute easy run at the weekend.",
+              "tips": [
+                "Rests between sets are shorter; settle your breathing before the next set.",
+                "If the easy run is too hard, swap it for the Beginner Run-Walk from Explore.",
+                "Soreness is normal; sharp joint pain means stop."
+              ],
+              "days": {
+                "1": {
+                  "name": "Easy · Week 3 · Full Body A"
+                },
+                "2": {
+                  "name": "Easy · Week 3 · Beginner Run-Walk"
+                },
+                "3": {
+                  "name": "Easy · Week 3 · Full Body B"
+                },
+                "4": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "5": {
+                  "name": "Easy · Week 3 · Full Body C"
+                },
+                "6": {
+                  "name": "Easy · Week 3 · Easy Run"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "4": {
+              "title": "Easy · Week 4: Recover & Test",
+              "focus": "Volume drops so your body recovers. Thursday is the test: record how many incline push-ups you can do, and Saturday tests your easy run.",
+              "tips": [
+                "Write down your test results and compare them with week 1.",
+                "Finish the easy run without stopping at a comfortable pace.",
+                "Next, move on to the Medium program or repeat week 3."
+              ],
+              "days": {
+                "1": {
+                  "name": "Easy · Week 4 · Full Body A"
+                },
+                "2": {
+                  "name": "Easy · Week 4 · Recovery Run"
+                },
+                "3": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "4": {
+                  "name": "Easy · Week 4 · Full Body B"
+                },
+                "5": {
+                  "name": "Rest before the test",
+                  "note": "Test day is next. Sleep well, eat regularly, and skip any extra training today."
+                },
+                "6": {
+                  "name": "Easy · Week 4 · Easy Run"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            }
+          }
+        },
+        "prog_medium_4w": {
+          "name": "Medium · 4-Week Strength Builder",
+          "summary": "A four-week program with the Push-up Board and rope: push, pull, and legs and core alternate with easy runs, fartlek, and a long run. Volume climbs from week 1 to 3, then drops in week 4 to recover and test your results.",
+          "tips": [
+            "Apply one week at a time; the previous week's schedule is replaced automatically.",
+            "Leg days never fall the day after a hard run; keep the day order as scheduled.",
+            "If week 3 feels too heavy, drop one set from each exercise and still finish every day."
+          ],
+          "weeks": {
+            "1": {
+              "title": "Medium · Week 1: Adaptation",
+              "focus": "Three strength days with three sets at 80% reps, plus two easy runs. Focus on board and rope technique.",
+              "tips": [
+                "Make sure the board is stable and the rope has no cracks before starting.",
+                "The easy runs should feel comfortable; speed is not the goal this week.",
+                "Write down your day-one reps as a baseline."
+              ],
+              "days": {
+                "1": {
+                  "name": "Medium · Week 1 · Push"
+                },
+                "2": {
+                  "name": "Medium · Week 1 · Easy Run"
+                },
+                "3": {
+                  "name": "Medium · Week 1 · Legs & Core"
+                },
+                "4": {
+                  "name": "Medium · Week 1 · Recovery Run"
+                },
+                "5": {
+                  "name": "Medium · Week 1 · Pull"
+                },
+                "6": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "2": {
+              "title": "Medium · Week 2: Build",
+              "focus": "Reps climb to 100%, Thursday becomes fartlek, and Saturday adds an easy run. Six active days with Sunday off.",
+              "tips": [
+                "Muscle soreness on day two is normal; do not skip leg day.",
+                "Fartlek: alternate fast and slow by feel, not by clock.",
+                "Drink enough water, especially on cardio days."
+              ],
+              "days": {
+                "1": {
+                  "name": "Medium · Week 2 · Push"
+                },
+                "2": {
+                  "name": "Medium · Week 2 · Easy Run"
+                },
+                "3": {
+                  "name": "Medium · Week 2 · Legs & Core"
+                },
+                "4": {
+                  "name": "Medium · Week 2 · Fartlek"
+                },
+                "5": {
+                  "name": "Medium · Week 2 · Pull"
+                },
+                "6": {
+                  "name": "Medium · Week 2 · Easy Run"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "3": {
+              "title": "Medium · Week 3: Peak",
+              "focus": "Four sets on the main lifts, shorter rests, a bottom hold for push-ups, and a 70-minute long run on Saturday. This is the hardest week.",
+              "tips": [
+                "Bring water and eat lightly before the long run.",
+                "Take the long run slowly; distance matters more than speed.",
+                "Add extra sleep if you can; this is the peak week."
+              ],
+              "days": {
+                "1": {
+                  "name": "Medium · Week 3 · Push"
+                },
+                "2": {
+                  "name": "Medium · Week 3 · Fartlek"
+                },
+                "3": {
+                  "name": "Medium · Week 3 · Legs & Core"
+                },
+                "4": {
+                  "name": "Medium · Week 3 · Recovery Run"
+                },
+                "5": {
+                  "name": "Medium · Week 3 · Pull"
+                },
+                "6": {
+                  "name": "Medium · Week 3 · Long Run"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "4": {
+              "title": "Medium · Week 4: Recover & Test",
+              "focus": "Volume drops to two sets. Thursday tests full body and Saturday tests fartlek; compare against week 1.",
+              "tips": [
+                "Give the test full effort but keep good technique.",
+                "Write down your reps and compare them with week 1.",
+                "Next, move on to the Hard program or repeat week 3."
+              ],
+              "days": {
+                "1": {
+                  "name": "Medium · Week 4 · Legs & Core"
+                },
+                "2": {
+                  "name": "Medium · Week 4 · Easy Run"
+                },
+                "3": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "4": {
+                  "name": "Medium · Week 4 · Full Body"
+                },
+                "5": {
+                  "name": "Rest before the test",
+                  "note": "Test day is next. Sleep well, eat regularly, and skip any extra training today."
+                },
+                "6": {
+                  "name": "Medium · Week 4 · Fartlek"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            }
+          }
+        },
+        "prog_hard_4w": {
+          "name": "Hard · 4-Week Performance",
+          "summary": "A four-week program for experienced trainees: four heavy strength days with the Push-up Board and rope, plus two quality cardio days (intervals, tempo, fartlek). Weeks 1 to 3 raise volume and intensity, and week 4 gives you recovery and a retest.",
+          "tips": [
+            "This program relies on recovery; do not add sessions outside the schedule.",
+            "Hard runs are always scheduled away from leg day. Keep the day order.",
+            "If your resting heart rate stays up for several days or sleep gets worse, repeat the same week with one set fewer."
+          ],
+          "weeks": {
+            "1": {
+              "title": "Hard · Week 1: Adaptation",
+              "focus": "Three sets at 80% reps with 30-30 intervals as an introduction. Focus on tempo and joint stability.",
+              "tips": [
+                "Warm up for 5 minutes before heavy work; do not skip it.",
+                "Run the 30-30 intervals at effort 8/10, not 10/10.",
+                "Write down your best reps on each exercise as a baseline."
+              ],
+              "days": {
+                "1": {
+                  "name": "Hard · Week 1 · Heavy Push"
+                },
+                "2": {
+                  "name": "Hard · Week 1 · Easy Run"
+                },
+                "3": {
+                  "name": "Hard · Week 1 · Heavy Legs"
+                },
+                "4": {
+                  "name": "Hard · Week 1 · Intervals 30/30"
+                },
+                "5": {
+                  "name": "Hard · Week 1 · Heavy Pull"
+                },
+                "6": {
+                  "name": "Hard · Week 1 · Core & Full Body"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "2": {
+              "title": "Hard · Week 2: Build",
+              "focus": "Four sets on the main lifts, 100% reps, and a 40-minute tempo run on Thursday.",
+              "tips": [
+                "Tempo: hold a steady effort of 7-8/10, not a sprint.",
+                "Leg day follows an easy fartlek, never a hard run.",
+                "Eat enough protein on heavy days."
+              ],
+              "days": {
+                "1": {
+                  "name": "Hard · Week 2 · Heavy Push"
+                },
+                "2": {
+                  "name": "Hard · Week 2 · Fartlek"
+                },
+                "3": {
+                  "name": "Hard · Week 2 · Heavy Legs"
+                },
+                "4": {
+                  "name": "Hard · Week 2 · Tempo Run"
+                },
+                "5": {
+                  "name": "Hard · Week 2 · Heavy Pull"
+                },
+                "6": {
+                  "name": "Hard · Week 2 · Core & Full Body"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "3": {
+              "title": "Hard · Week 3: Peak",
+              "focus": "Highest volume and intensity: five sets on the main lifts, 115% reps, short rests, jump squats, elevated pikes, and 4x4-minute intervals.",
+              "tips": [
+                "4x4 intervals: 4 minutes hard at effort 8-9/10, then 3 minutes recovery.",
+                "Jump squats need a non-slip floor and healthy knees.",
+                "This is the hardest week; week 4 backs the load off."
+              ],
+              "days": {
+                "1": {
+                  "name": "Hard · Week 3 · Heavy Push"
+                },
+                "2": {
+                  "name": "Hard · Week 3 · Fartlek"
+                },
+                "3": {
+                  "name": "Hard · Week 3 · Heavy Legs"
+                },
+                "4": {
+                  "name": "Hard · Week 3 · Intervals 4x4"
+                },
+                "5": {
+                  "name": "Hard · Week 3 · Heavy Pull"
+                },
+                "6": {
+                  "name": "Hard · Week 3 · Core & Full Body"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            },
+            "4": {
+              "title": "Hard · Week 4: Recover & Test",
+              "focus": "Volume drops to three sets. Thursday repeats the week 1 30-30 intervals as a test; compare pace and how tired you feel.",
+              "tips": [
+                "Repeat your week 1 best and check whether it feels easier.",
+                "Friday is a rest day after the test; do not fill it with extra training.",
+                "Afterwards, take two easy days or start a new cycle from week 2."
+              ],
+              "days": {
+                "1": {
+                  "name": "Hard · Week 4 · Heavy Push"
+                },
+                "2": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "3": {
+                  "name": "Hard · Week 4 · Heavy Legs"
+                },
+                "4": {
+                  "name": "Hard · Week 4 · Intervals 30/30"
+                },
+                "5": {
+                  "name": "Active rest",
+                  "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+                },
+                "6": {
+                  "name": "Hard · Week 4 · Core & Full Body"
+                },
+                "7": {
+                  "name": "Full rest",
+                  "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+                }
+              }
+            }
+          }
+        }
+      },
       "plans": {
         "plan_easy_mix": {
           "name": "Easy · Mixed 5 Days",

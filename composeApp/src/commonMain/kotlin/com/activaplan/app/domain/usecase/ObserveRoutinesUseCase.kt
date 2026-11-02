@@ -7,6 +7,8 @@ import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.domain.i18n.Language
 import com.activaplan.app.domain.i18n.resolve
 import com.activaplan.app.domain.model.Exercise
+import com.activaplan.app.domain.model.PlanSummary
+import com.activaplan.app.domain.model.ProgramSummary
 import com.activaplan.app.domain.model.RoutineItem
 import com.activaplan.app.domain.model.RoutineSummary
 import com.activaplan.app.domain.model.RoutinesData
@@ -56,12 +58,14 @@ class ObserveRoutinesUseCase(
                 TemplateSummary(template.id, template.name, template.difficulty, items.size, estimate(items))
             }
         }
-        val planSummaries = if (plans != null && cardio != null) {
-            summarizePlans(plans.plans(language), PlanCatalog.load(exercises, cardio, language), estimate)
-        } else {
-            emptyList()
+        var planSummaries: List<PlanSummary> = emptyList()
+        var programSummaries: List<ProgramSummary> = emptyList()
+        if (plans != null && cardio != null) {
+            val catalog = PlanCatalog.load(exercises, cardio, language)
+            planSummaries = summarizePlans(plans.plans(language), catalog, estimate)
+            programSummaries = summarizePrograms(plans.programs(language), catalog, estimate)
         }
-        return RoutinesData(routines, templates, planSummaries)
+        return RoutinesData(routines, templates, planSummaries, programSummaries)
     }
 }
 

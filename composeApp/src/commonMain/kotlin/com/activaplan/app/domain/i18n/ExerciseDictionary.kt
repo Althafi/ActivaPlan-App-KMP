@@ -2,6 +2,7 @@ package com.activaplan.app.domain.i18n
 
 import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.Exercise
+import com.activaplan.app.domain.model.Program
 import com.activaplan.app.domain.model.Template
 import com.activaplan.app.domain.model.WeeklyPlan
 import kotlinx.serialization.Serializable
@@ -39,6 +40,23 @@ data class PlanText(
 )
 
 @Serializable
+data class ProgramWeekText(
+    val title: String,
+    val focus: String,
+    val tips: List<String> = emptyList(),
+    val days: Map<String, PlanDayText>,
+)
+
+/** [weeks] berkunci nomor pekan ("1".."4"). */
+@Serializable
+data class ProgramText(
+    val name: String,
+    val summary: String,
+    val tips: List<String> = emptyList(),
+    val weeks: Map<String, ProgramWeekText>,
+)
+
+@Serializable
 data class ZoneText(val label: String, val target: String)
 
 @Serializable
@@ -54,6 +72,7 @@ data class LanguagePack(
     val templates: Map<String, String> = emptyMap(),
     val cardio: Map<String, CardioText> = emptyMap(),
     val plans: Map<String, PlanText> = emptyMap(),
+    val programs: Map<String, ProgramText> = emptyMap(),
     val device: DeviceText? = null,
 )
 
@@ -105,6 +124,27 @@ class ExerciseLocalizer(private val dictionary: ExerciseDictionary) {
             days = plan.days.map { day ->
                 val dayText = text.days[day.dayOfWeek.toString()]
                 day.copy(name = dayText?.name ?: day.name, note = dayText?.note ?: day.note)
+            },
+        )
+    }
+
+    fun localize(program: Program, language: Language): Program {
+        val text = pack(language)?.programs?.get(program.id) ?: return program
+        return program.copy(
+            name = text.name,
+            summary = text.summary,
+            tips = text.tips,
+            weeks = program.weeks.map { week ->
+                val weekText = text.weeks[week.week.toString()] ?: return@map week
+                week.copy(
+                    title = weekText.title,
+                    focus = weekText.focus,
+                    tips = weekText.tips,
+                    days = week.days.map { day ->
+                        val dayText = weekText.days[day.dayOfWeek.toString()]
+                        day.copy(name = dayText?.name ?: day.name, note = dayText?.note ?: day.note)
+                    },
+                )
             },
         )
     }

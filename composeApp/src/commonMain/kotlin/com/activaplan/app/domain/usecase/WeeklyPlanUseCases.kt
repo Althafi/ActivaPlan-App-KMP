@@ -15,6 +15,10 @@ import com.activaplan.app.domain.model.PlanDayDetail
 import com.activaplan.app.domain.model.PlanDayType
 import com.activaplan.app.domain.model.PlanItem
 import com.activaplan.app.domain.model.PlanSummary
+import com.activaplan.app.domain.model.Program
+import com.activaplan.app.domain.model.ProgramDetail
+import com.activaplan.app.domain.model.ProgramSummary
+import com.activaplan.app.domain.model.ProgramWeekCard
 import com.activaplan.app.domain.model.Routine
 import com.activaplan.app.domain.model.RoutineItem
 import com.activaplan.app.domain.model.RoutineRules
@@ -57,10 +61,15 @@ internal class PlanCatalog(val strength: Map<String, Exercise>, val cardio: Map<
     }
 }
 
+private const val DAYS_IN_WEEK = 7
+
 private fun String.clampName(): String = trim().take(RoutineRules.MAX_NAME_LENGTH)
 
 /** ID rutinitas yang dibuat rencana: tetap per rencana dan hari, jadi memakai rencana lagi memperbarui, bukan menggandakan. */
 internal fun planRoutineId(planId: String, dayOfWeek: Int): String = "${planId}_d$dayOfWeek"
+
+/** Pekan program berbagi rutinitas dengan pekan lain di program yang sama, jadi pekan baru menggantikan pekan lama. */
+internal fun WeeklyPlan.routineId(dayOfWeek: Int): String = planRoutineId(programId ?: id, dayOfWeek)
 
 /** Kartu rencana untuk daftar Rutinitas; rencana tanpa hari latihan yang dikenal dilewati. */
 internal fun summarizePlans(plans: List<WeeklyPlan>, catalog: PlanCatalog, estimate: EstimateRoutineMinutesUseCase): List<PlanSummary> =
@@ -75,6 +84,44 @@ internal fun summarizePlans(plans: List<WeeklyPlan>, catalog: PlanCatalog, estim
             modes = catalog.modes(plan),
         )
     }
+
+/** Kartu program untuk daftar Rutinitas; program yang ada pekannya tidak dikenal dilewati seluruhnya. */
+internal fun summarizePrograms(programs: List<Program>, catalog: PlanCatalog, estimate: EstimateRoutineMinutesUseCase): List<ProgramSummary> =
+    programs.mapNotNull { program ->
+        val weeks = summarizePlans(program.weekPlans, catalog, estimate)
+        if (weeks.size != program.weeks.size) return@mapNotNull null
+        ProgramSummary(
+            id = program.id,
+            name = program.name,
+            difficulty = program.difficulty,
+            summary = program.summary,
+            weeks = weeks,
+            modes = Mode.entries.filter { mode -> weeks.any { mode in it.modes } },
+        )
+    }
+
+/** Isi layar program; null bila program tidak ada atau salah satu pekannya tak punya hari latihan yang dikenal. */
+class GetProgramDetailUseCase(
+    private val plans: WeeklyPlanRepository,
+    private val exercises: ExerciseRepository,
+    private val cardio: CardioRepository,
+    private val estimate: EstimateRoutineMinutesUseCase = EstimateRoutineMinutesUseCase(),
+) {
+
+    suspend operator fun invoke(programId: String, language: Language): ProgramDetail? {
+        val program = plans.program(programId, language) ?: return null
+        val summary = summarizePrograms(listOf(program), PlanCatalog.load(exercises, cardio, language), estimate).singleOrNull() ?: return null
+        return ProgramDetail(
+            id = summary.id,
+            name = summary.name,
+            difficulty = summary.difficulty,
+            summary = summary.summary,
+            tips = program.tips,
+            weeks = summary.weeks.zip(program.weeks) { plan, week -> ProgramWeekCard(plan, week.focus) },
+            modes = summary.modes,
+        )
+    }
+}
 
 /** Isi pratinjau rencana; null bila rencana tidak ada atau tak punya hari latihan yang dikenal. */
 class GetWeeklyPlanDetailUseCase(
@@ -134,10 +181,11 @@ class ApplyWeeklyPlanUseCase(
         val catalog = PlanCatalog.load(exercises, cardio, language)
         val built = plan.trainingDays.mapNotNull { day ->
             val items = catalog.routineItems(day)
-            if (items.isEmpty()) null else day to Routine(planRoutineId(plan.id, day.dayOfWeek), day.name.clampName(), items)
+            if (items.isEmpty()) null else day to Routine(plan.routineId(day.dayOfWeek), day.name.clampName(), items)
         }
         if (built.isEmpty()) return ApplyPlanResult.NotFound
-        val ownIds = built.mapTo(mutableSetOf()) { it.second.id }
+        // Semua hari ikut dihitung milik rencana ini: pekan program sebelumnya mungkin punya hari latihan di tempat yang kini istirahat.
+        val ownIds = (1..DAYS_IN_WEEK).mapTo(mutableSetOf()) { plan.routineId(it) }
         val entries = built.map { (day, routine) ->
             ScheduleEntry("${routine.id}_slot", day.dayOfWeek, timeMinutes, routine.id, reminder)
         }

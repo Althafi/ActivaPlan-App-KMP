@@ -1,0 +1,2101 @@
+{
+  "schemaVersion": 1,
+  "source": "Konten teks ditulis sendiri untuk ActivaPlan",
+  "programs": [
+    {
+      "id": "prog_easy_4w",
+      "name": "Mudah · Fondasi 4 Minggu",
+      "difficulty": "EASY",
+      "summary": "Program empat pekan untuk pemula tanpa alat: latihan tubuh penuh tiga kali seminggu dipadu jalan cepat yang perlahan naik menjadi jalan-lari. Pekan 1 memperkenalkan gerakan, pekan 2 membangun kebiasaan, pekan 3 menaikkan tantangan, dan pekan 4 memberi ruang pulih serta uji kemajuan.",
+      "tips": [
+        "Pakai satu pekan penuh sebelum naik ke pekan berikutnya; terapkan pekan baru saat pekan lama selesai, jadwal lama otomatis diganti.",
+        "Gerakan yang benar lebih penting daripada jumlah ulangan; berhenti dua ulangan sebelum gagal.",
+        "Bila kewalahan, ulangi pekan yang sama sekali lagi. Tidak ada batas waktu."
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "title": "Mudah · Pekan 1: Adaptasi",
+          "focus": "Kenali gerakan dan biasakan tubuh. Dua set ringan, push-up di dinding, dan jalan cepat. Tujuannya merasa segar, bukan lelah.",
+          "tips": [
+            "Latih satu gerakan dengan pelan, hitung dua detik naik dan dua detik turun.",
+            "Jalan cepat artinya masih bisa bicara, tetapi tidak bisa bernyanyi.",
+            "Tidur cukup; adaptasi terjadi saat istirahat."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 1 · Tubuh Penuh A",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 2,
+                  "seconds": 35,
+                  "restSeconds": 40
+                },
+                {
+                  "id": "ne_leg_squat",
+                  "sets": 2,
+                  "reps": 12,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_chest_wall_pushup",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_abs_dead_bug",
+                  "sets": 2,
+                  "reps": 8,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_back_superman",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 1 · Jalan Cepat",
+              "items": [
+                {
+                  "id": "cd_walk_brisk"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 1 · Tubuh Penuh B",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 2,
+                  "seconds": 35,
+                  "restSeconds": 40
+                },
+                {
+                  "id": "ne_leg_glute_bridge",
+                  "sets": 2,
+                  "reps": 12,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_chest_wall_pushup",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_back_swimmer",
+                  "sets": 2,
+                  "seconds": 25,
+                  "restSeconds": 40
+                },
+                {
+                  "id": "ne_arm_wall_triceps",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_leg_calf_raise",
+                  "sets": 2,
+                  "reps": 16,
+                  "restSeconds": 40
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 1 · Jalan Cepat",
+              "items": [
+                {
+                  "id": "cd_walk_brisk"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 2,
+          "title": "Mudah · Pekan 2: Bangun Kebiasaan",
+          "focus": "Tiga hari kekuatan dengan tiga set, push-up miring, dan mulai selang-seling jalan-lari di akhir pekan.",
+          "tips": [
+            "Tambah satu set; bila terasa berat, tetap di dua set untuk hari itu.",
+            "Selang-seling lari 1 menit hanya sepelan jogging; napas harus tetap terkendali.",
+            "Jadwalkan latihan di jam yang sama agar menjadi kebiasaan."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 2 · Tubuh Penuh A",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 3,
+                  "seconds": 45,
+                  "restSeconds": 30
+                },
+                {
+                  "id": "ne_leg_squat",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_chest_incline_pushup",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_abs_dead_bug",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_back_superman",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 2 · Jalan Cepat",
+              "items": [
+                {
+                  "id": "cd_walk_brisk"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 2 · Tubuh Penuh B",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 3,
+                  "seconds": 45,
+                  "restSeconds": 30
+                },
+                {
+                  "id": "ne_leg_glute_bridge",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_chest_incline_pushup",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_back_swimmer",
+                  "sets": 3,
+                  "seconds": 30,
+                  "restSeconds": 30
+                },
+                {
+                  "id": "ne_arm_wall_triceps",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_leg_calf_raise",
+                  "sets": 3,
+                  "reps": 20,
+                  "restSeconds": 30
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 2 · Tubuh Penuh C",
+              "items": [
+                {
+                  "id": "ne_shoulder_arm_circles",
+                  "sets": 3,
+                  "seconds": 30,
+                  "restSeconds": 30
+                },
+                {
+                  "id": "ne_leg_squat",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_back_good_morning",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_chest_incline_pushup",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_abs_dead_bug",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_leg_calf_raise",
+                  "sets": 3,
+                  "reps": 20,
+                  "restSeconds": 30
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 2 · Jalan-Lari Pemula",
+              "items": [
+                {
+                  "id": "cd_walk_run_beginner"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 3,
+          "title": "Mudah · Pekan 3: Naik Tantangan",
+          "focus": "Pekan paling padat: push-up dengan lutut, ulangan lebih banyak, istirahat lebih singkat, dan lari ringan 35 menit di akhir pekan.",
+          "tips": [
+            "Istirahat antar set lebih singkat; atur napas sebelum set berikutnya.",
+            "Bila lari ringan terlalu berat, ganti dengan Jalan-Lari Pemula dari Jelajah.",
+            "Rasa pegal wajar; nyeri tajam di sendi berarti berhenti."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 3 · Tubuh Penuh A",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 3,
+                  "seconds": 50,
+                  "restSeconds": 20
+                },
+                {
+                  "id": "ne_leg_squat",
+                  "sets": 3,
+                  "reps": 18,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_chest_knee_pushup",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_abs_dead_bug",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_back_superman",
+                  "sets": 3,
+                  "reps": 14,
+                  "restSeconds": 35
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 3 · Jalan-Lari Pemula",
+              "items": [
+                {
+                  "id": "cd_walk_run_beginner"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 3 · Tubuh Penuh B",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 3,
+                  "seconds": 50,
+                  "restSeconds": 20
+                },
+                {
+                  "id": "ne_leg_glute_bridge",
+                  "sets": 3,
+                  "reps": 18,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_chest_knee_pushup",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_back_swimmer",
+                  "sets": 3,
+                  "seconds": 35,
+                  "restSeconds": 20
+                },
+                {
+                  "id": "ne_arm_wall_triceps",
+                  "sets": 3,
+                  "reps": 14,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_leg_calf_raise",
+                  "sets": 3,
+                  "reps": 23,
+                  "restSeconds": 20
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 3 · Tubuh Penuh C",
+              "items": [
+                {
+                  "id": "ne_shoulder_arm_circles",
+                  "sets": 3,
+                  "seconds": 35,
+                  "restSeconds": 20
+                },
+                {
+                  "id": "ne_leg_squat",
+                  "sets": 3,
+                  "reps": 18,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_back_good_morning",
+                  "sets": 3,
+                  "reps": 14,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_chest_knee_pushup",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_abs_dead_bug",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_leg_calf_raise",
+                  "sets": 3,
+                  "reps": 23,
+                  "restSeconds": 20
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 3 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 4,
+          "title": "Mudah · Pekan 4: Pulih & Uji",
+          "focus": "Volume turun supaya tubuh pulih. Hari Kamis adalah uji: catat berapa push-up miring yang bisa kamu lakukan, dan Sabtu uji lari ringan.",
+          "tips": [
+            "Catat hasil uji; bandingkan dengan pekan 1 untuk melihat kemajuan.",
+            "Selesaikan lari ringan tanpa berhenti dengan kecepatan nyaman.",
+            "Setelah ini, lanjut ke Program Sedang atau ulangi pekan 3."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 4 · Tubuh Penuh A",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 2,
+                  "seconds": 35,
+                  "restSeconds": 40
+                },
+                {
+                  "id": "ne_leg_squat",
+                  "sets": 2,
+                  "reps": 12,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_chest_incline_pushup",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_abs_dead_bug",
+                  "sets": 2,
+                  "reps": 8,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_back_superman",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 4 · Recovery Run",
+              "items": [
+                {
+                  "id": "cd_recovery_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "STRENGTH",
+              "name": "Mudah · Pekan 4 · Tubuh Penuh B",
+              "items": [
+                {
+                  "id": "ne_full_march",
+                  "sets": 2,
+                  "seconds": 35,
+                  "restSeconds": 40
+                },
+                {
+                  "id": "ne_leg_glute_bridge",
+                  "sets": 2,
+                  "reps": 12,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_chest_incline_pushup",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_back_swimmer",
+                  "sets": 2,
+                  "seconds": 25,
+                  "restSeconds": 40
+                },
+                {
+                  "id": "ne_arm_wall_triceps",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_leg_calf_raise",
+                  "sets": 2,
+                  "reps": 16,
+                  "restSeconds": 40
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "REST",
+              "name": "Istirahat sebelum uji",
+              "note": "Besok hari uji. Tidur cukup, makan teratur, dan jangan menambah latihan tambahan hari ini."
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Mudah · Pekan 4 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog_medium_4w",
+      "name": "Sedang · Bangun Kekuatan 4 Minggu",
+      "difficulty": "MEDIUM",
+      "summary": "Program empat pekan dengan Push-up Board dan tali: dorong, tarik, serta kaki dan inti bergantian dengan lari ringan, fartlek, hingga lari panjang. Volume naik dari pekan 1 ke 3, lalu pekan 4 turun untuk pulih dan menguji hasil.",
+      "tips": [
+        "Terapkan satu pekan per kali; jadwal pekan sebelumnya otomatis diganti.",
+        "Hari kaki tidak pernah jatuh sehari setelah lari keras; jaga urutan hari seperti di jadwal.",
+        "Bila pekan 3 terasa terlalu berat, kurangi satu set di tiap latihan dan tetap selesaikan semua hari."
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "title": "Sedang · Pekan 1: Adaptasi",
+          "focus": "Tiga hari kekuatan dengan tiga set dan ulangan 80%, ditambah dua lari ringan. Fokus pada teknik papan dan tali.",
+          "tips": [
+            "Pastikan papan stabil dan tali bebas retak sebelum mulai.",
+            "Lari ringan harus terasa nyaman; kecepatan bukan tujuan pekan ini.",
+            "Catat jumlah ulangan hari pertama sebagai patokan."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 1 · Dorong",
+              "items": [
+                {
+                  "id": "ne_shoulder_plank_tap",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "pb_chest_pushup",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "pb_triceps_pushup",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "pb_shoulder_pike",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "rope_overhead_triceps",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_plank",
+                  "sets": 3,
+                  "seconds": 25,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 1 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 1 · Kaki & Inti",
+              "items": [
+                {
+                  "id": "rope_squat",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_leg_wall_sit",
+                  "sets": 3,
+                  "seconds": 25,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "rope_woodchop",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_abs_bicycle_crunch",
+                  "sets": 3,
+                  "reps": 13,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 1 · Recovery Run",
+              "items": [
+                {
+                  "id": "cd_recovery_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 1 · Tarik",
+              "items": [
+                {
+                  "id": "rope_good_morning",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "pb_back_pushup_pause",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_upright_row",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_bicep_curl",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_back_bird_dog",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 2,
+          "title": "Sedang · Pekan 2: Bangun",
+          "focus": "Ulangan naik ke 100%, Kamis diganti fartlek, dan Sabtu ditambah lari ringan. Enam hari bergerak dengan Minggu istirahat.",
+          "tips": [
+            "Pegal otot normal di hari kedua; jangan lewati hari kaki.",
+            "Fartlek: ganti cepat dan lambat sesuai rasa, bukan jam.",
+            "Minum cukup air, terutama di hari kardio."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 2 · Dorong",
+              "items": [
+                {
+                  "id": "ne_shoulder_plank_tap",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "pb_chest_pushup",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "pb_triceps_pushup",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "pb_shoulder_pike",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "rope_overhead_triceps",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_abs_plank",
+                  "sets": 3,
+                  "seconds": 30,
+                  "restSeconds": 45
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 2 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 2 · Kaki & Inti",
+              "items": [
+                {
+                  "id": "rope_squat",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_leg_wall_sit",
+                  "sets": 3,
+                  "seconds": 30,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "rope_woodchop",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_abs_bicycle_crunch",
+                  "sets": 3,
+                  "reps": 16,
+                  "restSeconds": 45
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 2 · Fartlek",
+              "items": [
+                {
+                  "id": "cd_fartlek"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 2 · Tarik",
+              "items": [
+                {
+                  "id": "rope_good_morning",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "pb_back_pushup_pause",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_upright_row",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_bicep_curl",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 45
+                },
+                {
+                  "id": "ne_back_bird_dog",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 45
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 2 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 3,
+          "title": "Sedang · Pekan 3: Puncak",
+          "focus": "Empat set di latihan utama, istirahat lebih singkat, tahanan dasar push-up, dan Sabtu lari panjang 70 menit. Ini pekan terberat program.",
+          "tips": [
+            "Bawa air dan makan ringan sebelum lari panjang.",
+            "Lari panjang dijalani pelan; jarak lebih penting daripada kecepatan.",
+            "Tidur tambahan bila ada; ini pekan puncak."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 3 · Dorong",
+              "items": [
+                {
+                  "id": "ne_shoulder_plank_tap",
+                  "sets": 4,
+                  "reps": 15,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "pb_chest_bottom_hold",
+                  "sets": 4,
+                  "seconds": 20,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "pb_triceps_pushup",
+                  "sets": 4,
+                  "reps": 12,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "pb_shoulder_pike",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "rope_overhead_triceps",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_abs_plank",
+                  "sets": 3,
+                  "seconds": 35,
+                  "restSeconds": 35
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 3 · Fartlek",
+              "items": [
+                {
+                  "id": "cd_fartlek"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 3 · Kaki & Inti",
+              "items": [
+                {
+                  "id": "rope_squat",
+                  "sets": 4,
+                  "reps": 15,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 4,
+                  "reps": 12,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_leg_wall_sit",
+                  "sets": 4,
+                  "seconds": 35,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 4,
+                  "reps": 18,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "rope_woodchop",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_abs_bicycle_crunch",
+                  "sets": 3,
+                  "reps": 20,
+                  "restSeconds": 35
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 3 · Recovery Run",
+              "items": [
+                {
+                  "id": "cd_recovery_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 3 · Tarik",
+              "items": [
+                {
+                  "id": "rope_good_morning",
+                  "sets": 4,
+                  "reps": 15,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 4,
+                  "reps": 15,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "pb_back_pushup_pause",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_upright_row",
+                  "sets": 4,
+                  "reps": 15,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_bicep_curl",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 35
+                },
+                {
+                  "id": "ne_back_bird_dog",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 35
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 3 · Long Run",
+              "items": [
+                {
+                  "id": "cd_long_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 4,
+          "title": "Sedang · Pekan 4: Pulih & Uji",
+          "focus": "Volume turun menjadi dua set. Kamis uji tubuh penuh dan Sabtu uji fartlek; bandingkan dengan pekan 1.",
+          "tips": [
+            "Lakukan uji sepenuh tenaga tetapi dengan teknik baik.",
+            "Catat jumlah ulangan dan bandingkan dengan pekan 1.",
+            "Setelah ini, lanjut ke Program Sulit atau ulangi pekan 3."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 4 · Kaki & Inti",
+              "items": [
+                {
+                  "id": "rope_squat",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 2,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_leg_wall_sit",
+                  "sets": 2,
+                  "seconds": 25,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 2,
+                  "reps": 12,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "rope_woodchop",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 55
+                },
+                {
+                  "id": "ne_abs_bicycle_crunch",
+                  "sets": 2,
+                  "reps": 13,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 4 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "STRENGTH",
+              "name": "Sedang · Pekan 4 · Tubuh Penuh",
+              "items": [
+                {
+                  "id": "ne_full_inchworm",
+                  "sets": 2,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "pb_chest_pushup",
+                  "sets": 2,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_squat",
+                  "sets": 2,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_full_burpee_no_jump",
+                  "sets": 2,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_mountain_climber",
+                  "sets": 2,
+                  "seconds": 25,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "REST",
+              "name": "Istirahat sebelum uji",
+              "note": "Besok hari uji. Tidur cukup, makan teratur, dan jangan menambah latihan tambahan hari ini."
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "CARDIO",
+              "name": "Sedang · Pekan 4 · Fartlek",
+              "items": [
+                {
+                  "id": "cd_fartlek"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prog_hard_4w",
+      "name": "Sulit · Performa 4 Minggu",
+      "difficulty": "HARD",
+      "summary": "Program empat pekan untuk yang sudah terbiasa: empat hari kekuatan berat dengan Push-up Board dan tali, dua hari kardio kualitas (interval, tempo, fartlek). Pekan 1 sampai 3 menaikkan volume dan intensitas, pekan 4 memberi pemulihan dan uji ulang.",
+      "tips": [
+        "Program ini mengandalkan pemulihan; jangan menambah sesi di luar jadwal.",
+        "Lari keras selalu dijadwalkan jauh dari hari kaki. Jaga urutan hari.",
+        "Bila denyut istirahat naik beberapa hari berturut-turut atau tidur memburuk, ulangi pekan yang sama dengan satu set lebih sedikit."
+      ],
+      "weeks": [
+        {
+          "week": 1,
+          "title": "Sulit · Pekan 1: Adaptasi",
+          "focus": "Tiga set dengan ulangan 80% dan interval 30-30 sebagai pengenalan. Fokus tempo gerakan dan kestabilan sendi.",
+          "tips": [
+            "Pemanasan 5 menit sebelum latihan berat; jangan dilewati.",
+            "Interval 30-30 dijalani di usaha 8/10, bukan 10/10.",
+            "Catat ulangan terbaik di tiap latihan sebagai patokan."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 1 · Dorong Berat",
+              "items": [
+                {
+                  "id": "ne_chest_decline_pushup",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_chest_decline",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_triceps_decline",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_shoulder_pike",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_chest_diamond",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_triceps_bottom_hold",
+                  "sets": 3,
+                  "seconds": 10,
+                  "restSeconds": 85
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 1 · Easy Run",
+              "items": [
+                {
+                  "id": "cd_easy_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 1 · Kaki Berat",
+              "items": [
+                {
+                  "id": "rope_overhead_squat",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_leg_lunge",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_leg_single_deadlift",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_leg_single_bridge",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 1 · Interval 30/30",
+              "items": [
+                {
+                  "id": "cd_intervals_30_30"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 1 · Tarik Berat",
+              "items": [
+                {
+                  "id": "rope_deadlift",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "pb_back_tempo",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "rope_upright_row",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_good_morning",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_back_reverse_plank",
+                  "sets": 3,
+                  "seconds": 25,
+                  "restSeconds": 70
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 1 · Inti & Tubuh Penuh",
+              "items": [
+                {
+                  "id": "rope_thruster",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_full_burpee",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_abs_v_up",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_hollow_hold",
+                  "sets": 3,
+                  "seconds": 20,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_leg_raise",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_mountain_climber",
+                  "sets": 3,
+                  "seconds": 25,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 2,
+          "title": "Sulit · Pekan 2: Bangun",
+          "focus": "Empat set di latihan utama, ulangan 100%, dan lari tempo 40 menit di hari Kamis.",
+          "tips": [
+            "Tempo: tahan usaha 7-8/10 yang stabil, bukan sprint.",
+            "Hari kaki setelah fartlek ringan, bukan setelah lari keras.",
+            "Makan protein cukup di hari latihan berat."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 2 · Dorong Berat",
+              "items": [
+                {
+                  "id": "ne_chest_decline_pushup",
+                  "sets": 4,
+                  "reps": 12,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "pb_chest_decline",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "pb_triceps_decline",
+                  "sets": 4,
+                  "reps": 8,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "pb_shoulder_pike_elevated",
+                  "sets": 4,
+                  "reps": 8,
+                  "restSeconds": 90
+                },
+                {
+                  "id": "ne_chest_diamond",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "pb_triceps_bottom_hold",
+                  "sets": 3,
+                  "seconds": 10,
+                  "restSeconds": 75
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 2 · Fartlek",
+              "items": [
+                {
+                  "id": "cd_fartlek"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 2 · Kaki Berat",
+              "items": [
+                {
+                  "id": "rope_overhead_squat",
+                  "sets": 4,
+                  "reps": 8,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "ne_leg_jump_squat",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "ne_leg_single_deadlift",
+                  "sets": 4,
+                  "reps": 8,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_leg_single_bridge",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 3,
+                  "reps": 15,
+                  "restSeconds": 45
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 2 · Tempo Run",
+              "items": [
+                {
+                  "id": "cd_tempo_run"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 2 · Tarik Berat",
+              "items": [
+                {
+                  "id": "rope_deadlift",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 4,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "pb_back_tempo",
+                  "sets": 4,
+                  "reps": 8,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "rope_upright_row",
+                  "sets": 4,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "rope_good_morning",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_back_reverse_plank",
+                  "sets": 3,
+                  "seconds": 30,
+                  "restSeconds": 60
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 2 · Inti & Tubuh Penuh",
+              "items": [
+                {
+                  "id": "rope_thruster",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "ne_full_burpee",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 75
+                },
+                {
+                  "id": "ne_abs_v_up",
+                  "sets": 4,
+                  "reps": 10,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_abs_hollow_hold",
+                  "sets": 4,
+                  "seconds": 25,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_abs_leg_raise",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 60
+                },
+                {
+                  "id": "ne_abs_mountain_climber",
+                  "sets": 3,
+                  "seconds": 30,
+                  "restSeconds": 45
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 3,
+          "title": "Sulit · Pekan 3: Puncak",
+          "focus": "Volume dan intensitas tertinggi: lima set di latihan utama, ulangan 115%, istirahat singkat, lompat squat, pike ditinggikan, dan interval 4x4 menit.",
+          "tips": [
+            "Interval 4x4: 4 menit keras di usaha 8-9/10 lalu 3 menit pulih.",
+            "Lompat squat butuh lantai yang tidak licin dan sendi lutut sehat.",
+            "Pekan ini terberat; pekan 4 menurunkan beban."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 3 · Dorong Berat",
+              "items": [
+                {
+                  "id": "ne_chest_decline_pushup",
+                  "sets": 5,
+                  "reps": 14,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "pb_chest_decline",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "pb_triceps_decline",
+                  "sets": 5,
+                  "reps": 10,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "pb_shoulder_pike_elevated",
+                  "sets": 5,
+                  "reps": 10,
+                  "restSeconds": 80
+                },
+                {
+                  "id": "ne_chest_diamond",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "pb_triceps_bottom_hold",
+                  "sets": 3,
+                  "seconds": 15,
+                  "restSeconds": 65
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 3 · Fartlek",
+              "items": [
+                {
+                  "id": "cd_fartlek"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 3 · Kaki Berat",
+              "items": [
+                {
+                  "id": "rope_overhead_squat",
+                  "sets": 5,
+                  "reps": 10,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "ne_leg_jump_squat",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "ne_leg_single_deadlift",
+                  "sets": 5,
+                  "reps": 10,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_leg_single_bridge",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 3,
+                  "reps": 18,
+                  "restSeconds": 35
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 3 · Interval 4x4",
+              "items": [
+                {
+                  "id": "cd_intervals_4x4"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 3 · Tarik Berat",
+              "items": [
+                {
+                  "id": "rope_deadlift",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "rope_row",
+                  "sets": 5,
+                  "reps": 14,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "pb_back_tempo",
+                  "sets": 5,
+                  "reps": 10,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "rope_upright_row",
+                  "sets": 5,
+                  "reps": 14,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "rope_good_morning",
+                  "sets": 3,
+                  "reps": 14,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_back_reverse_plank",
+                  "sets": 3,
+                  "seconds": 35,
+                  "restSeconds": 50
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 3 · Inti & Tubuh Penuh",
+              "items": [
+                {
+                  "id": "rope_thruster",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "ne_full_burpee",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 65
+                },
+                {
+                  "id": "ne_abs_v_up",
+                  "sets": 5,
+                  "reps": 12,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_abs_hollow_hold",
+                  "sets": 5,
+                  "seconds": 30,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_abs_leg_raise",
+                  "sets": 3,
+                  "reps": 14,
+                  "restSeconds": 50
+                },
+                {
+                  "id": "ne_abs_mountain_climber",
+                  "sets": 3,
+                  "seconds": 35,
+                  "restSeconds": 35
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        },
+        {
+          "week": 4,
+          "title": "Sulit · Pekan 4: Pulih & Uji",
+          "focus": "Volume turun menjadi tiga set. Kamis mengulang interval 30-30 dari pekan 1 sebagai uji; bandingkan kecepatan dan rasa lelahnya.",
+          "tips": [
+            "Ulangi hasil terbaik pekan 1 dan lihat apakah terasa lebih mudah.",
+            "Jumat istirahat setelah uji; jangan diisi latihan tambahan.",
+            "Setelah ini, ambil istirahat ringan dua hari atau mulai siklus baru dari pekan 2."
+          ],
+          "days": [
+            {
+              "dayOfWeek": 1,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 4 · Dorong Berat",
+              "items": [
+                {
+                  "id": "ne_chest_decline_pushup",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_chest_decline",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_triceps_decline",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_shoulder_pike",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_chest_diamond",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "pb_triceps_bottom_hold",
+                  "sets": 3,
+                  "seconds": 10,
+                  "restSeconds": 85
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 2,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 3,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 4 · Kaki Berat",
+              "items": [
+                {
+                  "id": "rope_overhead_squat",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_leg_lunge",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_leg_single_deadlift",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_reverse_lunge",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_leg_single_bridge",
+                  "sets": 3,
+                  "reps": 7,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "rope_calf_raise",
+                  "sets": 3,
+                  "reps": 12,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 4,
+              "type": "CARDIO",
+              "name": "Sulit · Pekan 4 · Interval 30/30",
+              "items": [
+                {
+                  "id": "cd_intervals_30_30"
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 5,
+              "type": "REST",
+              "name": "Istirahat aktif",
+              "note": "Jalan santai 15-20 menit dan peregangan ringan. Opsional; boleh juga istirahat penuh."
+            },
+            {
+              "dayOfWeek": 6,
+              "type": "STRENGTH",
+              "name": "Sulit · Pekan 4 · Inti & Tubuh Penuh",
+              "items": [
+                {
+                  "id": "rope_thruster",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_full_burpee",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 85
+                },
+                {
+                  "id": "ne_abs_v_up",
+                  "sets": 3,
+                  "reps": 8,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_hollow_hold",
+                  "sets": 3,
+                  "seconds": 20,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_leg_raise",
+                  "sets": 3,
+                  "reps": 10,
+                  "restSeconds": 70
+                },
+                {
+                  "id": "ne_abs_mountain_climber",
+                  "sets": 3,
+                  "seconds": 25,
+                  "restSeconds": 55
+                }
+              ]
+            },
+            {
+              "dayOfWeek": 7,
+              "type": "REST",
+              "name": "Istirahat penuh",
+              "note": "Tidur cukup, makan teratur, dan minum air. Otot menjadi kuat saat pulih, bukan saat dilatih."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
