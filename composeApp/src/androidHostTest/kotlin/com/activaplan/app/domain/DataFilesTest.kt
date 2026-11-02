@@ -36,10 +36,10 @@ class DataFilesTest {
 
     @Test
     fun allExercisesAndTemplatesDecode() {
-        assertEquals(23, general.exercises.size)
-        assertEquals(23, board.exercises.size)
-        assertEquals(46, exercises.size)
-        assertEquals(6, templates.size)
+        assertEquals(39, general.exercises.size)
+        assertEquals(31, board.exercises.size)
+        assertEquals(70, exercises.size)
+        assertEquals(17, templates.size)
     }
 
     @Test

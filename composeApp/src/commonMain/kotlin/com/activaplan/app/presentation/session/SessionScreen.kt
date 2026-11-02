@@ -65,12 +65,21 @@ import com.activaplan.app.designsystem.components.TextBadge
 import com.activaplan.app.designsystem.components.ZoneChip
 import com.activaplan.app.designsystem.components.showActiva
 import com.activaplan.app.domain.i18n.StringKey
+import com.activaplan.app.domain.cardio.PaceGuide
+import com.activaplan.app.domain.model.CardioSegment
 import com.activaplan.app.domain.model.Exercise
+import com.activaplan.app.domain.model.SessionExercise
 import com.activaplan.app.domain.model.SessionOverlay
 import com.activaplan.app.domain.model.SessionPhase
 import com.activaplan.app.domain.session.SessionState
+import com.activaplan.app.domain.tracking.GpsStatus
+import com.activaplan.app.domain.tracking.TrackingUi
 import com.activaplan.app.domain.usecase.FinishSessionUseCase
 import com.activaplan.app.domain.usecase.LoadSessionPlanUseCase
+import com.activaplan.app.domain.usecase.ObserveSettingsUseCase
+import com.activaplan.app.domain.cue.CuePlayer
+import com.activaplan.app.domain.tracking.LocationTracker
+import kotlinx.coroutines.flow.first
 import com.activaplan.app.presentation.KeepScreenOn
 import com.activaplan.app.presentation.PlatformBackHandler
 import kotlinx.coroutines.launch
@@ -109,11 +118,20 @@ fun SessionScreen(
 ) {
     val loadPlan = koinInject<LoadSessionPlanUseCase>()
     val finishSession = koinInject<FinishSessionUseCase>()
+    val tracker = koinInject<LocationTracker>()
+    val cues = koinInject<CuePlayer>()
+    val observeSettings = koinInject<ObserveSettingsUseCase>()
     val strings = ActivaPlanTheme.strings
     // Tanpa bahasa di kunci: mengganti bahasa tidak boleh mengulang sesi yang sedang berjalan.
     val language = strings.language
     val viewModel = viewModel(key = "session-$routineId") {
-        SessionViewModel(routineId, language, loadPlan, finishSession)
+        SessionViewModel(
+            routineId, language, loadPlan, finishSession,
+            tracker = tracker,
+            cues = cues,
+            loadSettings = { observeSettings().first() },
+            trackingTitle = strings[StringKey.SESSION_GPS_NOTIFICATION],
+        )
     }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -203,9 +221,16 @@ private fun ReadyContent(ready: SessionUiState.Ready, actions: SessionActions) {
     val state = ready.state
     when (val phase = state.phase) {
         SessionPhase.SafetyCheck -> SafetyCheckContent(state, actions)
-        is SessionPhase.Working -> WorkingContent(state, phase, actions)
+        is SessionPhase.Working -> WorkingContent(state, phase, actions, ready.tracking, ready.age)
         is SessionPhase.Resting -> RestContent(state, phase, actions)
-        is SessionPhase.Finished -> if (phase.showsSummary) CompleteContent(phase.summary, ready.streak, actions)
+        is SessionPhase.Finished -> if (phase.showsSummary) {
+            CompleteContent(
+                phase.summary.copy(distanceMeters = ready.tracking.stats.roundedMeters),
+                ready.streak,
+                actions,
+                averagePaceSecPerKm = ready.tracking.stats.averagePaceSecPerKm,
+            )
+        }
     }
     when (state.overlay) {
         SessionOverlay.NONE -> Unit
@@ -230,34 +255,63 @@ private fun ReadyContent(ready: SessionUiState.Ready, actions: SessionActions) {
 // region Latihan
 
 @Composable
-private fun WorkingContent(state: SessionState, phase: SessionPhase.Working, actions: SessionActions) {
+private fun WorkingContent(
+    state: SessionState,
+    phase: SessionPhase.Working,
+    actions: SessionActions,
+    tracking: TrackingUi = TrackingUi(),
+    age: Int? = null,
+) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     val item = state.current
     val exercise = item.exercise
+    val step = item.cardio
     SessionLayout(
         top = { TopBar(state, actions) },
         bottom = {
-            ActivaButton(
-                strings[StringKey.SESSION_FINISH_SET], actions.onCompleteSet, Modifier.fillMaxWidth(),
-                enabled = !state.paused, icon = ActivaIconKind.CHECK,
-            )
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (step != null) {
+                // Segmen kardio berpindah sendiri; tombol ini hanya mempercepat. Tidak ada "Lewati" terpisah.
                 ActivaButton(
-                    strings[StringKey.SESSION_SKIP], actions.onSkip, Modifier.weight(1f), ButtonStyle.SECONDARY,
+                    strings[StringKey.SESSION_NEXT_SEGMENT], actions.onCompleteSet, Modifier.fillMaxWidth(),
                     enabled = !state.paused, icon = ActivaIconKind.SKIP_NEXT,
                 )
-                PauseButton(state.paused, actions.onTogglePause, Modifier.weight(1f))
+                PauseButton(state.paused, actions.onTogglePause, Modifier.fillMaxWidth())
+            } else {
+                ActivaButton(
+                    strings[StringKey.SESSION_FINISH_SET], actions.onCompleteSet, Modifier.fillMaxWidth(),
+                    enabled = !state.paused, icon = ActivaIconKind.CHECK,
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    ActivaButton(
+                        strings[StringKey.SESSION_SKIP], actions.onSkip, Modifier.weight(1f), ButtonStyle.SECONDARY,
+                        enabled = !state.paused, icon = ActivaIconKind.SKIP_NEXT,
+                    )
+                    PauseButton(state.paused, actions.onTogglePause, Modifier.weight(1f))
+                }
             }
         },
     ) {
-        ZoneOrCategory(exercise)
-        Text(exercise.name, style = ActivaPlanTheme.type.largeTitle.copy(fontSize = 26.sp), color = c.text, textAlign = TextAlign.Center)
-        Text(
-            strings.format(StringKey.SESSION_SET_PROGRESS, state.setNumber, item.sets),
-            style = ActivaPlanTheme.type.body,
-            color = c.textMuted,
-        )
+        if (step != null) {
+            TextBadge(strings.label(step.segment.kind))
+            Text(
+                strings.segmentName(step.segment),
+                style = ActivaPlanTheme.type.largeTitle.copy(fontSize = 26.sp), color = c.text, textAlign = TextAlign.Center,
+            )
+            Text(
+                strings.format(StringKey.SESSION_CARDIO_SUBTITLE, step.workoutName, step.segment.rpe),
+                style = ActivaPlanTheme.type.body,
+                color = c.textMuted,
+            )
+        } else {
+            ZoneOrCategory(exercise)
+            Text(exercise.name, style = ActivaPlanTheme.type.largeTitle.copy(fontSize = 26.sp), color = c.text, textAlign = TextAlign.Center)
+            Text(
+                strings.format(StringKey.SESSION_SET_PROGRESS, state.setNumber, item.sets),
+                style = ActivaPlanTheme.type.body,
+                color = c.textMuted,
+            )
+        }
         if (item.isTimed) {
             val totalMillis = (item.durationSeconds ?: 0) * 1000L
             val remaining = phase.remainingMillis ?: 0L
@@ -290,7 +344,68 @@ private fun WorkingContent(state: SessionState, phase: SessionPhase.Working, act
         if (state.paused) {
             Text(strings[StringKey.SESSION_PAUSED], style = ActivaPlanTheme.type.label, color = c.textMuted)
         }
-        cue(exercise, state.setNumber)?.let { CueCard(it) }
+        if (step != null) {
+            CardioGuide(step.segment, tracking, age)
+            state.exercises.getOrNull(state.index + 1)?.let { UpNextCard(it) }
+        } else {
+            cue(exercise, state.setNumber)?.let { CueCard(it) }
+        }
+    }
+}
+
+/**
+ * Panduan segmen kardio: zona detak jantung target (bpm bila usia diketahui) dan, bila GPS menyala, target pace
+ * gerakan itu serta jarak dan pace saat ini. Pace hanya acuan umum; usaha (RPE) yang utama.
+ */
+@Composable
+private fun CardioGuide(segment: CardioSegment, tracking: TrackingUi, age: Int?) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    val lines = buildList {
+        add(strings.heartRateLine(segment.rpe, age))
+        when (tracking.status) {
+            GpsStatus.OFF -> Unit
+            GpsStatus.SEARCHING -> add(strings[StringKey.SESSION_GPS_SEARCHING])
+            GpsStatus.ACTIVE -> {
+                val target = PaceGuide.range(segment.motion)
+                add(strings.format(StringKey.SESSION_TARGET_PACE, PaceGuide.format(target.first), PaceGuide.format(target.last)))
+                val distance = strings.distance(tracking.stats.roundedMeters)
+                val pace = tracking.stats.currentPaceSecPerKm
+                add(
+                    if (pace != null) strings.format(StringKey.SESSION_GPS_METRICS, distance, strings.pace(pace))
+                    else strings.format(StringKey.SESSION_GPS_NO_PACE, distance),
+                )
+            }
+        }
+    }
+    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        lines.forEach { Text(it, style = ActivaPlanTheme.type.body, color = c.textMuted, textAlign = TextAlign.Center) }
+    }
+}
+
+/** Segmen atau latihan yang menyusul, supaya pelari tahu perubahan sebelum bunyi/getar datang. */
+@Composable
+private fun UpNextCard(next: SessionExercise) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    ActivaCard(Modifier.fillMaxWidth()) {
+        Text(
+            strings[StringKey.SESSION_REST_UP_NEXT],
+            style = ActivaPlanTheme.type.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+            color = c.textMuted,
+        )
+        Spacer(Modifier.height(4.dp))
+        val step = next.cardio
+        Text(
+            if (step != null) strings.segmentName(step.segment) else next.exercise.name,
+            style = ActivaPlanTheme.type.cardTitle,
+            color = c.text,
+        )
+        Text(
+            if (step != null) strings.duration(step.segment.durationSeconds) else strings.summary(next.exercise),
+            style = ActivaPlanTheme.type.body,
+            color = c.textMuted,
+        )
     }
 }
 
@@ -501,8 +616,13 @@ private fun TopBar(state: SessionState, actions: SessionActions) {
     Column(Modifier.padding(horizontal = ActivaDimens.screenPadding).padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             CircleButton(ActivaIconKind.CLOSE, strings[StringKey.SESSION_CLOSE], actions.onClose)
+            val cardioStep = state.current.cardio
             Text(
-                strings.format(StringKey.SESSION_EXERCISE_PROGRESS, state.index + 1, state.exercises.size),
+                if (cardioStep != null) {
+                    strings.format(StringKey.SESSION_CARDIO_PROGRESS, cardioStep.workoutName, cardioStep.position, cardioStep.total)
+                } else {
+                    strings.format(StringKey.SESSION_EXERCISE_PROGRESS, state.groupIndex + 1, state.groupCount)
+                },
                 style = ActivaPlanTheme.type.cardTitle,
                 color = c.text,
                 textAlign = TextAlign.Center,
@@ -514,7 +634,8 @@ private fun TopBar(state: SessionState, actions: SessionActions) {
                 actions.onTogglePause,
             )
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        // Banyak langkah (segmen kardio) membuat batang sempit, jadi jarak antarbatang dirapatkan.
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(if (state.exercises.size > 10) 2.dp else 6.dp)) {
             repeat(state.exercises.size) { i ->
                 Box(
                     Modifier.weight(1f).height(5.dp).clip(RoundedCornerShape(3.dp))

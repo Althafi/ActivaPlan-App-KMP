@@ -1,5 +1,6 @@
 package com.activaplan.app.domain.usecase
 
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.domain.i18n.Language
@@ -13,19 +14,31 @@ import kotlinx.coroutines.flow.first
 
 /**
  * Menyusun sesi dari rutinitas [routineId]. Item yang latihannya tidak ada di katalog dilewati dan dihitung di
- * [SessionPlan.skippedItems]. Null bila rutinitas tidak ada atau tidak punya latihan yang dikenal.
+ * [SessionPlan.skippedItems]. Item kardio dibuka menjadi satu langkah per segmen (lihat [SessionExercise.ofCardio]).
+ * Null bila rutinitas tidak ada atau tidak punya latihan yang dikenal.
  * Melempar bila katalog latihan gagal dimuat.
  */
 class LoadSessionPlanUseCase(
     private val userData: UserDataRepository,
     private val exercises: ExerciseRepository,
+    private val cardio: CardioRepository? = null,
 ) {
 
     suspend operator fun invoke(routineId: String, language: Language): SessionPlan? {
         val routine = userData.routines.first().firstOrNull { it.id == routineId } ?: return null
         val catalog = exercises.exercises(language = language).associateBy { it.id }
-        val items = routine.items.mapNotNull { item -> catalog[item.exerciseId]?.let { SessionExercise.of(item, it) } }
+        val cardioCatalog = cardio?.workouts(language = language)?.associateBy { it.id }.orEmpty()
+        val items = routine.items.flatMapIndexed { index, item ->
+            val strength = catalog[item.exerciseId]
+            val workout = cardioCatalog[item.exerciseId]
+            when {
+                strength != null -> listOf(SessionExercise.of(item, strength))
+                workout != null -> SessionExercise.ofCardio(workout, index)
+                else -> emptyList()
+            }
+        }
         if (items.isEmpty()) return null
+        val recognized = routine.items.count { it.exerciseId in catalog || it.exerciseId in cardioCatalog }
         val needsSafetyCheck = items.any { it.exercise.mode == Mode.BOARD_ROPE }
         return SessionPlan(
             routineId = routine.id,
@@ -34,7 +47,7 @@ class LoadSessionPlanUseCase(
             catalog = catalog,
             requiresSafetyCheck = needsSafetyCheck,
             safetyNotes = if (needsSafetyCheck) exercises.safetyNotes(language) else emptyList(),
-            skippedItems = routine.items.size - items.size,
+            skippedItems = routine.items.size - recognized,
         )
     }
 }
@@ -69,5 +82,6 @@ class FinishSessionUseCase(
         status = summary.status,
         completedSets = summary.completedSets,
         totalSets = summary.totalSets,
+        distanceMeters = summary.distanceMeters,
     )
 }

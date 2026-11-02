@@ -42,10 +42,16 @@ import com.activaplan.app.domain.model.SessionSummary
 
 /**
  * Layar "Latihan Selesai!". [streak] 0 berarti belum diketahui atau tidak ada, dan chip disembunyikan.
+ * Bila [SessionSummary.distanceMeters] terisi (GPS), baris kedua menampilkan jarak dan [averagePaceSecPerKm].
  * Bila ada set yang tidak selesai, kalimat pembuka menyebut jumlah set, bukan "semua latihan".
  */
 @Composable
-internal fun CompleteContent(summary: SessionSummary, streak: Int, actions: SessionActions) {
+internal fun CompleteContent(
+    summary: SessionSummary,
+    streak: Int,
+    actions: SessionActions,
+    averagePaceSecPerKm: Int? = null,
+) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     Box(Modifier.fillMaxSize()) {
@@ -86,6 +92,13 @@ internal fun CompleteContent(summary: SessionSummary, streak: Int, actions: Sess
                     StatTile(summary.completedSets, strings[StringKey.SESSION_STAT_SETS], Modifier.weight(1f))
                     StatTile(summary.minutes, strings[StringKey.SESSION_STAT_MINUTES], Modifier.weight(1f))
                 }
+                if (summary.distanceMeters > 0) {
+                    Spacer(Modifier.height(10.dp))
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        TextStatTile(strings.distance(summary.distanceMeters), strings[StringKey.SESSION_STAT_DISTANCE], Modifier.weight(1f))
+                        TextStatTile(strings.pace(averagePaceSecPerKm), strings[StringKey.SESSION_STAT_AVG_PACE], Modifier.weight(1f))
+                    }
+                }
                 if (summary.status == SessionStatus.COMPLETED && streak > 0) {
                     Spacer(Modifier.height(16.dp))
                     StreakChip(streak)
@@ -103,14 +116,17 @@ internal fun CompleteContent(summary: SessionSummary, streak: Int, actions: Sess
 }
 
 @Composable
-private fun StatTile(value: Int, label: String, modifier: Modifier = Modifier) {
+private fun StatTile(value: Int, label: String, modifier: Modifier = Modifier) = TextStatTile(value.toString(), label, modifier)
+
+@Composable
+private fun TextStatTile(value: String, label: String, modifier: Modifier = Modifier) {
     val c = ActivaPlanTheme.colors
     Surface(
         color = c.surface, contentColor = c.text, shape = RoundedCornerShape(16.dp),
         border = BorderStroke(1.dp, c.border), modifier = modifier,
     ) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 14.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(value.toString(), style = ActivaPlanTheme.type.largeTitle.copy(fontSize = 24.sp, lineHeight = 30.sp), color = c.text)
+            Text(value, style = ActivaPlanTheme.type.largeTitle.copy(fontSize = 24.sp, lineHeight = 30.sp), color = c.text)
             Text(label, style = ActivaPlanTheme.type.labelSmall.copy(fontSize = 12.sp), color = c.textMuted, textAlign = TextAlign.Center)
         }
     }

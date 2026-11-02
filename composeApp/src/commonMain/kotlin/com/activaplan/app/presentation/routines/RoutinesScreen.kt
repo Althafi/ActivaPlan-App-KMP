@@ -53,10 +53,13 @@ import com.activaplan.app.designsystem.components.ActivaSnackbarHost
 import com.activaplan.app.designsystem.components.AlertType
 import com.activaplan.app.designsystem.components.ButtonStyle
 import com.activaplan.app.designsystem.components.LevelBadge
+import com.activaplan.app.designsystem.components.TextBadge
 import com.activaplan.app.designsystem.components.showActiva
 import com.activaplan.app.domain.i18n.StringKey
 import com.activaplan.app.domain.i18n.Strings
 import com.activaplan.app.domain.model.Difficulty
+import com.activaplan.app.domain.model.PlanDayType
+import com.activaplan.app.domain.model.PlanSummary
 import com.activaplan.app.domain.model.RoutineSummary
 import com.activaplan.app.domain.model.RoutinesData
 import com.activaplan.app.domain.model.ScheduleSlot
@@ -80,6 +83,7 @@ class RoutinesActions(
     val onUseTemplate: (String) -> Unit,
     val onOpenTemplate: (String) -> Unit,
     val onReload: () -> Unit,
+    val onOpenPlan: (String) -> Unit = {},
 )
 
 private const val TAB_MINE = 0
@@ -99,6 +103,7 @@ fun RoutinesScreen(
     savedNotice: Boolean,
     onSavedNoticeShown: () -> Unit,
     modifier: Modifier = Modifier,
+    onOpenPlan: (String) -> Unit = {},
 ) {
     val observe = koinInject<ObserveRoutinesUseCase>()
     val delete = koinInject<DeleteRoutineUseCase>()
@@ -139,7 +144,7 @@ fun RoutinesScreen(
     }
 
     val actions = RoutinesActions(
-        onCreate, onEdit, onStart, { deleteTarget = it }, viewModel::useTemplate, onOpenTemplate, viewModel::reload,
+        onCreate, onEdit, onStart, { deleteTarget = it }, viewModel::useTemplate, onOpenTemplate, viewModel::reload, onOpenPlan,
     )
     RoutinesContent(state, tab, { tab = it }, actions, snackbarHostState, modifier)
 
@@ -185,7 +190,7 @@ private fun ReadyContent(data: RoutinesData, tab: Int, onTab: (Int) -> Unit, act
         ActivaSegmentedControl(
             options = listOf(
                 strings.format(StringKey.ROUTINES_TAB_MINE, data.routines.size),
-                strings.format(StringKey.ROUTINES_TAB_TEMPLATES, data.templates.size),
+                strings.format(StringKey.ROUTINES_TAB_TEMPLATES, data.templates.size + data.plans.size),
             ),
             selectedIndex = tab,
             onSelect = onTab,
@@ -201,7 +206,17 @@ private fun ReadyContent(data: RoutinesData, tab: Int, onTab: (Int) -> Unit, act
             }
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp), contentPadding = PaddingValues(bottom = 24.dp)) {
-                item {
+                if (data.plans.isNotEmpty()) {
+                    item(key = "plans-title") {
+                        Text(
+                            strings[StringKey.PLAN_SECTION_TITLE],
+                            style = ActivaPlanTheme.type.cardTitle,
+                            color = ActivaPlanTheme.colors.text,
+                        )
+                    }
+                    items(data.plans, key = { it.id }) { PlanCard(it, actions) }
+                }
+                item(key = "templates-title") {
                     Text(
                         strings[StringKey.ROUTINES_TEMPLATES_TITLE],
                         style = ActivaPlanTheme.type.cardTitle,
@@ -285,6 +300,38 @@ private fun RoutineCard(routine: RoutineSummary, actions: RoutinesActions) {
     }
 }
 
+/** Kartu rencana mingguan: tujuh titik hari berwarna menurut jenisnya, ringkasan, dan alat yang dibutuhkan. */
+@Composable
+private fun PlanCard(plan: PlanSummary, actions: RoutinesActions) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    val weekDescription = (1..7).zip(plan.days).joinToString(", ") { (day, type) -> "${strings.dayName(day)}: ${strings.label(type)}" }
+    ActivaCard(Modifier.fillMaxWidth(), onClick = { actions.onOpenPlan(plan.id) }) {
+        Text(plan.name, style = ActivaPlanTheme.type.cardTitle, color = c.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        Spacer(Modifier.height(8.dp))
+        Row(Modifier.semantics { contentDescription = weekDescription }, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            plan.days.forEachIndexed { index, type ->
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Box(Modifier.size(12.dp).background(planDayColor(type), CircleShape))
+                    Text(strings.dayShort(index + 1), style = ActivaPlanTheme.type.labelSmall.copy(fontSize = 10.sp), color = c.textMuted)
+                }
+            }
+        }
+        Spacer(Modifier.height(10.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            LevelBadge(plan.difficulty)
+            if (plan.modes.isNotEmpty()) TextBadge(strings.format(StringKey.PLAN_NEEDS, plan.modes.joinToString(", ") { strings.label(it) }))
+        }
+        Spacer(Modifier.height(8.dp))
+        Text(
+            strings.format(StringKey.PLAN_CARD_META, plan.trainingDays, plan.strengthDays, plan.cardioDays),
+            style = metaStyle(),
+            color = c.textMuted,
+        )
+        Text(strings.format(StringKey.PLAN_CARD_MINUTES, plan.weeklyMinutes), style = metaStyle(), color = c.textMuted)
+    }
+}
+
 @Composable
 private fun TemplateCard(template: TemplateSummary, actions: RoutinesActions) {
     val c = ActivaPlanTheme.colors
@@ -359,6 +406,16 @@ private val previewData = RoutinesData(
         TemplateSummary("t1", "Board Pemula Full Body", Difficulty.EASY, 5, 42),
         TemplateSummary("t2", "Dada & Triceps Sedang", Difficulty.MEDIUM, 4, 38),
         TemplateSummary("t3", "Board Sulit Full Body", Difficulty.HARD, 6, 65),
+    ),
+    plans = listOf(
+        PlanSummary(
+            "plan_easy_mix", "Mudah · Campur 5 Hari", Difficulty.EASY,
+            listOf(
+                PlanDayType.STRENGTH, PlanDayType.CARDIO, PlanDayType.STRENGTH, PlanDayType.CARDIO,
+                PlanDayType.STRENGTH, PlanDayType.REST, PlanDayType.REST,
+            ),
+            120, emptyList(),
+        ),
     ),
 )
 

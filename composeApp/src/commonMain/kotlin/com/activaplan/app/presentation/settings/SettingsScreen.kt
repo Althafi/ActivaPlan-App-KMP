@@ -54,6 +54,7 @@ import com.activaplan.app.designsystem.components.ActivaIconKind
 import com.activaplan.app.designsystem.components.ActivaLogoTile
 import com.activaplan.app.designsystem.components.ActivaSegmentedControl
 import com.activaplan.app.designsystem.components.ActivaSnackbarHost
+import com.activaplan.app.designsystem.components.ActivaStepper
 import com.activaplan.app.designsystem.components.AlertType
 import com.activaplan.app.designsystem.components.showActiva
 import com.activaplan.app.domain.i18n.Language
@@ -62,18 +63,23 @@ import com.activaplan.app.domain.info.AppInfo
 import com.activaplan.app.domain.model.AppLanguage
 import com.activaplan.app.domain.model.Settings
 import com.activaplan.app.domain.model.ThemeMode
+import com.activaplan.app.domain.cardio.HeartRateZones
 import com.activaplan.app.domain.reminder.NotificationPermission
 import com.activaplan.app.domain.reminder.PermissionState
 import com.activaplan.app.domain.reminder.ReminderSynchronizer
+import com.activaplan.app.domain.tracking.LocationTracker
 import com.activaplan.app.domain.time.formatClock
 import com.activaplan.app.domain.usecase.ClearAllDataUseCase
 import com.activaplan.app.domain.usecase.ClearSessionHistoryUseCase
 import com.activaplan.app.domain.usecase.ObserveSettingsUseCase
+import com.activaplan.app.domain.usecase.SetAgeUseCase
 import com.activaplan.app.domain.usecase.SetDefaultTimeUseCase
+import com.activaplan.app.domain.usecase.SetGpsTrackingUseCase
 import com.activaplan.app.domain.usecase.SetKeepHistoryUseCase
 import com.activaplan.app.domain.usecase.SetLanguageUseCase
 import com.activaplan.app.domain.usecase.SetRemindersEnabledUseCase
 import com.activaplan.app.domain.usecase.SetThemeUseCase
+import com.activaplan.app.presentation.rememberLocationPermissionRequester
 import com.activaplan.app.presentation.rememberNotificationPermissionRequester
 import com.activaplan.app.presentation.schedule.TimePickerDialog
 import com.activaplan.app.presentation.schedule.reminderSwitchColors
@@ -92,6 +98,8 @@ class SettingsActions(
     val onClearHistory: () -> Unit,
     val onClearAll: () -> Unit,
     val onReplayIntro: () -> Unit,
+    val onGpsTracking: (Boolean) -> Unit = {},
+    val onAge: (Int) -> Unit = {},
 )
 
 /** Dialog konfirmasi hapus yang sedang terbuka. */
@@ -113,10 +121,13 @@ fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifie
     val clearAll = koinInject<ClearAllDataUseCase>()
     val permission = koinInject<NotificationPermission>()
     val synchronizer = koinInject<ReminderSynchronizer>()
+    val tracker = koinInject<LocationTracker>()
+    val setGps = koinInject<SetGpsTrackingUseCase>()
+    val setAge = koinInject<SetAgeUseCase>()
     val appInfo = koinInject<AppInfo>()
     val strings = ActivaPlanTheme.strings
     val viewModel = viewModel(key = "settings") {
-        SettingsViewModel(observe, setTheme, setLanguage, setReminders, setDefaultTime, setKeepHistory, clearHistory, clearAll, permission, synchronizer)
+        SettingsViewModel(observe, setTheme, setLanguage, setReminders, setDefaultTime, setKeepHistory, clearHistory, clearAll, permission, synchronizer, tracker, setGps, setAge)
     }
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val permissionState by viewModel.permissionState.collectAsStateWithLifecycle()
@@ -126,6 +137,7 @@ fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifie
     val currentOnDataCleared = rememberUpdatedState(onDataCleared)
 
     val requestPermission = rememberNotificationPermissionRequester(viewModel::onPermissionResult)
+    val requestLocation = rememberLocationPermissionRequester(viewModel::onLocationPermissionResult)
     // Pengguna bisa mengubah izin di pengaturan sistem lalu kembali ke aplikasi.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.refreshPermission() }
 
@@ -136,6 +148,13 @@ fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifie
                     launch { snackbarHostState.showActiva(strings[StringKey.ALERT_HISTORY_DELETED]) }
                 SettingsEvent.AllDataDeleted -> currentOnDataCleared.value()
                 SettingsEvent.RequestPermission -> requestPermission()
+                SettingsEvent.RequestLocationPermission -> requestLocation()
+                SettingsEvent.LocationDenied -> launch {
+                    val open = snackbarHostState.showActiva(
+                        strings[StringKey.SETTINGS_GPS_DENIED], AlertType.WARNING, strings[StringKey.SETTINGS_NOTIFICATION_PERMISSION],
+                    )
+                    if (open) viewModel.onOpenLocationSettings()
+                }
                 is SettingsEvent.Failed -> launch {
                     val retry = snackbarHostState.showActiva(
                         strings[StringKey.ALERT_SAVE_FAILED], AlertType.ERROR, strings[StringKey.ACTION_RETRY],
@@ -156,6 +175,8 @@ fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifie
         onClearHistory = { deleteTarget = DeleteTarget.HISTORY },
         onClearAll = { deleteTarget = DeleteTarget.ALL },
         onReplayIntro = onReplayIntro,
+        onGpsTracking = viewModel::onGpsTracking,
+        onAge = viewModel::onAge,
     )
     settings?.let { SettingsContent(it, permissionState, appInfo.versionName, actions, snackbarHostState, modifier) }
 
@@ -227,6 +248,14 @@ fun SettingsContent(
                 NavigationRow(strings[StringKey.SETTINGS_NOTIFICATION_PERMISSION], actions.onPermissionClick) {
                     PermissionBadge(permission)
                 }
+            }
+
+            SettingsGroup(strings[StringKey.SETTINGS_GROUP_CARDIO]) {
+                ToggleRow(strings[StringKey.SETTINGS_GPS], settings.gpsTracking, actions.onGpsTracking)
+                RowDivider()
+                InfoBlock(strings[StringKey.SETTINGS_GPS], strings[StringKey.SETTINGS_GPS_NOTE])
+                RowDivider()
+                AgeRow(settings.age, actions.onAge)
             }
 
             SettingsGroup(strings[StringKey.SETTINGS_GROUP_DATA]) {
@@ -324,6 +353,29 @@ private fun LanguageRows(selected: AppLanguage, onSelect: (AppLanguage) -> Unit)
                 if (isSelected) ActivaIcon(ActivaIconKind.CHECK, c.primary, size = 20.dp)
             }
         }
+    }
+}
+
+/** Usia untuk perkiraan zona detak jantung; belum diisi menampilkan 30 sebagai titik awal stepper. */
+@Composable
+private fun AgeRow(age: Int?, onAge: (Int) -> Unit) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    val shown = age ?: HeartRateZones.DEFAULT_AGE
+    Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        ActivaStepper(
+            label = strings[StringKey.SETTINGS_AGE],
+            value = shown,
+            onDecrease = { onAge(shown - 1) },
+            onIncrease = { onAge(shown + 1) },
+            canDecrease = shown > HeartRateZones.AGE.first,
+            canIncrease = shown < HeartRateZones.AGE.last,
+        )
+        Text(
+            if (age != null) strings.format(StringKey.SETTINGS_AGE_MAX_HR, HeartRateZones.maxHeartRate(age)) else strings[StringKey.SETTINGS_AGE_NOTE],
+            style = ActivaPlanTheme.type.body.copy(fontSize = 13.sp, lineHeight = 18.sp),
+            color = c.textMuted,
+        )
     }
 }
 

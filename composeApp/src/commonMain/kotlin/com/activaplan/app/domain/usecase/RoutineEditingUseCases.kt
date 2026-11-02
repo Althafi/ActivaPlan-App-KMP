@@ -1,5 +1,6 @@
 package com.activaplan.app.domain.usecase
 
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.domain.i18n.Language
@@ -19,6 +20,7 @@ class LoadRoutineDraftUseCase(
     private val userData: UserDataRepository,
     private val exercises: ExerciseRepository,
     private val newId: () -> String = ::randomRoutineId,
+    private val cardio: CardioRepository? = null,
 ) {
 
     suspend operator fun invoke(routineId: String?): DraftLoad {
@@ -28,6 +30,7 @@ class LoadRoutineDraftUseCase(
         }
         val routine = userData.routines.first().firstOrNull { it.id == routineId } ?: return DraftLoad.NotFound
         val known = exercises.catalog().exercises.mapTo(mutableSetOf()) { it.id }
+        cardio?.catalog()?.workouts?.mapTo(known) { it.id }
         val kept = routine.copy(items = routine.items.filter { it.exerciseId in known })
         return DraftLoad.Loaded(RoutineDraft.from(kept), kept, routine.items.size - kept.items.size)
     }

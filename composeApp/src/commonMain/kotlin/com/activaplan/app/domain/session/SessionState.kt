@@ -38,6 +38,14 @@ data class SessionState(
     /** Nomor set yang sedang dikerjakan, mulai dari 1. */
     val setNumber: Int get() = (setsDone[index] + 1).coerceAtMost(current.sets)
 
+    /** Kunci kelompok tiap langkah: latihan kekuatan berdiri sendiri, segmen kardio dikelompokkan per item rutinitas. */
+    private val groupKeys: List<String>
+        get() = exercises.mapIndexed { i, e -> e.cardio?.let { "c${it.itemIndex}" } ?: "s$i" }
+
+    /** Urutan "latihan" saat ini (satu kardio dihitung satu), mulai dari 0, dan jumlahnya. Untuk judul "Latihan 2 dari 5". */
+    val groupIndex: Int get() = groupKeys.take(index + 1).distinct().size - 1
+    val groupCount: Int get() = groupKeys.distinct().size
+
     /** Latihan regresi untuk "Turun ke ..."; null bila tidak ada atau tidak ada di katalog. */
     val regression: Exercise? get() = current.exercise.regressionId?.let { plan.catalog[it] }
 
@@ -64,10 +72,14 @@ data class SessionState(
             is SessionPhase.Working -> {
                 val remaining = p.remainingMillis ?: return ticked
                 val left = remaining - deltaMillis
-                if (left > 0) {
-                    ticked.copy(phase = p.copy(remainingMillis = left))
-                } else {
-                    ticked.copy(phase = p.copy(remainingMillis = 0L), overlay = SessionOverlay.FAILED)
+                when {
+                    left > 0 -> ticked.copy(phase = p.copy(remainingMillis = left))
+                    // Segmen kardio yang habis berpindah sendiri; sisa waktu ketukan dibawa ke segmen berikutnya.
+                    current.cardio != null -> {
+                        val overshoot = -left
+                        copy(activeMillis = activeMillis + deltaMillis - overshoot).completeSet().advance(overshoot)
+                    }
+                    else -> ticked.copy(phase = p.copy(remainingMillis = 0L), overlay = SessionOverlay.FAILED)
                 }
             }
             is SessionPhase.Resting -> {
@@ -103,12 +115,12 @@ data class SessionState(
     }
 
     /** Lewati ditekan: set dianggap belum selesai dan sheet Gagal terbuka. */
-    fun requestSkip(): SessionState =
-        if (phase is SessionPhase.Working && !paused && overlay == SessionOverlay.NONE) {
-            copy(overlay = SessionOverlay.FAILED)
-        } else {
-            this
-        }
+    fun requestSkip(): SessionState = when {
+        phase !is SessionPhase.Working || paused || overlay != SessionOverlay.NONE -> this
+        // Segmen kardio tidak "gagal": melewatinya langsung lanjut ke segmen berikutnya.
+        current.cardio != null -> completeSet()
+        else -> copy(overlay = SessionOverlay.FAILED)
+    }
 
     /** Coba lagi: set yang sama diulang dari awal (rep 0, durasi penuh). Juga dipakai saat sheet ditutup tanpa memilih. */
     fun retry(): SessionState =
@@ -181,8 +193,9 @@ data class SessionState(
             },
             completedSets = done,
             totalSets = total,
-            completedExercises = exercises.indices.count { setsDone[it] >= exercises[it].sets },
-            totalExercises = exercises.size,
+            completedExercises = groupKeys.withIndex().groupBy({ it.value }, { it.index })
+                .count { (_, steps) -> steps.all { setsDone[it] >= exercises[it].sets } },
+            totalExercises = groupCount,
             minutes = if (done > 0) maxOf(1, minutes) else minutes,
         )
     }

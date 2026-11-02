@@ -19,15 +19,17 @@ import kotlinx.coroutines.flow.map
 class UserDataRepository(
     private val store: UserDataStore,
     private val exercises: ExerciseRepository,
+    private val cardio: CardioRepository? = null,
 ) {
     val routines: Flow<List<Routine>> = store.data.map { it.routines }.distinctUntilChanged()
     val schedule: Flow<List<ScheduleEntry>> = store.data.map { it.schedule }.distinctUntilChanged()
     val sessionLogs: Flow<List<SessionLog>> = store.data.map { it.sessionLogs }.distinctUntilChanged()
     val settings: Flow<Settings> = store.data.map { it.settings }.distinctUntilChanged()
 
-    /** Rutinitas dan jadwal yang valid terhadap katalog latihan; entri rusak diabaikan dan dilaporkan di `issues`. */
+    /** Rutinitas dan jadwal yang valid terhadap katalog latihan kekuatan dan kardio; entri rusak diabaikan dan dilaporkan di `issues`. */
     val validated: Flow<UserDataValidation> = flow {
-        val exerciseIds = exercises.catalog().exercises.map { it.id }.toSet()
+        val exerciseIds = exercises.catalog().exercises.map { it.id }.toSet() +
+            cardio?.catalog()?.workouts?.map { it.id }.orEmpty()
         emitAll(store.data.map { UserDataValidator.validate(it.routines, it.schedule, exerciseIds) })
     }
 
@@ -75,6 +77,14 @@ class UserDataRepository(
     /** Mengganti seluruh jadwal secara atomik dari jadwal dan rutinitas saat ini, mis. untuk memeriksa bentrok lalu menulis. */
     suspend fun updateSchedule(transform: (routines: List<Routine>, schedule: List<ScheduleEntry>) -> List<ScheduleEntry>) =
         store.update { d -> d.copy(schedule = transform(d.routines, d.schedule)) }
+
+    /** Mengganti rutinitas dan jadwal sekaligus secara atomik, mis. saat memakai rencana mingguan. */
+    suspend fun updateRoutinesAndSchedule(
+        transform: (routines: List<Routine>, schedule: List<ScheduleEntry>) -> Pair<List<Routine>, List<ScheduleEntry>>,
+    ) = store.update { d ->
+        val (routines, schedule) = transform(d.routines, d.schedule)
+        d.copy(routines = routines, schedule = schedule)
+    }
 
     /** Membuang entri jadwal yang rutinitasnya sudah tidak ada. Mengembalikan jumlah yang dibuang. */
     suspend fun removeOrphanedSchedule(): Int {

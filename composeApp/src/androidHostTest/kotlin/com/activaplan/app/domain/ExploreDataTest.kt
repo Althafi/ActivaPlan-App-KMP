@@ -34,15 +34,15 @@ class ExploreDataTest {
     private val boardModes = listOf(Mode.PUSHUP_BOARD, Mode.BOARD_ROPE)
 
     @Test
-    fun all23BoardExercisesAppearAndEachBelongsToItsTab() = runTest {
+    fun allBoardAndRopeExercisesAppearAndEachBelongsToItsTab() = runTest {
         val all = repository.exercises(language = Language.ID)
         val shown = boardModes.map { mode -> mode to filter(all, ExploreQuery(mode)) }
 
-        assertEquals(23, shown.sumOf { it.second.size })
-        assertEquals(12, shown.first { it.first == Mode.PUSHUP_BOARD }.second.size)
-        assertEquals(11, shown.first { it.first == Mode.BOARD_ROPE }.second.size)
+        assertEquals(31, shown.sumOf { it.second.size })
+        assertEquals(15, shown.first { it.first == Mode.PUSHUP_BOARD }.second.size)
+        assertEquals(16, shown.first { it.first == Mode.BOARD_ROPE }.second.size)
         shown.forEach { (mode, list) -> assertTrue(list.all { it.mode == mode }) }
-        assertEquals(23, filter(all, ExploreQuery(Mode.NO_EQUIPMENT)).size)
+        assertEquals(39, filter(all, ExploreQuery(Mode.NO_EQUIPMENT)).size)
     }
 
     @Test

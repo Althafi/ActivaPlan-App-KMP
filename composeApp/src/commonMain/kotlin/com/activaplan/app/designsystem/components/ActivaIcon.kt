@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 /** Ikon garis (kotak 24) untuk tombol dan alert. Dekoratif: teks di sebelahnya yang dibaca screen reader. */
 enum class ActivaIconKind {
     CHECK, CLOSE, PLUS, TRASH, CALENDAR, WARNING, INFO, HOME, SEARCH, LIST, SLIDERS, BELL, BELL_OFF, PLAY, DUMBBELL, CLOCK, FLAME,
-    CHEVRON_LEFT, ARROW_DOWN, ARROW_UP, MINUS, DRAG_HANDLE, PAUSE, SKIP_NEXT, REFRESH,
+    CHEVRON_LEFT, ARROW_DOWN, ARROW_UP, MINUS, DRAG_HANDLE, PAUSE, SKIP_NEXT, REFRESH, PULSE,
 }
 
 @Composable
@@ -150,6 +150,13 @@ fun ActivaIcon(kind: ActivaIconKind, tint: Color, modifier: Modifier = Modifier,
                     tint, style = stroke,
                 )
             }
+            ActivaIconKind.PULSE -> drawPath(
+                Path().apply {
+                    moveTo(3 * k, 12 * k); lineTo(8 * k, 12 * k); lineTo(10.5f * k, 5.5f * k)
+                    lineTo(13.5f * k, 18.5f * k); lineTo(16 * k, 12 * k); lineTo(21 * k, 12 * k)
+                },
+                tint, style = stroke,
+            )
             ActivaIconKind.FLAME -> drawPath(
                 Path().apply {
                     moveTo(12f * k, 3f * k)

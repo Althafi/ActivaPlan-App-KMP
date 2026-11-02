@@ -29,6 +29,12 @@
 		<key>UIImageName</key>
 		<string>LaunchLogo</string>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ActivaPlan memakai GPS untuk menghitung jarak dan pace latihan kardio Anda. Data lokasi tetap di perangkat dan tidak dikirim ke mana pun.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

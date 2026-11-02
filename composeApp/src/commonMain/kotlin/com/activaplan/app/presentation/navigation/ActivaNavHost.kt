@@ -9,10 +9,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.activaplan.app.presentation.detail.CardioDetailScreen
 import com.activaplan.app.presentation.detail.ExerciseDetailScreen
 import com.activaplan.app.presentation.explore.ExploreScreen
 import com.activaplan.app.presentation.home.HomeScreen
 import com.activaplan.app.presentation.onboarding.IntroReplayScreen
+import com.activaplan.app.presentation.routines.PlanPreviewScreen
 import com.activaplan.app.presentation.routines.RoutineBuilderScreen
 import com.activaplan.app.presentation.routines.RoutinesScreen
 import com.activaplan.app.presentation.routines.TemplatePreviewScreen
@@ -37,6 +39,17 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
             ExploreScreen(
                 onOpenExercise = { navController.navigate(ExerciseDetailRoute(it)) },
                 scrollResetToken = exploreScrollResetToken,
+                onOpenCardio = { navController.navigate(CardioDetailRoute(it)) },
+            )
+        }
+        composable<CardioDetailRoute> { entry ->
+            CardioDetailScreen(
+                id = entry.toRoute<CardioDetailRoute>().id,
+                onBack = { navController.popBackStack() },
+                // Turun/Naik level menggantikan layar ini agar Kembali tetap menuju Jelajah.
+                onOpenCardio = { id ->
+                    navController.navigate(CardioDetailRoute(id)) { popUpTo<CardioDetailRoute> { inclusive = true } }
+                },
             )
         }
         composable<ExerciseDetailRoute> { entry ->
@@ -57,6 +70,7 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 onStart = { navController.navigate(SessionRoute(it)) { launchSingleTop = true } },
                 onUseTemplate = { navController.navigate(RoutineBuilderRoute(it)) },
                 onOpenTemplate = { navController.navigate(TemplatePreviewRoute(it)) },
+                onOpenPlan = { navController.navigate(PlanPreviewRoute(it)) },
                 savedNotice = saved,
                 onSavedNoticeShown = { entry.savedStateHandle[ROUTINE_SAVED_KEY] = false },
             )
@@ -91,6 +105,17 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 // Salinan sudah tersimpan; Builder menggantikan pratinjau agar Kembali menuju layar asal.
                 onUsed = { routineId ->
                     navController.navigate(RoutineBuilderRoute(routineId)) { popUpTo<TemplatePreviewRoute> { inclusive = true } }
+                },
+            )
+        }
+        composable<PlanPreviewRoute> { entry ->
+            PlanPreviewScreen(
+                id = entry.toRoute<PlanPreviewRoute>().id,
+                onBack = { navController.popBackStack() },
+                // Rencana sudah menjadi rutinitas dan jadwal; tab Jadwal menampilkan hasilnya.
+                onApplied = {
+                    navController.popBackStack()
+                    navController.navigateToTab(TopLevelDestination.SCHEDULE)
                 },
             )
         }

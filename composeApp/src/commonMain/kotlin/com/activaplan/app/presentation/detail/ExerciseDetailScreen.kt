@@ -117,7 +117,7 @@ fun ExerciseDetailScreen(
     ExerciseDetailContent(state, routines, actions, snackbarHostState, modifier)
 }
 
-private suspend fun SnackbarHostState.show(outcome: AddOutcome, strings: Strings) {
+internal suspend fun SnackbarHostState.show(outcome: AddOutcome, strings: Strings) {
     when (outcome) {
         is AddOutcome.Done -> when (val result = outcome.result) {
             is AddToRoutineResult.Added -> showActiva(strings.format(StringKey.ALERT_ADDED_TO_ROUTINE, result.routineName))
@@ -211,7 +211,7 @@ private fun DetailReady(detail: ExerciseDetail, routines: List<Routine>, actions
 }
 
 @Composable
-private fun BackButton(onBack: () -> Unit, modifier: Modifier = Modifier) {
+internal fun BackButton(onBack: () -> Unit, modifier: Modifier = Modifier) {
     val c = ActivaPlanTheme.colors
     val label = ActivaPlanTheme.strings[StringKey.DETAIL_BACK]
     Box(
@@ -265,7 +265,7 @@ private fun Hero(exercise: Exercise, onBack: () -> Unit) {
 }
 
 @Composable
-private fun StatTile(value: String, unit: String, modifier: Modifier = Modifier) {
+internal fun StatTile(value: String, unit: String, modifier: Modifier = Modifier) {
     val c = ActivaPlanTheme.colors
     Surface(
         color = c.surface, contentColor = c.text, shape = RoundedCornerShape(16.dp),
@@ -279,7 +279,7 @@ private fun StatTile(value: String, unit: String, modifier: Modifier = Modifier)
 }
 
 @Composable
-private fun SectionTitle(text: String) =
+internal fun SectionTitle(text: String) =
     Text(text, style = ActivaPlanTheme.type.cardTitle.copy(fontSize = 18.sp), color = ActivaPlanTheme.colors.text)
 
 @Composable
@@ -299,7 +299,7 @@ private fun Steps(steps: List<String>) {
 }
 
 @Composable
-private fun Tips(tips: List<String>) {
+internal fun Tips(tips: List<String>) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     Surface(color = c.primarySoft, shape = ActivaShapes.button, modifier = Modifier.fillMaxWidth()) {
@@ -315,7 +315,7 @@ private fun Tips(tips: List<String>) {
 }
 
 @Composable
-private fun Mistakes(mistakes: List<String>) {
+internal fun Mistakes(mistakes: List<String>) {
     val c = ActivaPlanTheme.colors
     Surface(color = c.warningSoft, shape = ActivaShapes.button, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -349,12 +349,12 @@ private fun SafetyCard(notes: List<String>) {
 }
 
 @Composable
-private fun BackOnly(onBack: () -> Unit) {
+internal fun BackOnly(onBack: () -> Unit) {
     BackButton(onBack, Modifier.statusBarsPadding().padding(start = ActivaDimens.screenPadding, top = 8.dp))
 }
 
 @Composable
-private fun Message(text: String, onBack: () -> Unit, actionLabel: String? = null, onAction: () -> Unit = {}) {
+internal fun Message(text: String, onBack: () -> Unit, actionLabel: String? = null, onAction: () -> Unit = {}) {
     val c = ActivaPlanTheme.colors
     BackOnly(onBack)
     Column(

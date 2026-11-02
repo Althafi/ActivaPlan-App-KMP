@@ -1,7 +1,11 @@
 package com.activaplan.app.di
 
 import com.activaplan.app.data.local.DATASTORE_FILE_NAME
+import com.activaplan.app.cue.IosCuePlayer
+import com.activaplan.app.domain.cue.CuePlayer
 import com.activaplan.app.domain.info.AppInfo
+import com.activaplan.app.domain.tracking.LocationTracker
+import com.activaplan.app.tracking.IosLocationTracker
 import com.activaplan.app.domain.reminder.NotificationPermission
 import com.activaplan.app.domain.reminder.ReminderScheduler
 import com.activaplan.app.info.IosAppInfo
@@ -31,4 +35,6 @@ actual fun platformModule(): Module = module {
     single<NotificationPermission> { IosNotificationPermission() }
     single<ReminderScheduler> { IosReminderScheduler() }
     single<AppInfo> { IosAppInfo() }
+    single<LocationTracker> { IosLocationTracker() }
+    single<CuePlayer> { IosCuePlayer() }
 }

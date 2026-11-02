@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.designsystem.ActivaDimens
 import com.activaplan.app.designsystem.ActivaPlanTheme
@@ -77,6 +78,7 @@ import com.activaplan.app.designsystem.components.ButtonStyle
 import com.activaplan.app.designsystem.components.showActiva
 import com.activaplan.app.domain.i18n.StringKey
 import com.activaplan.app.domain.model.BoardZone
+import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.Category
 import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.DraftItem
@@ -122,11 +124,12 @@ fun RoutineBuilderScreen(
     modifier: Modifier = Modifier,
 ) {
     val repository = koinInject<ExerciseRepository>()
+    val cardioRepository = koinInject<CardioRepository>()
     val loadDraft = koinInject<LoadRoutineDraftUseCase>()
     val saveRoutine = koinInject<SaveRoutineUseCase>()
     val strings = ActivaPlanTheme.strings
     val viewModel = viewModel(key = "builder-${routineId ?: "new"}-${strings.language.code}") {
-        BuilderViewModel(routineId, strings.language, repository, loadDraft, saveRoutine)
+        BuilderViewModel(routineId, strings.language, repository, cardioRepository, loadDraft, saveRoutine)
     }
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -279,7 +282,7 @@ private fun ColumnScope.ReadyContent(state: BuilderUiState.Ready, actions: Build
                 Text(strings[StringKey.BUILDER_REORDER_HINT], style = ActivaPlanTheme.type.labelSmall.copy(fontSize = 12.sp), color = c.textMuted)
             }
         }
-        ItemList(draft, state.catalog, actions)
+        ItemList(draft, state.catalog, state.cardioCatalog, actions)
         ActivaButton(
             strings[StringKey.BUILDER_ADD], actions.onAdd, Modifier.fillMaxWidth(),
             style = ButtonStyle.SECONDARY, icon = ActivaIconKind.PLUS,
@@ -319,7 +322,12 @@ private fun Footer(draft: RoutineDraft, onSave: () -> Unit) {
  * sehingga item tetap berada di bawah jari.
  */
 @Composable
-private fun ItemList(draft: RoutineDraft, catalog: Map<String, Exercise>, actions: BuilderActions) {
+private fun ItemList(
+    draft: RoutineDraft,
+    catalog: Map<String, Exercise>,
+    cardioCatalog: Map<String, CardioWorkout>,
+    actions: BuilderActions,
+) {
     val items by rememberUpdatedState(draft.items)
     val onMove by rememberUpdatedState(actions.onMove)
     var dragKey by remember { mutableStateOf<Int?>(null) }
@@ -352,6 +360,7 @@ private fun ItemList(draft: RoutineDraft, catalog: Map<String, Exercise>, action
                     index = index,
                     count = draft.items.size,
                     exercise = catalog[item.item.exerciseId],
+                    cardio = cardioCatalog[item.item.exerciseId],
                     actions = actions,
                     onDragStart = { dragKey = item.key; dragOffset = 0f },
                     onDrag = { handleDrag(item.key, it) },
@@ -375,6 +384,7 @@ private fun ItemRow(
     index: Int,
     count: Int,
     exercise: Exercise?,
+    cardio: CardioWorkout?,
     actions: BuilderActions,
     onDragStart: () -> Unit,
     onDrag: (Float) -> Unit,
@@ -391,7 +401,7 @@ private fun ItemRow(
     val moveDown = strings[StringKey.BUILDER_MOVE_DOWN]
     val remove = strings[StringKey.BUILDER_REMOVE]
     val handleLabel = strings[StringKey.BUILDER_DRAG_HANDLE]
-    val name = exercise?.name ?: item.item.exerciseId
+    val name = exercise?.name ?: cardio?.name ?: item.item.exerciseId
 
     SwipeToDismissBox(
         state = dismissState,
@@ -443,7 +453,7 @@ private fun ItemRow(
                 }
                 Column(Modifier.weight(1f).padding(top = 6.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(10.dp).background(exercise?.boardZone?.let { c.zone(it) } ?: c.textMuted, CircleShape))
+                        Box(Modifier.size(10.dp).background(if (cardio != null) c.primary else exercise?.boardZone?.let { c.zone(it) } ?: c.textMuted, CircleShape))
                         Spacer(Modifier.width(10.dp))
                         Text(
                             name,
@@ -453,23 +463,32 @@ private fun ItemRow(
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        ActivaStepper(
-                            label = strings[StringKey.BUILDER_UNIT_SET],
-                            value = item.item.sets,
-                            onDecrease = { actions.onSets(item.key, -1) },
-                            onIncrease = { actions.onSets(item.key, 1) },
-                            canDecrease = item.canDecreaseSets,
-                            canIncrease = item.canIncreaseSets,
+                    if (cardio != null) {
+                        Text(
+                            strings.cardioMeta(cardio),
+                            style = ActivaPlanTheme.type.body.copy(fontSize = 13.sp),
+                            color = c.textMuted,
+                            modifier = Modifier.padding(start = 20.dp, top = 4.dp, bottom = 4.dp),
                         )
-                        ActivaStepper(
-                            label = strings[if (item.isTimed) StringKey.BUILDER_UNIT_SECONDS else StringKey.BUILDER_UNIT_REP],
-                            value = item.workValue,
-                            onDecrease = { actions.onWork(item.key, -1) },
-                            onIncrease = { actions.onWork(item.key, 1) },
-                            canDecrease = item.canDecreaseWork,
-                            canIncrease = item.canIncreaseWork,
-                        )
+                    } else {
+                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                            ActivaStepper(
+                                label = strings[StringKey.BUILDER_UNIT_SET],
+                                value = item.item.sets,
+                                onDecrease = { actions.onSets(item.key, -1) },
+                                onIncrease = { actions.onSets(item.key, 1) },
+                                canDecrease = item.canDecreaseSets,
+                                canIncrease = item.canIncreaseSets,
+                            )
+                            ActivaStepper(
+                                label = strings[if (item.isTimed) StringKey.BUILDER_UNIT_SECONDS else StringKey.BUILDER_UNIT_REP],
+                                value = item.workValue,
+                                onDecrease = { actions.onWork(item.key, -1) },
+                                onIncrease = { actions.onWork(item.key, 1) },
+                                canDecrease = item.canDecreaseWork,
+                                canIncrease = item.canIncreaseWork,
+                            )
+                        }
                     }
                 }
             }

@@ -24,12 +24,18 @@ class ExerciseRepositoryDataTest {
     )
 
     @Test
-    fun reads46ExercisesAnd6Templates() = runTest {
-        assertEquals(46, repository.exercises(language = Language.ID).size)
-        assertEquals(6, repository.templates(Language.ID).size)
-        assertEquals(23, repository.exercises(ExerciseFilter(mode = Mode.NO_EQUIPMENT), Language.ID).size)
-        assertEquals(12, repository.exercises(ExerciseFilter(mode = Mode.PUSHUP_BOARD), Language.ID).size)
-        assertEquals(11, repository.exercises(ExerciseFilter(mode = Mode.BOARD_ROPE), Language.ID).size)
+    fun reads70ExercisesAnd17Templates() = runTest {
+        assertEquals(70, repository.exercises(language = Language.ID).size)
+        assertEquals(17, repository.templates(Language.ID).size)
+        assertEquals(39, repository.exercises(ExerciseFilter(mode = Mode.NO_EQUIPMENT), Language.ID).size)
+        assertEquals(15, repository.exercises(ExerciseFilter(mode = Mode.PUSHUP_BOARD), Language.ID).size)
+        assertEquals(16, repository.exercises(ExerciseFilter(mode = Mode.BOARD_ROPE), Language.ID).size)
+    }
+
+    @Test
+    fun everyExerciseHasAStepImage() = runTest {
+        val missing = repository.exercises(language = Language.ID).filter { it.images.isEmpty() }.map { it.id }
+        assertTrue(missing.isEmpty(), "Tanpa gambar: $missing")
     }
 
     @Test

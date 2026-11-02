@@ -2,11 +2,21 @@ package com.activaplan.app.presentation.session
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.activaplan.app.domain.cue.CuePlayer
+import com.activaplan.app.domain.cue.NoCuePlayer
 import com.activaplan.app.domain.i18n.Language
 import com.activaplan.app.domain.model.SessionOverlay
 import com.activaplan.app.domain.model.SessionPhase
 import com.activaplan.app.domain.model.SessionSummary
+import com.activaplan.app.domain.model.Settings
+import com.activaplan.app.domain.reminder.PermissionState
 import com.activaplan.app.domain.session.SessionState
+import com.activaplan.app.domain.tracking.GpsStatus
+import com.activaplan.app.domain.tracking.LocationTracker
+import com.activaplan.app.domain.tracking.NoLocationTracker
+import com.activaplan.app.domain.tracking.TrackAccumulator
+import com.activaplan.app.domain.tracking.TrackPoint
+import com.activaplan.app.domain.tracking.TrackingUi
 import com.activaplan.app.domain.usecase.FinishSessionUseCase
 import com.activaplan.app.domain.usecase.LoadSessionPlanUseCase
 import kotlinx.coroutines.CancellationException
@@ -30,8 +40,16 @@ sealed interface SessionUiState {
     /** Rutinitas tidak ada atau tidak punya latihan yang dikenal. */
     data object NotFound : SessionUiState
 
-    /** [streak] baru terisi setelah sesi selesai dan lognya tersimpan. */
-    data class Ready(val state: SessionState, val streak: Int = 0) : SessionUiState
+    /**
+     * [streak] baru terisi setelah sesi selesai dan lognya tersimpan. [tracking] = keadaan GPS (OFF bila tidak dipakai);
+     * [age] = usia dari Setelan untuk perkiraan zona detak jantung.
+     */
+    data class Ready(
+        val state: SessionState,
+        val streak: Int = 0,
+        val tracking: TrackingUi = TrackingUi(),
+        val age: Int? = null,
+    ) : SessionUiState
 }
 
 /** Kejadian sekali pakai yang ditampilkan layar (snackbar, haptic, keluar). */
@@ -66,6 +84,11 @@ class SessionViewModel(
     private val loadPlan: LoadSessionPlanUseCase,
     private val finishSession: FinishSessionUseCase,
     private val nowMillis: () -> Long = ::monotonicMillis,
+    private val tracker: LocationTracker = NoLocationTracker,
+    private val cues: CuePlayer = NoCuePlayer,
+    private val loadSettings: suspend () -> Settings = { Settings.DEFAULT },
+    /** Judul notifikasi layanan GPS di Android. */
+    private val trackingTitle: String = "",
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SessionUiState>(SessionUiState.Loading)
@@ -75,6 +98,8 @@ class SessionViewModel(
     val events: Flow<SessionEvent> = _events.receiveAsFlow()
 
     private var ticker: Job? = null
+    private var trackerJob: Job? = null
+    private var accumulator = TrackAccumulator()
     private var saving = false
     private var logSaved = false
 
@@ -100,10 +125,61 @@ class SessionViewModel(
                 return@launch
             }
             logSaved = false
-            _uiState.value = SessionUiState.Ready(SessionState.start(plan))
+            val settings = try {
+                loadSettings()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
+                Settings.DEFAULT
+            }
+            _uiState.value = SessionUiState.Ready(SessionState.start(plan), age = settings.age)
             if (plan.skippedItems > 0) _events.send(SessionEvent.ExercisesSkipped)
+            if (settings.gpsTracking && plan.exercises.any { it.cardio != null }) startTracking(plan.routineName)
             startTicker()
         }
+    }
+
+    /** Menyalakan GPS hanya bila izin sudah diberikan; selain itu sesi berjalan tanpa jarak dan pace. */
+    private suspend fun startTracking(routineName: String) {
+        val granted = try {
+            tracker.permission() == PermissionState.GRANTED
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            false
+        }
+        if (!granted) return
+        accumulator = TrackAccumulator()
+        setTracking(TrackingUi(GpsStatus.SEARCHING))
+        tracker.start(trackingTitle.ifBlank { routineName }, routineName)
+        trackerJob?.cancel()
+        trackerJob = viewModelScope.launch { tracker.points.collect(::onPoint) }
+    }
+
+    /** Titik hanya dihitung saat segmen kardio berjalan; di luar itu jangkar dilepas supaya jeda tidak menambah jarak. */
+    private fun onPoint(point: TrackPoint) {
+        val s = current
+        val counting = s != null && s.isRunning && s.phase is SessionPhase.Working && s.current.cardio != null
+        accumulator = if (counting) accumulator.add(point) else accumulator.detach()
+        setTracking(TrackingUi(GpsStatus.ACTIVE, accumulator.stats))
+    }
+
+    private fun setTracking(tracking: TrackingUi) {
+        _uiState.update { if (it is SessionUiState.Ready) it.copy(tracking = tracking) else it }
+    }
+
+    private fun stopTracking() {
+        trackerJob?.cancel()
+        trackerJob = null
+        tracker.stop()
+    }
+
+    /** Ringkasan dari state machine ditambah jarak GPS. */
+    private fun SessionSummary.withDistance() = copy(distanceMeters = accumulator.stats.roundedMeters)
+
+    override fun onCleared() {
+        stopTracking()
+        super.onCleared()
     }
 
     fun confirmSafety() = act(SessionState::confirmSafety)
@@ -143,7 +219,8 @@ class SessionViewModel(
     fun confirmStop() {
         val s = current ?: return
         if (s.overlay != SessionOverlay.CONFIRM_STOP) return
-        persist(s.summarize()) {
+        persist(s.summarize().withDistance()) {
+            stopTracking()
             setState(s.confirmStop())
             _events.send(SessionEvent.Exit)
         }
@@ -164,6 +241,7 @@ class SessionViewModel(
     private fun commit(before: SessionState, after: SessionState) {
         setState(after)
         if (after.setsDone.sum() > before.setsDone.sum()) {
+            if (before.current.cardio != null && after.phase !is SessionPhase.Finished) cues.segmentChange()
             val resting = after.phase is SessionPhase.Resting
             _events.trySend(
                 SessionEvent.SetCompleted(before.setNumber, before.current.sets, if (resting) before.current.restSeconds else 0),
@@ -171,10 +249,13 @@ class SessionViewModel(
         }
         val finished = after.phase as? SessionPhase.Finished
         if (finished != null && before.phase !is SessionPhase.Finished && !finished.stopped) {
-            persist(finished.summary) {
+            if (after.exercises.any { it.cardio != null }) cues.sessionComplete()
+            val summary = finished.summary.withDistance()
+            stopTracking()
+            persist(summary) {
                 if (finished.showsSummary) {
                     val streak = try {
-                        finishSession.streak(routineId, finished.summary)
+                        finishSession.streak(routineId, summary)
                     } catch (e: CancellationException) {
                         throw e
                     } catch (_: Exception) {

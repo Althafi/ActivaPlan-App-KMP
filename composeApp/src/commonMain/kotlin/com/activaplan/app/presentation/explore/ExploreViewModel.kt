@@ -2,13 +2,17 @@ package com.activaplan.app.presentation.explore
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.domain.i18n.Language
+import com.activaplan.app.domain.model.ActivityKind
+import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.Category
 import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.Exercise
 import com.activaplan.app.domain.model.ExploreQuery
 import com.activaplan.app.domain.model.Mode
+import com.activaplan.app.domain.usecase.FilterCardioUseCase
 import com.activaplan.app.domain.usecase.FilterExercisesUseCase
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +30,13 @@ sealed interface ExploreUiState {
     /** Katalog latihan gagal dimuat; layar menawarkan Muat ulang. */
     data object Error : ExploreUiState
 
-    data class Ready(val results: List<Exercise>) : ExploreUiState
+    /** [results] terisi untuk jenis Kekuatan, [cardioResults] untuk jenis Kardio (sesuai `ExploreQuery.kind`). */
+    data class Ready(
+        val results: List<Exercise>,
+        val cardioResults: List<CardioWorkout> = emptyList(),
+    ) : ExploreUiState {
+        val isEmpty: Boolean get() = results.isEmpty() && cardioResults.isEmpty()
+    }
 }
 
 /**
@@ -35,7 +45,9 @@ sealed interface ExploreUiState {
  */
 class ExploreViewModel(
     private val exercises: ExerciseRepository,
+    private val cardio: CardioRepository,
     private val filter: FilterExercisesUseCase,
+    private val filterCardio: FilterCardioUseCase,
     private val language: Language,
     private val initialMode: suspend () -> Mode,
 ) : ViewModel() {
@@ -50,7 +62,7 @@ class ExploreViewModel(
     private sealed interface Load {
         data object Loading : Load
         data object Failed : Load
-        data class Done(val all: List<Exercise>) : Load
+        data class Done(val all: List<Exercise>, val cardio: List<CardioWorkout>) : Load
     }
 
     private val load = MutableStateFlow<Load>(Load.Loading)
@@ -60,6 +72,8 @@ class ExploreViewModel(
             !resolved -> ExploreUiState.Loading
             loaded is Load.Loading -> ExploreUiState.Loading
             loaded is Load.Failed -> ExploreUiState.Error
+            loaded is Load.Done && query.kind == ActivityKind.CARDIO ->
+                ExploreUiState.Ready(emptyList(), filterCardio(loaded.cardio, query))
             loaded is Load.Done -> ExploreUiState.Ready(filter(loaded.all, query))
             else -> ExploreUiState.Loading
         }
@@ -85,7 +99,7 @@ class ExploreViewModel(
         viewModelScope.launch {
             load.value = Load.Loading
             load.value = try {
-                Load.Done(exercises.exercises(language = language))
+                Load.Done(exercises.exercises(language = language), cardio.workouts(language = language))
             } catch (e: CancellationException) {
                 throw e
             } catch (_: Exception) {
@@ -99,13 +113,15 @@ class ExploreViewModel(
         _query.update { it.copy(mode = mode) }
     }
 
+    fun onKind(kind: ActivityKind) = _query.update { it.copy(kind = kind) }
+
     fun onText(text: String) = _query.update { it.copy(text = text) }
 
     fun onCategory(category: Category?) = _query.update { it.copy(category = category) }
 
     fun onDifficulty(difficulty: Difficulty?) = _query.update { it.copy(difficulty = difficulty) }
 
-    /** Mengosongkan teks, kategori, dan level; mode tetap. */
+    /** Mengosongkan teks, kategori, dan level; mode dan jenis tetap. */
     fun resetFilters() = _query.update { it.copy(text = "", category = null, difficulty = null) }
 
     private companion object {

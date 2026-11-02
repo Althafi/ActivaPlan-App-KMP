@@ -911,6 +911,323 @@
           "sourceUrl": null
         }
       ]
+    },
+    {
+      "id": "pb_chest_bottom_hold",
+      "name": "Tahan Posisi Bawah Push-up Dada",
+      "mode": "PUSHUP_BOARD",
+      "category": "CHEST",
+      "difficulty": "MEDIUM",
+      "boardZone": "BLUE",
+      "primaryMuscles": [
+        "chest",
+        "triceps",
+        "shoulders"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 15,
+      "restSeconds": 60,
+      "steps": [
+        "Tangan pada lingkaran biru, badan lurus dari kepala sampai tumit.",
+        "Turunkan dada sampai tepat di atas papan dan tahan di posisi bawah.",
+        "Jaga siku sekitar 45 derajat dari badan dan napas teratur, lalu dorong naik."
+      ],
+      "tips": [
+        "Tahan di posisi yang paling sulit; berhenti bila bentuk gerakan mulai rusak."
+      ],
+      "commonMistakes": [
+        "Pinggul turun saat menahan.",
+        "Menahan napas selama bertahan."
+      ],
+      "progressionId": "pb_chest_decline",
+      "regressionId": "pb_chest_knee_pushup",
+      "images": [
+        {
+          "file": "pb_chest_bottom_hold.webp",
+          "alt": "Posisi tahan: Tahan Posisi Bawah Push-up Dada",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "pb_shoulder_pike_hold",
+      "name": "Tahan Pike Push-up",
+      "mode": "PUSHUP_BOARD",
+      "category": "SHOULDERS",
+      "difficulty": "MEDIUM",
+      "boardZone": "RED",
+      "primaryMuscles": [
+        "shoulders",
+        "triceps",
+        "traps"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 20,
+      "restSeconds": 60,
+      "steps": [
+        "Tangan pada lingkaran merah, pinggul diangkat tinggi sehingga badan membentuk huruf V terbalik.",
+        "Tekuk siku dan turunkan kepala ke arah papan sampai di tengah gerakan, lalu tahan.",
+        "Jaga punggung lurus dan bahu menjauh dari telinga."
+      ],
+      "tips": [
+        "Dorong lantai menjauh untuk menjaga bahu tetap aktif."
+      ],
+      "commonMistakes": [
+        "Punggung membulat saat bertahan.",
+        "Siku melebar ke samping."
+      ],
+      "progressionId": "pb_shoulder_pike_elevated",
+      "regressionId": "pb_shoulder_knee",
+      "images": [
+        {
+          "file": "pb_shoulder_pike_hold.webp",
+          "alt": "Posisi tahan: Tahan Pike Push-up",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "pb_triceps_bottom_hold",
+      "name": "Tahan Posisi Bawah Push-up Triceps",
+      "mode": "PUSHUP_BOARD",
+      "category": "ARMS",
+      "difficulty": "HARD",
+      "boardZone": "GREEN",
+      "primaryMuscles": [
+        "triceps",
+        "chest",
+        "shoulders"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 12,
+      "restSeconds": 75,
+      "steps": [
+        "Tangan pada lingkaran hijau, siku dirapatkan ke badan, badan lurus.",
+        "Turunkan dada sampai di atas papan dengan siku tetap menempel ke rusuk dan tahan.",
+        "Dorong naik dengan kuat setelah waktu habis."
+      ],
+      "tips": [
+        "Jaga siku tetap menempel ke badan; di situlah triceps paling bekerja."
+      ],
+      "commonMistakes": [
+        "Siku melebar ke samping sehingga beban pindah ke dada.",
+        "Pinggul turun saat menahan."
+      ],
+      "progressionId": null,
+      "regressionId": "pb_triceps_pushup",
+      "images": [
+        {
+          "file": "pb_triceps_bottom_hold.webp",
+          "alt": "Posisi tahan: Tahan Posisi Bawah Push-up Triceps",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "rope_front_raise",
+      "name": "Front Raise dengan Tali",
+      "mode": "BOARD_ROPE",
+      "category": "SHOULDERS",
+      "difficulty": "EASY",
+      "boardZone": null,
+      "primaryMuscles": [
+        "shoulders"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Berdiri di atas papan, injak tali, pegang ujung tali dengan kedua tangan di depan paha.",
+        "Angkat kedua lengan lurus ke depan sampai setinggi bahu.",
+        "Turunkan perlahan dengan kontrol."
+      ],
+      "tips": [
+        "Naikkan selama dua hitungan dan turunkan selama tiga hitungan."
+      ],
+      "commonMistakes": [
+        "Badan mengayun ke belakang untuk membantu mengangkat.",
+        "Mengangkat lengan di atas bahu sehingga leher tegang."
+      ],
+      "progressionId": "rope_overhead_press",
+      "regressionId": null,
+      "images": [
+        {
+          "file": "rope_front_raise.webp",
+          "alt": "Posisi awal dan akhir gerakan: Front Raise dengan Tali",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "rope_good_morning",
+      "name": "Good Morning dengan Tali",
+      "mode": "BOARD_ROPE",
+      "category": "BACK",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "lower back",
+        "hamstrings",
+        "glutes"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 60,
+      "steps": [
+        "Berdiri di atas papan, injak tali, pegang tali di depan bahu dengan siku ke depan.",
+        "Dorong pinggul ke belakang dan condongkan badan ke depan dengan punggung lurus.",
+        "Kembali berdiri dengan mengencangkan bokong; tali menahan beban sepanjang gerakan."
+      ],
+      "tips": [
+        "Jaga tali tetap tegang sejak posisi berdiri."
+      ],
+      "commonMistakes": [
+        "Punggung membulat saat membungkuk.",
+        "Lutut terkunci lurus sehingga paha belakang tegang berlebihan."
+      ],
+      "progressionId": "rope_deadlift",
+      "regressionId": "ne_back_good_morning",
+      "images": [
+        {
+          "file": "rope_good_morning.webp",
+          "alt": "Posisi awal dan akhir gerakan: Good Morning dengan Tali",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "rope_kickback",
+      "name": "Triceps Kickback dengan Tali",
+      "mode": "BOARD_ROPE",
+      "category": "ARMS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "triceps"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Berdiri di atas papan, injak tali, condongkan badan ke depan dengan punggung lurus.",
+        "Rapatkan siku ke badan dengan lengan bawah menggantung, pegang ujung tali.",
+        "Luruskan lengan ke belakang sambil menjaga siku diam, lalu kembali perlahan."
+      ],
+      "tips": [
+        "Tahan satu detik saat lengan lurus untuk merasakan kontraksi triceps."
+      ],
+      "commonMistakes": [
+        "Siku bergerak naik-turun, bukan diam di tempat.",
+        "Badan terangkat untuk membantu mengayun tali."
+      ],
+      "progressionId": null,
+      "regressionId": null,
+      "images": [
+        {
+          "file": "rope_kickback.webp",
+          "alt": "Posisi awal dan akhir gerakan: Triceps Kickback dengan Tali",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "rope_reverse_lunge",
+      "name": "Reverse Lunge dengan Tali",
+      "mode": "BOARD_ROPE",
+      "category": "LEGS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "quads",
+        "glutes",
+        "hamstrings"
+      ],
+      "sets": 3,
+      "reps": 10,
+      "durationSeconds": null,
+      "restSeconds": 60,
+      "steps": [
+        "Berdiri di atas papan, injak tali dengan satu kaki, pegang ujung tali di depan dada.",
+        "Langkahkan kaki lainnya ke belakang dan turunkan badan sampai kedua lutut membentuk sudut sekitar 90 derajat.",
+        "Dorong dengan kaki depan untuk kembali berdiri, selesaikan semua ulangan lalu ganti kaki."
+      ],
+      "tips": [
+        "Jaga badan tegak dan lutut depan tepat di atas pergelangan kaki."
+      ],
+      "commonMistakes": [
+        "Lutut depan maju melewati jari kaki.",
+        "Badan condong ke depan sehingga keseimbangan hilang."
+      ],
+      "progressionId": null,
+      "regressionId": "rope_squat",
+      "images": [
+        {
+          "file": "rope_reverse_lunge.webp",
+          "alt": "Posisi awal dan akhir gerakan: Reverse Lunge dengan Tali",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "rope_overhead_squat",
+      "name": "Overhead Squat dengan Tali",
+      "mode": "BOARD_ROPE",
+      "category": "FULL_BODY",
+      "difficulty": "HARD",
+      "boardZone": null,
+      "primaryMuscles": [
+        "full body",
+        "shoulders",
+        "quads",
+        "glutes"
+      ],
+      "sets": 4,
+      "reps": 8,
+      "durationSeconds": null,
+      "restSeconds": 75,
+      "steps": [
+        "Berdiri di atas papan, injak tali, angkat tangan lurus ke atas kepala sambil memegang ujung tali.",
+        "Turunkan badan ke posisi squat dengan lengan tetap lurus di atas kepala dan dada terbuka.",
+        "Dorong tumit untuk kembali berdiri tanpa lengan bergeser ke depan."
+      ],
+      "tips": [
+        "Bila lengan jatuh ke depan, kurangi kedalaman squat dan perkuat mobilitas bahu dulu."
+      ],
+      "commonMistakes": [
+        "Lengan bergeser ke depan sehingga punggung bawah melengkung.",
+        "Tumit terangkat saat turun."
+      ],
+      "progressionId": null,
+      "regressionId": "rope_squat",
+      "images": [
+        {
+          "file": "rope_overhead_squat.webp",
+          "alt": "Posisi awal dan akhir gerakan: Overhead Squat dengan Tali",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
     }
   ],
   "templates": [
@@ -959,6 +1276,42 @@
         "pb_triceps_decline",
         "rope_deadlift",
         "rope_thruster"
+      ]
+    },
+    {
+      "id": "tpl_board_hold_medium",
+      "name": "Board Isometrik Sedang",
+      "difficulty": "MEDIUM",
+      "items": [
+        "pb_chest_bottom_hold",
+        "pb_shoulder_pike_hold",
+        "pb_back_plank",
+        "pb_triceps_pushup",
+        "rope_grip_hold"
+      ]
+    },
+    {
+      "id": "tpl_rope_legs_medium",
+      "name": "Tali Kaki & Pinggul",
+      "difficulty": "MEDIUM",
+      "items": [
+        "rope_squat",
+        "rope_reverse_lunge",
+        "rope_calf_raise",
+        "rope_good_morning",
+        "rope_woodchop"
+      ]
+    },
+    {
+      "id": "tpl_rope_full_hard",
+      "name": "Tali Tubuh Penuh Sulit",
+      "difficulty": "HARD",
+      "items": [
+        "rope_overhead_squat",
+        "rope_deadlift",
+        "rope_thruster",
+        "rope_row",
+        "rope_kickback"
       ]
     }
   ]

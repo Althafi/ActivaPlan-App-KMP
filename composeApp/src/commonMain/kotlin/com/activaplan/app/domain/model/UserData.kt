@@ -52,6 +52,8 @@ data class SessionLog(
     val status: SessionStatus,
     val completedSets: Int,
     val totalSets: Int,
+    /** Jarak GPS dalam meter; 0 bila GPS mati atau sesi tanpa kardio. */
+    val distanceMeters: Int = 0,
 )
 
 @Serializable
@@ -67,6 +69,10 @@ data class Settings(
     val startLevel: Difficulty = Difficulty.EASY,
     /** Mode alat yang dimiliki; menyaring rekomendasi Beranda dan menentukan mode awal Jelajah. Tidak pernah kosong. */
     val ownedModes: Set<Mode> = setOf(Mode.NO_EQUIPMENT),
+    /** Lacak jarak dan pace dengan GPS saat kardio. Hanya menyala bila izin lokasi diberikan; data tetap di perangkat. */
+    val gpsTracking: Boolean = false,
+    /** Usia untuk perkiraan zona detak jantung; null = belum diisi (zona tampil dalam persen). */
+    val age: Int? = null,
 ) {
     companion object {
         /** Nilai awal sebelum pengguna mengubah setelan; waktu default 16.30. */

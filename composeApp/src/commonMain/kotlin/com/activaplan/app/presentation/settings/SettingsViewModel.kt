@@ -8,10 +8,13 @@ import com.activaplan.app.domain.model.ThemeMode
 import com.activaplan.app.domain.reminder.NotificationPermission
 import com.activaplan.app.domain.reminder.PermissionState
 import com.activaplan.app.domain.reminder.ReminderSynchronizer
+import com.activaplan.app.domain.tracking.LocationTracker
 import com.activaplan.app.domain.usecase.ClearAllDataUseCase
 import com.activaplan.app.domain.usecase.ClearSessionHistoryUseCase
 import com.activaplan.app.domain.usecase.ObserveSettingsUseCase
+import com.activaplan.app.domain.usecase.SetAgeUseCase
 import com.activaplan.app.domain.usecase.SetDefaultTimeUseCase
+import com.activaplan.app.domain.usecase.SetGpsTrackingUseCase
 import com.activaplan.app.domain.usecase.SetKeepHistoryUseCase
 import com.activaplan.app.domain.usecase.SetLanguageUseCase
 import com.activaplan.app.domain.usecase.SetRemindersEnabledUseCase
@@ -37,6 +40,12 @@ sealed interface SettingsEvent {
     /** Izin notifikasi belum pernah ditanyakan; layar menampilkan dialog sistem. */
     data object RequestPermission : SettingsEvent
 
+    /** Izin lokasi belum pernah ditanyakan; layar menampilkan dialog sistem. */
+    data object RequestLocationPermission : SettingsEvent
+
+    /** Izin lokasi ditolak, jadi GPS tetap mati; layar menjelaskan dan menawarkan membuka pengaturan. */
+    data object LocationDenied : SettingsEvent
+
     data class Failed(val retry: () -> Unit) : SettingsEvent
 }
 
@@ -51,6 +60,9 @@ class SettingsViewModel(
     private val clearAll: ClearAllDataUseCase,
     private val permission: NotificationPermission,
     private val synchronizer: ReminderSynchronizer,
+    private val tracker: LocationTracker,
+    private val setGpsTracking: SetGpsTrackingUseCase,
+    private val setAge: SetAgeUseCase,
 ) : ViewModel() {
 
     /** Null sampai setelan pertama terbaca. */
@@ -92,6 +104,28 @@ class SettingsViewModel(
             if (permission.status() == PermissionState.UNDETERMINED) _events.send(SettingsEvent.RequestPermission) else permission.openSettings()
         }
     }
+
+    /** Menyalakan GPS hanya bila izin lokasi ada; bila belum ditanyakan, minta dulu, bila ditolak jelaskan. */
+    fun onGpsTracking(enabled: Boolean): Unit = perform({ onGpsTracking(enabled) }) {
+        if (!enabled) {
+            setGpsTracking(false)
+            return@perform
+        }
+        when (tracker.permission()) {
+            PermissionState.GRANTED -> setGpsTracking(true)
+            PermissionState.UNDETERMINED -> _events.send(SettingsEvent.RequestLocationPermission)
+            PermissionState.DENIED -> _events.send(SettingsEvent.LocationDenied)
+        }
+    }
+
+    /** Dipanggil setelah dialog izin lokasi dijawab. */
+    fun onLocationPermissionResult(): Unit = perform({ onLocationPermissionResult() }) {
+        if (tracker.permission() == PermissionState.GRANTED) setGpsTracking(true) else _events.send(SettingsEvent.LocationDenied)
+    }
+
+    fun onOpenLocationSettings() = tracker.openSettings()
+
+    fun onAge(age: Int?): Unit = perform({ onAge(age) }) { setAge(age) }
 
     fun onTheme(theme: ThemeMode): Unit = perform({ onTheme(theme) }) { setTheme(theme) }
 

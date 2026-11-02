@@ -1,11 +1,19 @@
 package com.activaplan.app.domain.i18n
 
+import com.activaplan.app.domain.cardio.HeartRateZones
+import com.activaplan.app.domain.cardio.PaceGuide
 import com.activaplan.app.domain.model.AppLanguage
 import com.activaplan.app.domain.model.BoardZone
+import com.activaplan.app.domain.model.CardioSegment
+import com.activaplan.app.domain.model.CardioWorkout
+import com.activaplan.app.domain.model.CardioType
 import com.activaplan.app.domain.model.Category
 import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.Exercise
 import com.activaplan.app.domain.model.Mode
+import com.activaplan.app.domain.model.Motion
+import com.activaplan.app.domain.model.PlanDayType
+import com.activaplan.app.domain.model.SegmentKind
 import com.activaplan.app.domain.model.SessionStatus
 import com.activaplan.app.domain.model.ThemeMode
 
@@ -67,6 +75,47 @@ class Strings(val language: Language) {
         },
     )
 
+    fun label(value: CardioType): String = get(
+        when (value) {
+            CardioType.WALK -> StringKey.CARDIO_TYPE_WALK
+            CardioType.RUN_WALK -> StringKey.CARDIO_TYPE_RUN_WALK
+            CardioType.EASY_RUN -> StringKey.CARDIO_TYPE_EASY_RUN
+            CardioType.RECOVERY_RUN -> StringKey.CARDIO_TYPE_RECOVERY_RUN
+            CardioType.LONG_RUN -> StringKey.CARDIO_TYPE_LONG_RUN
+            CardioType.FARTLEK -> StringKey.CARDIO_TYPE_FARTLEK
+            CardioType.TEMPO -> StringKey.CARDIO_TYPE_TEMPO
+            CardioType.INTERVAL -> StringKey.CARDIO_TYPE_INTERVAL
+            CardioType.HILLS -> StringKey.CARDIO_TYPE_HILLS
+        },
+    )
+
+    fun label(value: PlanDayType): String = get(
+        when (value) {
+            PlanDayType.STRENGTH -> StringKey.PLAN_DAY_STRENGTH
+            PlanDayType.CARDIO -> StringKey.PLAN_DAY_CARDIO
+            PlanDayType.REST -> StringKey.PLAN_DAY_REST
+        },
+    )
+
+    fun label(value: Motion): String = get(
+        when (value) {
+            Motion.WALK -> StringKey.MOTION_WALK
+            Motion.JOG -> StringKey.MOTION_JOG
+            Motion.RUN -> StringKey.MOTION_RUN
+            Motion.FAST -> StringKey.MOTION_FAST
+        },
+    )
+
+    fun label(value: SegmentKind): String = get(
+        when (value) {
+            SegmentKind.WARMUP -> StringKey.SEGMENT_WARMUP
+            SegmentKind.WORK -> StringKey.SEGMENT_WORK
+            SegmentKind.RECOVERY -> StringKey.SEGMENT_RECOVERY
+            SegmentKind.COOLDOWN -> StringKey.SEGMENT_COOLDOWN
+            SegmentKind.STEADY -> StringKey.SEGMENT_STEADY
+        },
+    )
+
     fun label(value: SessionStatus): String = get(
         when (value) {
             SessionStatus.COMPLETED -> StringKey.SESSION_COMPLETED
@@ -96,6 +145,55 @@ class Strings(val language: Language) {
         format(StringKey.EXPLORE_SUMMARY_REPS, exercise.sets, exercise.reps, exercise.restSeconds)
     } else {
         format(StringKey.EXPLORE_SUMMARY_SECONDS, exercise.sets, exercise.durationSeconds ?: 0, exercise.restSeconds)
+    }
+
+    /** "30 dtk", "5 mnt", atau "1 mnt 30 dtk". */
+    fun duration(seconds: Int): String {
+        val minutes = seconds / 60
+        val rest = seconds % 60
+        return when {
+            minutes == 0 -> format(StringKey.DURATION_SEC, rest)
+            rest == 0 -> format(StringKey.DURATION_MIN, minutes)
+            else -> format(StringKey.DURATION_MIN_SEC, minutes, rest)
+        }
+    }
+
+    /** Pemanasan dan pendinginan memakai nama perannya; segmen lain memakai nama gerakannya (Jalan, Lari cepat, ...). */
+    fun segmentName(segment: CardioSegment): String = when (segment.kind) {
+        SegmentKind.WARMUP, SegmentKind.COOLDOWN -> label(segment.kind)
+        else -> label(segment.motion)
+    }
+
+    /** Ringkasan kartu kardio: "34 menit · usaha 6/10" atau rentang bila usaha segmen kerja berbeda. */
+    fun cardioMeta(workout: CardioWorkout): String {
+        val effort = workout.effortRange
+        return if (effort.first == effort.last) {
+            format(StringKey.CARDIO_META_SINGLE, workout.totalMinutes, effort.first)
+        } else {
+            format(StringKey.CARDIO_META_RANGE, workout.totalMinutes, effort.first, effort.last)
+        }
+    }
+
+    /** "850 m" atau "1,25 km" (koma untuk Indonesia, titik untuk Inggris). */
+    fun distance(meters: Int): String {
+        if (meters < 1000) return "$meters m"
+        val separator = if (language == Language.ID) "," else "."
+        return "${meters / 1000}$separator${((meters % 1000) / 10).toString().padStart(2, '0')} km"
+    }
+
+    /** "m:ss" per km; "-" bila belum ada pace. */
+    fun pace(secondsPerKm: Int?): String = secondsPerKm?.let(PaceGuide::format) ?: "\u2013"
+
+    /** Baris zona detak jantung untuk [rpe]: bpm bila [age] diketahui, selain itu persen detak maksimal. */
+    fun heartRateLine(rpe: Int, age: Int?): String {
+        val zone = HeartRateZones.zone(rpe)
+        return if (age != null) {
+            val bpm = HeartRateZones.bpmRange(rpe, age)
+            format(StringKey.CARDIO_HR_LINE_BPM, rpe, zone, bpm.first, bpm.last)
+        } else {
+            val percent = HeartRateZones.percentRange(rpe)
+            format(StringKey.CARDIO_HR_LINE_PERCENT, rpe, zone, percent.first, percent.last)
+        }
     }
 
     /** Satuan tile kerja di Detail: "rep" untuk latihan repetisi, "detik" untuk latihan durasi. */

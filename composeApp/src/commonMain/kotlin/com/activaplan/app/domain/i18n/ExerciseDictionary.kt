@@ -1,7 +1,9 @@
 package com.activaplan.app.domain.i18n
 
+import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.Exercise
 import com.activaplan.app.domain.model.Template
+import com.activaplan.app.domain.model.WeeklyPlan
 import kotlinx.serialization.Serializable
 
 /** Satu istilah otot beserta nama di tiap bahasa. [terms] ditulis huruf kecil, sesuai data sumber. */
@@ -14,6 +16,26 @@ data class ExerciseText(
     val steps: List<String>,
     val tips: List<String>,
     val commonMistakes: List<String>,
+)
+
+@Serializable
+data class CardioText(
+    val name: String,
+    val summary: String,
+    val tips: List<String>,
+    val commonMistakes: List<String>,
+)
+
+@Serializable
+data class PlanDayText(val name: String, val note: String? = null)
+
+/** [days] berkunci nomor hari ("1".."7"). */
+@Serializable
+data class PlanText(
+    val name: String,
+    val summary: String,
+    val tips: List<String>,
+    val days: Map<String, PlanDayText>,
 )
 
 @Serializable
@@ -30,6 +52,8 @@ data class DeviceText(
 data class LanguagePack(
     val exercises: Map<String, ExerciseText> = emptyMap(),
     val templates: Map<String, String> = emptyMap(),
+    val cardio: Map<String, CardioText> = emptyMap(),
+    val plans: Map<String, PlanText> = emptyMap(),
     val device: DeviceText? = null,
 )
 
@@ -59,6 +83,29 @@ class ExerciseLocalizer(private val dictionary: ExerciseDictionary) {
             steps = text?.steps ?: exercise.steps,
             tips = text?.tips ?: exercise.tips,
             commonMistakes = text?.commonMistakes ?: exercise.commonMistakes,
+        )
+    }
+
+    fun localize(workout: CardioWorkout, language: Language): CardioWorkout {
+        val text = pack(language)?.cardio?.get(workout.id) ?: return workout
+        return workout.copy(
+            name = text.name,
+            summary = text.summary,
+            tips = text.tips,
+            commonMistakes = text.commonMistakes,
+        )
+    }
+
+    fun localize(plan: WeeklyPlan, language: Language): WeeklyPlan {
+        val text = pack(language)?.plans?.get(plan.id) ?: return plan
+        return plan.copy(
+            name = text.name,
+            summary = text.summary,
+            tips = text.tips,
+            days = plan.days.map { day ->
+                val dayText = text.days[day.dayOfWeek.toString()]
+                day.copy(name = dayText?.name ?: day.name, note = dayText?.note ?: day.note)
+            },
         )
     }
 

@@ -1,5 +1,6 @@
 package com.activaplan.app.domain.usecase
 
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.domain.model.ConflictPolicy
@@ -36,6 +37,7 @@ class ObserveScheduleUseCase(
     private val clock: LocalClock,
     private val ticks: Flow<Unit> = minuteTicks(),
     private val estimate: EstimateRoutineMinutesUseCase = EstimateRoutineMinutesUseCase(),
+    private val cardio: CardioRepository? = null,
 ) {
 
     operator fun invoke(): Flow<ScheduleData> =
@@ -47,7 +49,8 @@ class ObserveScheduleUseCase(
         schedule: List<ScheduleEntry>,
         defaultTimeMinutes: Int,
     ): ScheduleData {
-        val difficulty = exercises.catalog().exercises.associate { it.id to it.difficulty }
+        val difficulty = exercises.catalog().exercises.associate { it.id to it.difficulty } +
+            cardio?.catalog()?.workouts?.associate { it.id to it.difficulty }.orEmpty()
         val options = routines.filter { it.items.isNotEmpty() }.map { routine ->
             RoutineOption(
                 id = routine.id,

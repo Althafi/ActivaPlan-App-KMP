@@ -34,6 +34,8 @@ data class ExploreQuery(
     val text: String = "",
     val category: Category? = null,
     val difficulty: Difficulty? = null,
+    /** [ActivityKind.CARDIO] mengabaikan [mode] dan [category]; hanya teks dan level yang berlaku. */
+    val kind: ActivityKind = ActivityKind.STRENGTH,
 )
 
 /**
@@ -45,6 +47,13 @@ data class ExerciseDetail(
     val regressionId: String?,
     val progressionId: String?,
     val safetyNotes: List<String>,
+)
+
+/** Kardio beserta tetangga levelnya; ID hanya terisi bila ada di katalog kardio. */
+data class CardioDetail(
+    val workout: CardioWorkout,
+    val regressionId: String?,
+    val progressionId: String?,
 )
 
 /** Hasil menambah latihan ke rutinitas. */

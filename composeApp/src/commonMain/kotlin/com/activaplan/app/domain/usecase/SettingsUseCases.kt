@@ -1,6 +1,7 @@
 package com.activaplan.app.domain.usecase
 
 import com.activaplan.app.data.repository.UserDataRepository
+import com.activaplan.app.domain.cardio.HeartRateZones
 import com.activaplan.app.domain.model.AppLanguage
 import com.activaplan.app.domain.model.OnboardingChoices
 import com.activaplan.app.domain.model.Settings
@@ -67,4 +68,17 @@ class ClearSessionHistoryUseCase(private val userData: UserDataRepository) {
 /** Mengosongkan rutinitas, jadwal, dan riwayat sesi. Setelan dan katalog latihan bawaan tidak tersentuh. */
 class ClearAllDataUseCase(private val userData: UserDataRepository) {
     suspend operator fun invoke() = userData.clearAllData()
+}
+
+/** Menyalakan atau mematikan pelacakan GPS kardio. Izin lokasi diperiksa oleh pemanggil (ViewModel Setelan). */
+class SetGpsTrackingUseCase(private val userData: UserDataRepository) {
+    suspend operator fun invoke(enabled: Boolean) = userData.updateSettings { it.copy(gpsTracking = enabled) }
+}
+
+/** Mengisi usia (10-90) untuk perkiraan zona detak jantung; null menghapusnya. */
+class SetAgeUseCase(private val userData: UserDataRepository) {
+    suspend operator fun invoke(age: Int?) {
+        if (age != null) require(age in HeartRateZones.AGE) { "Usia di luar ${HeartRateZones.AGE}: $age" }
+        userData.updateSettings { it.copy(age = age) }
+    }
 }

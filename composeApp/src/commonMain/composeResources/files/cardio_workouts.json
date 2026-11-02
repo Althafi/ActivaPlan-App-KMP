@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 1,
+  "source": "Konten teks ditulis sendiri untuk ActivaPlan",
+  "workouts": [
+    {
+      "id": "cd_walk_brisk",
+      "name": "Jalan Cepat",
+      "type": "WALK",
+      "difficulty": "EASY",
+      "summary": "Jalan dengan langkah cepat 20 menit. Napas naik tetapi Anda masih bisa bicara. Dasar daya tahan yang aman untuk semua orang.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "STEADY",
+              "motion": "WALK",
+              "durationSeconds": 1200,
+              "rpe": 5
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 3
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Ayun lengan santai dan langkah sedikit lebih pendek dari biasanya, tetapi lebih sering.",
+        "Uji bicara: Anda harus bisa mengucapkan satu kalimat penuh tanpa tersengal."
+      ],
+      "commonMistakes": [
+        "Melangkah terlalu lebar sehingga tumit menghentak.",
+        "Langsung cepat tanpa pemanasan."
+      ],
+      "progressionId": "cd_walk_run_beginner",
+      "regressionId": null
+    },
+    {
+      "id": "cd_walk_run_beginner",
+      "name": "Jalan-Lari Pemula",
+      "type": "RUN_WALK",
+      "difficulty": "EASY",
+      "summary": "Selang-seling lari santai 1 menit dan jalan 2 menit, 8 kali. Jembatan dari jalan ke lari tanpa membebani sendi.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 8,
+          "segments": [
+            {
+              "kind": "WORK",
+              "motion": "JOG",
+              "durationSeconds": 60,
+              "rpe": 6
+            },
+            {
+              "kind": "RECOVERY",
+              "motion": "WALK",
+              "durationSeconds": 120,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 3
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Lari sepelan mungkin; bila napas tersengal, perlambat.",
+        "Jangan lewati menit jalan: di situlah tubuh beradaptasi."
+      ],
+      "commonMistakes": [
+        "Berlari terlalu cepat di menit pertama.",
+        "Memperpanjang menit lari sebelum tubuh siap."
+      ],
+      "progressionId": "cd_easy_run",
+      "regressionId": "cd_walk_brisk"
+    },
+    {
+      "id": "cd_easy_run",
+      "name": "Easy Run",
+      "type": "EASY_RUN",
+      "difficulty": "EASY",
+      "summary": "Lari santai 25 menit dengan tempo percakapan. Fondasi latihan lari: sebagian besar lari Anda sebaiknya seperti ini.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "STEADY",
+              "motion": "JOG",
+              "durationSeconds": 1500,
+              "rpe": 4
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Pilih tempo yang memungkinkan Anda bicara dalam kalimat utuh.",
+        "Mudah itu disengaja: pelan hari ini membuat Anda kuat minggu depan."
+      ],
+      "commonMistakes": [
+        "Berlari terlalu cepat sehingga setiap sesi terasa berat.",
+        "Membandingkan tempo dengan orang lain."
+      ],
+      "progressionId": "cd_fartlek",
+      "regressionId": "cd_walk_run_beginner"
+    },
+    {
+      "id": "cd_recovery_run",
+      "name": "Recovery Run",
+      "type": "RECOVERY_RUN",
+      "difficulty": "EASY",
+      "summary": "Lari sangat pelan 15 menit untuk melancarkan pemulihan sehari setelah sesi berat.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "WALK",
+              "durationSeconds": 180,
+              "rpe": 2
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "STEADY",
+              "motion": "JOG",
+              "durationSeconds": 900,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 180,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Lebih pelan dari Easy Run; bila ragu, jalan saja.",
+        "Cocok sehari setelah interval, tempo, atau latihan kaki."
+      ],
+      "commonMistakes": [
+        "Menjadikannya sesi tempo.",
+        "Memaksa lari saat tubuh sangat lelah atau nyeri."
+      ],
+      "progressionId": "cd_easy_run",
+      "regressionId": "cd_walk_brisk"
+    },
+    {
+      "id": "cd_long_run",
+      "name": "Long Run",
+      "type": "LONG_RUN",
+      "difficulty": "MEDIUM",
+      "summary": "Lari panjang 60 menit dengan tempo mudah untuk membangun daya tahan. Sekali seminggu, paling lama sepertiga dari total latihan lari.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "STEADY",
+              "motion": "JOG",
+              "durationSeconds": 3600,
+              "rpe": 4
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Bawa air dan mulai dengan tempo yang terasa terlalu pelan.",
+        "Tambah durasi paling banyak 10% per minggu."
+      ],
+      "commonMistakes": [
+        "Memulai terlalu cepat lalu kehabisan tenaga.",
+        "Menambah durasi terlalu banyak dalam sekali."
+      ],
+      "progressionId": null,
+      "regressionId": "cd_easy_run"
+    },
+    {
+      "id": "cd_fartlek",
+      "name": "Fartlek",
+      "type": "FARTLEK",
+      "difficulty": "MEDIUM",
+      "summary": "Lari bergantian 1 menit cepat dan 2 menit santai, 6 kali. Melatih kecepatan tanpa disiplin tempo yang ketat.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "JOG",
+              "durationSeconds": 600,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 6,
+          "segments": [
+            {
+              "kind": "WORK",
+              "motion": "RUN",
+              "durationSeconds": 60,
+              "rpe": 7
+            },
+            {
+              "kind": "RECOVERY",
+              "motion": "JOG",
+              "durationSeconds": 120,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Bagian cepat terasa kuat tetapi terkendali, bukan sprint.",
+        "Bagian santai harus benar-benar santai agar napas pulih."
+      ],
+      "commonMistakes": [
+        "Terlalu keras di pengulangan awal sehingga menurun di akhir.",
+        "Melewati pemanasan."
+      ],
+      "progressionId": "cd_tempo_run",
+      "regressionId": "cd_easy_run"
+    },
+    {
+      "id": "cd_tempo_run",
+      "name": "Tempo Run",
+      "type": "TEMPO",
+      "difficulty": "HARD",
+      "summary": "Setelah pemanasan, lari 20 menit di tempo nyaman-keras. Melatih tubuh bertahan di kecepatan tinggi lebih lama.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "JOG",
+              "durationSeconds": 600,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WORK",
+              "motion": "RUN",
+              "durationSeconds": 1200,
+              "rpe": 7
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "JOG",
+              "durationSeconds": 600,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Tempo yang tepat: hanya bisa mengucapkan 3-4 kata sekaligus.",
+        "Tahan tempo yang sama dari awal sampai akhir."
+      ],
+      "commonMistakes": [
+        "Memulai terlalu cepat dan melambat di akhir.",
+        "Menjadwalkannya sehari sebelum latihan kaki berat."
+      ],
+      "progressionId": "cd_intervals_30_30",
+      "regressionId": "cd_fartlek"
+    },
+    {
+      "id": "cd_intervals_30_30",
+      "name": "Interval 30/30",
+      "type": "INTERVAL",
+      "difficulty": "HARD",
+      "summary": "8 kali lari cepat 30 detik diselingi lari pelan 30 detik. Meningkatkan kapasitas napas dengan beban sendi lebih ringan.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "JOG",
+              "durationSeconds": 600,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 8,
+          "segments": [
+            {
+              "kind": "WORK",
+              "motion": "FAST",
+              "durationSeconds": 30,
+              "rpe": 8
+            },
+            {
+              "kind": "RECOVERY",
+              "motion": "JOG",
+              "durationSeconds": 30,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Cepat tetapi tetap bentuk lari yang rapi.",
+        "Jaga usaha yang sama di semua pengulangan."
+      ],
+      "commonMistakes": [
+        "Sprint penuh sehingga tidak sanggup menyelesaikan semua pengulangan.",
+        "Jeda pelan dipakai berhenti total."
+      ],
+      "progressionId": "cd_intervals_4x4",
+      "regressionId": "cd_tempo_run"
+    },
+    {
+      "id": "cd_intervals_4x4",
+      "name": "Interval 4x4",
+      "type": "INTERVAL",
+      "difficulty": "HARD",
+      "summary": "4 kali lari keras 4 menit diselingi jogging 3 menit. Sesi VO2max klasik; lakukan paling banyak sekali seminggu.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "JOG",
+              "durationSeconds": 600,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 4,
+          "segments": [
+            {
+              "kind": "WORK",
+              "motion": "FAST",
+              "durationSeconds": 240,
+              "rpe": 8
+            },
+            {
+              "kind": "RECOVERY",
+              "motion": "JOG",
+              "durationSeconds": 180,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "WALK",
+              "durationSeconds": 300,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Usaha keras tetapi bisa dipertahankan selama 4 menit.",
+        "Gunakan jogging, bukan berhenti, saat pemulihan."
+      ],
+      "commonMistakes": [
+        "Memulai pengulangan pertama terlalu cepat.",
+        "Melakukannya dua hari berturut-turut."
+      ],
+      "progressionId": null,
+      "regressionId": "cd_intervals_30_30"
+    },
+    {
+      "id": "cd_hill_repeats",
+      "name": "Hill Repeats",
+      "type": "HILLS",
+      "difficulty": "HARD",
+      "summary": "6 kali tanjakan 40 detik dengan usaha keras, turun dengan berjalan. Memperkuat kaki dan memperbaiki efisiensi lari.",
+      "blocks": [
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "WARMUP",
+              "motion": "JOG",
+              "durationSeconds": 600,
+              "rpe": 3
+            }
+          ]
+        },
+        {
+          "repeat": 6,
+          "segments": [
+            {
+              "kind": "WORK",
+              "motion": "FAST",
+              "durationSeconds": 40,
+              "rpe": 8
+            },
+            {
+              "kind": "RECOVERY",
+              "motion": "WALK",
+              "durationSeconds": 90,
+              "rpe": 2
+            }
+          ]
+        },
+        {
+          "repeat": 1,
+          "segments": [
+            {
+              "kind": "COOLDOWN",
+              "motion": "JOG",
+              "durationSeconds": 300,
+              "rpe": 2
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "Pilih tanjakan landai yang cukup panjang dan aman.",
+        "Condongkan tubuh sedikit ke depan dan angkat lutut."
+      ],
+      "commonMistakes": [
+        "Memilih tanjakan terlalu curam sehingga bentuk lari rusak.",
+        "Berlari menuruni tanjakan dengan cepat."
+      ],
+      "progressionId": null,
+      "regressionId": "cd_intervals_30_30"
+    }
+  ]
+}

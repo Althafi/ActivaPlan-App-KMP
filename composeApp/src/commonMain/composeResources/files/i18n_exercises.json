@@ -480,6 +480,899 @@
           ],
           "tips": ["Use the drive from your legs to help your shoulders."],
           "commonMistakes": ["Legs and arms not moving as one."]
+        },
+        "ne_leg_glute_bridge": {
+          "name": "Glute Bridge",
+          "steps": [
+            "Lie on your back, knees bent, feet flat on the floor hip-width apart.",
+            "Press your heels into the floor and lift your hips until your body forms a straight line from shoulders to knees.",
+            "Hold briefly at the top while squeezing your glutes, then lower slowly."
+          ],
+          "tips": [
+            "Imagine pushing the floor away with your heels."
+          ],
+          "commonMistakes": [
+            "Over-arching the lower back at the top.",
+            "Pushing through the toes so the hamstrings cramp."
+          ]
+        },
+        "ne_leg_single_bridge": {
+          "name": "Single-Leg Glute Bridge",
+          "steps": [
+            "Lie on your back with one foot on the floor and the other leg straight, raised in line with your thigh.",
+            "Press through the supporting heel and lift your hips until your body is straight.",
+            "Lower slowly without tilting your hips, finish all reps, then switch legs."
+          ],
+          "tips": [
+            "Keep both hip bones level; do not let one side drop."
+          ],
+          "commonMistakes": [
+            "Rotating the hips toward the raised leg.",
+            "Going too fast so the glutes do not work."
+          ]
+        },
+        "ne_leg_calf_raise": {
+          "name": "Calf Raise",
+          "steps": [
+            "Stand tall with feet hip-width apart; hold a wall or chair if needed.",
+            "Lift your heels as high as you can onto the balls of your feet.",
+            "Hold for one second at the top, then lower your heels slowly."
+          ],
+          "tips": [
+            "Lower over three counts so the calves work on the way down too."
+          ],
+          "commonMistakes": [
+            "Bending the knees or leaning forward.",
+            "Bouncing without a pause at the top."
+          ]
+        },
+        "ne_leg_wall_sit": {
+          "name": "Wall Sit",
+          "steps": [
+            "Lean your back against a wall with feet one step forward, hip-width apart.",
+            "Slide down until your thighs are parallel to the floor and your knees form a 90-degree angle.",
+            "Hold the position, breathing steadily, with hands on your thighs or crossed over your chest."
+          ],
+          "tips": [
+            "Make sure your knees are directly above your ankles, not past your toes."
+          ],
+          "commonMistakes": [
+            "Stopping halfway so the thighs are not parallel.",
+            "Pushing on the thighs with your hands for help."
+          ]
+        },
+        "ne_leg_single_deadlift": {
+          "name": "Single-Leg Deadlift",
+          "steps": [
+            "Stand on one leg with a soft knee, arms in front of your body.",
+            "Hinge forward at the hips while the other leg lifts straight behind you.",
+            "Lower until your torso and rear leg are almost parallel to the floor, then stand back up by squeezing your glutes."
+          ],
+          "tips": [
+            "Look at the floor slightly ahead of your foot to keep your balance."
+          ],
+          "commonMistakes": [
+            "Rounding the back as you lean forward.",
+            "Opening the hips to the side so the body twists."
+          ]
+        },
+        "ne_abs_mountain_climber": {
+          "name": "Mountain Climber",
+          "steps": [
+            "Start in a straight-arm plank with shoulders directly over your wrists.",
+            "Drive one knee toward your chest, then return it.",
+            "Alternate legs at a steady rhythm while keeping your hips low."
+          ],
+          "tips": [
+            "Start slowly; speed up only if your hips stay steady."
+          ],
+          "commonMistakes": [
+            "Hips piking up high.",
+            "Hands drifting forward so the shoulders lose support."
+          ]
+        },
+        "ne_abs_bicycle_crunch": {
+          "name": "Bicycle Crunch",
+          "steps": [
+            "Lie on your back, hands behind your head, legs raised with knees bent.",
+            "Lift your shoulders and rotate so your elbow meets the opposite knee while the other leg extends.",
+            "Switch sides in a controlled pedaling motion."
+          ],
+          "tips": [
+            "Rotate from the ribs, not just by pulling your elbow to your knee."
+          ],
+          "commonMistakes": [
+            "Pulling on your neck with your hands.",
+            "Pedaling too fast so the abs do not work."
+          ]
+        },
+        "ne_abs_flutter_kick": {
+          "name": "Flutter Kick",
+          "steps": [
+            "Lie on your back with hands under your hips and both legs straight, lifted slightly off the floor.",
+            "Flutter your legs up and down alternately in small, quick movements.",
+            "Keep your lower back pressed into the floor throughout."
+          ],
+          "tips": [
+            "The lower your legs, the harder it gets; lift them higher if your lower back arches."
+          ],
+          "commonMistakes": [
+            "Lower back lifting off the floor.",
+            "Bending the knees, which reduces the load."
+          ]
+        },
+        "ne_abs_v_up": {
+          "name": "V-Up",
+          "steps": [
+            "Lie on your back with arms extended overhead and legs straight.",
+            "Lift your upper body and both legs together until your body forms a V, reaching your hands toward your toes.",
+            "Lower slowly with control instead of dropping."
+          ],
+          "tips": [
+            "If you are not strong enough yet, bend your knees slightly as you rise."
+          ],
+          "commonMistakes": [
+            "Swinging with momentum instead of using the abs.",
+            "Dropping the body and legs to the floor at the end."
+          ]
+        },
+        "ne_abs_hollow_hold": {
+          "name": "Hollow Hold",
+          "steps": [
+            "Lie on your back with arms extended overhead and legs straight.",
+            "Press your lower back into the floor and lift your shoulders and legs a few centimeters so your body curves like a boat.",
+            "Hold the position, breathing in short, steady breaths."
+          ],
+          "tips": [
+            "Lower your legs to make it harder; raise them if your lower back starts to lift."
+          ],
+          "commonMistakes": [
+            "Lower back lifting off the floor.",
+            "Holding your breath while holding the position."
+          ]
+        },
+        "ne_back_swimmer": {
+          "name": "Swimmer",
+          "steps": [
+            "Lie face down with arms extended forward and legs straight behind you.",
+            "Lift one arm and the opposite leg a few centimeters off the floor.",
+            "Switch sides alternately with small swimming movements, keeping your neck neutral."
+          ],
+          "tips": [
+            "Look at the floor so your neck does not lift too much."
+          ],
+          "commonMistakes": [
+            "Looking up so the neck tenses.",
+            "Lifting so high that the lower back bends sharply."
+          ]
+        },
+        "ne_back_good_morning": {
+          "name": "Bodyweight Good Morning",
+          "steps": [
+            "Stand with feet shoulder-width apart, hands behind your head, knees slightly bent.",
+            "Push your hips back and lean forward with a straight back until you feel a stretch in the hamstrings.",
+            "Stand back up by squeezing your glutes."
+          ],
+          "tips": [
+            "Imagine closing a car door with your backside to feel the hip hinge."
+          ],
+          "commonMistakes": [
+            "Rounding the back as you bend.",
+            "Bending the knees so deeply that it becomes a squat."
+          ]
+        },
+        "ne_chest_incline_pushup": {
+          "name": "Incline Push-up",
+          "steps": [
+            "Place both hands on the edge of a sturdy table, chair, or stair, slightly wider than shoulder-width.",
+            "Straighten your body from head to heels, balanced on your toes.",
+            "Bend your elbows until your chest nears the edge, then push back up."
+          ],
+          "tips": [
+            "The lower the hand surface, the harder it gets; lower it gradually every few weeks."
+          ],
+          "commonMistakes": [
+            "Hips sagging or rising so the body is not straight.",
+            "Elbows flaring out to a full 90 degrees."
+          ]
+        },
+        "ne_chest_decline_pushup": {
+          "name": "Decline Push-up",
+          "steps": [
+            "Place your toes on a chair or bench with hands on the floor, slightly wider than shoulder-width.",
+            "Straighten your body from head to heels, abs and glutes tight.",
+            "Lower your chest until it almost touches the floor, then push back up."
+          ],
+          "tips": [
+            "Raise the bench height gradually; the higher it is, the more load goes onto the shoulders."
+          ],
+          "commonMistakes": [
+            "Hips sagging so the lower back arches.",
+            "Head dropping or lifting too much."
+          ]
+        },
+        "ne_shoulder_plank_tap": {
+          "name": "Plank Shoulder Tap",
+          "steps": [
+            "Start in a straight-arm plank with feet slightly wider than your shoulders for stability.",
+            "Lift one hand and tap the opposite shoulder.",
+            "Place it back and switch sides; keep your hips from swaying."
+          ],
+          "tips": [
+            "Widen your feet if your hips still sway; narrow them as you get stronger."
+          ],
+          "commonMistakes": [
+            "Hips rotating or swaying when one hand lifts.",
+            "Rushing so the shoulders lose control."
+          ]
+        },
+        "ne_full_inchworm": {
+          "name": "Inchworm",
+          "steps": [
+            "Stand tall, then fold forward and place both hands on the floor (knees may bend slightly).",
+            "Walk your hands forward until your body is in a plank position.",
+            "Walk your feet toward your hands, then stand up and repeat."
+          ],
+          "tips": [
+            "Keep your abs tight while walking your hands so your hips do not sag."
+          ],
+          "commonMistakes": [
+            "Hips sagging in the plank position.",
+            "Taking steps that are too short, losing the stretch benefit."
+          ]
+        },
+        "pb_chest_bottom_hold": {
+          "name": "Chest Push-up Bottom Hold",
+          "steps": [
+            "Hands on the blue circles, body straight from head to heels.",
+            "Lower your chest until it hovers just above the board and hold at the bottom.",
+            "Keep your elbows about 45 degrees from your body and breathe steadily, then push up."
+          ],
+          "tips": [
+            "Hold at the hardest point; stop if your form starts to break down."
+          ],
+          "commonMistakes": [
+            "Hips sagging during the hold.",
+            "Holding your breath while holding the position."
+          ]
+        },
+        "pb_shoulder_pike_hold": {
+          "name": "Pike Push-up Hold",
+          "steps": [
+            "Hands on the red circles, hips lifted high so your body forms an inverted V.",
+            "Bend your elbows and lower your head toward the board to mid-range, then hold.",
+            "Keep your back straight and your shoulders away from your ears."
+          ],
+          "tips": [
+            "Push the floor away to keep the shoulders active."
+          ],
+          "commonMistakes": [
+            "Rounding the back while holding.",
+            "Elbows flaring out to the sides."
+          ]
+        },
+        "pb_triceps_bottom_hold": {
+          "name": "Triceps Push-up Bottom Hold",
+          "steps": [
+            "Hands on the green circles, elbows tucked against your body, body straight.",
+            "Lower your chest just above the board with elbows still brushing your ribs and hold.",
+            "Push up forcefully when time is up."
+          ],
+          "tips": [
+            "Keep your elbows against your body; that is where the triceps work hardest."
+          ],
+          "commonMistakes": [
+            "Elbows flaring out so the load shifts to the chest.",
+            "Hips sagging during the hold."
+          ]
+        },
+        "rope_front_raise": {
+          "name": "Front Raise with Rope",
+          "steps": [
+            "Stand on the board, step on the rope, and hold the ends with both hands in front of your thighs.",
+            "Raise both arms straight forward to shoulder height.",
+            "Lower slowly with control."
+          ],
+          "tips": [
+            "Raise over two counts and lower over three."
+          ],
+          "commonMistakes": [
+            "Swinging the body backward to help lift.",
+            "Lifting above shoulder height so the neck tenses."
+          ]
+        },
+        "rope_good_morning": {
+          "name": "Good Morning with Rope",
+          "steps": [
+            "Stand on the board, step on the rope, and hold it in front of your shoulders with elbows forward.",
+            "Push your hips back and lean forward with a straight back.",
+            "Stand back up by squeezing your glutes; the rope keeps the load throughout."
+          ],
+          "tips": [
+            "Keep the rope taut from the standing position."
+          ],
+          "commonMistakes": [
+            "Rounding the back as you bend.",
+            "Locking the knees so the hamstrings overstretch."
+          ]
+        },
+        "rope_kickback": {
+          "name": "Triceps Kickback with Rope",
+          "steps": [
+            "Stand on the board, step on the rope, and lean forward with a straight back.",
+            "Tuck your elbows against your body with forearms hanging, holding the rope ends.",
+            "Straighten your arms behind you while keeping your elbows still, then return slowly."
+          ],
+          "tips": [
+            "Hold for one second with arms straight to feel the triceps contract."
+          ],
+          "commonMistakes": [
+            "Elbows moving up and down instead of staying still.",
+            "Standing up to help swing the rope."
+          ]
+        },
+        "rope_reverse_lunge": {
+          "name": "Reverse Lunge with Rope",
+          "steps": [
+            "Stand on the board, step on the rope with one foot, and hold the ends in front of your chest.",
+            "Step the other foot back and lower until both knees form about a 90-degree angle.",
+            "Push through the front foot to stand up, finish all reps, then switch legs."
+          ],
+          "tips": [
+            "Keep your torso upright and your front knee directly above your ankle."
+          ],
+          "commonMistakes": [
+            "Front knee traveling past the toes.",
+            "Leaning forward so balance is lost."
+          ]
+        },
+        "rope_overhead_squat": {
+          "name": "Overhead Squat with Rope",
+          "steps": [
+            "Stand on the board, step on the rope, and raise your arms straight overhead holding the ends.",
+            "Lower into a squat while keeping your arms straight overhead and chest open.",
+            "Drive through your heels to stand up without your arms drifting forward."
+          ],
+          "tips": [
+            "If your arms drift forward, reduce squat depth and work on shoulder mobility first."
+          ],
+          "commonMistakes": [
+            "Arms drifting forward so the lower back arches.",
+            "Heels lifting as you descend."
+          ]
+        }
+      },
+      "cardio": {
+        "cd_walk_brisk": {
+          "name": "Brisk Walk",
+          "summary": "Walk at a brisk pace for 20 minutes. Your breathing rises but you can still talk. A safe aerobic base for everyone.",
+          "tips": [
+            "Swing your arms loosely and take slightly shorter, quicker steps.",
+            "Talk test: you should be able to say a full sentence without gasping."
+          ],
+          "commonMistakes": [
+            "Overstriding so your heel slams down.",
+            "Starting fast without a warm-up."
+          ]
+        },
+        "cd_walk_run_beginner": {
+          "name": "Beginner Run-Walk",
+          "summary": "Alternate 1 minute of easy jogging with 2 minutes of walking, 8 times. A bridge from walking to running that spares your joints.",
+          "tips": [
+            "Jog as slowly as you can; if you gasp, slow down.",
+            "Do not skip the walking minutes: that is when your body adapts."
+          ],
+          "commonMistakes": [
+            "Running too fast in the first minute.",
+            "Lengthening the jog before your body is ready."
+          ]
+        },
+        "cd_easy_run": {
+          "name": "Easy Run",
+          "summary": "A 25-minute conversational-pace run. The foundation of running training: most of your runs should feel like this.",
+          "tips": [
+            "Pick a pace that lets you speak in full sentences.",
+            "Easy is deliberate: running slowly today makes you stronger next week."
+          ],
+          "commonMistakes": [
+            "Running so fast that every session feels hard.",
+            "Comparing your pace with other people."
+          ]
+        },
+        "cd_recovery_run": {
+          "name": "Recovery Run",
+          "summary": "A very slow 15-minute run that helps you recover the day after a hard session.",
+          "tips": [
+            "Slower than an Easy Run; when in doubt, just walk.",
+            "Best the day after intervals, tempo, or leg day."
+          ],
+          "commonMistakes": [
+            "Turning it into a tempo session.",
+            "Forcing a run when your body is very tired or sore."
+          ]
+        },
+        "cd_long_run": {
+          "name": "Long Run",
+          "summary": "A 60-minute run at an easy pace to build endurance. Once a week, and no more than about a third of your weekly running.",
+          "tips": [
+            "Carry water and start at a pace that feels too slow.",
+            "Add at most 10% duration per week."
+          ],
+          "commonMistakes": [
+            "Starting too fast and running out of energy.",
+            "Adding too much duration at once."
+          ]
+        },
+        "cd_fartlek": {
+          "name": "Fartlek",
+          "summary": "Alternate 1 minute fast with 2 minutes easy, 6 times. Builds speed without strict pacing.",
+          "tips": [
+            "The fast parts feel strong but controlled, not a sprint.",
+            "The easy parts must be truly easy so your breathing recovers."
+          ],
+          "commonMistakes": [
+            "Going too hard on early repeats and fading at the end.",
+            "Skipping the warm-up."
+          ]
+        },
+        "cd_tempo_run": {
+          "name": "Tempo Run",
+          "summary": "After a warm-up, run 20 minutes at a comfortably hard pace. Trains your body to hold a high speed for longer.",
+          "tips": [
+            "The right tempo: you can only say 3-4 words at a time.",
+            "Hold the same pace from start to finish."
+          ],
+          "commonMistakes": [
+            "Starting too fast and slowing at the end.",
+            "Scheduling it the day before heavy leg training."
+          ]
+        },
+        "cd_intervals_30_30": {
+          "name": "Intervals 30/30",
+          "summary": "8 repeats of 30 seconds fast running with 30 seconds of easy jogging. Builds aerobic capacity with less joint load.",
+          "tips": [
+            "Fast, but keep your running form tidy.",
+            "Keep the same effort across all repeats."
+          ],
+          "commonMistakes": [
+            "Sprinting flat out so you cannot finish all repeats.",
+            "Stopping completely during the easy part."
+          ]
+        },
+        "cd_intervals_4x4": {
+          "name": "Intervals 4x4",
+          "summary": "4 repeats of 4 minutes hard running with 3 minutes of jogging. The classic VO2max session; do it at most once a week.",
+          "tips": [
+            "Hard effort you can hold for 4 minutes.",
+            "Jog during recovery instead of stopping."
+          ],
+          "commonMistakes": [
+            "Starting the first repeat too fast.",
+            "Doing it two days in a row."
+          ]
+        },
+        "cd_hill_repeats": {
+          "name": "Hill Repeats",
+          "summary": "6 hill efforts of 40 seconds at hard effort, walking back down. Strengthens your legs and improves running efficiency.",
+          "tips": [
+            "Pick a gentle, safe hill that is long enough.",
+            "Lean slightly forward and drive your knees."
+          ],
+          "commonMistakes": [
+            "Choosing a hill so steep that your form breaks down.",
+            "Running quickly back down the hill."
+          ]
+        }
+      },
+      "plans": {
+        "plan_easy_mix": {
+          "name": "Easy · Mixed 5 Days",
+          "summary": "Three bodyweight strength days alternating with two light cardio days, then rest on Saturday and Sunday. Great for beginners building a habit.",
+          "tips": [
+            "Focus on form, not on the number of reps.",
+            "Tuesday and Thursday cardio should feel light: you can still speak full sentences.",
+            "Increase the load only after two weeks feel easy."
+          ],
+          "days": {
+            "1": {
+              "name": "Easy Mixed · Full Body A"
+            },
+            "2": {
+              "name": "Easy Mixed · Brisk Walk"
+            },
+            "3": {
+              "name": "Easy Mixed · Full Body B"
+            },
+            "4": {
+              "name": "Easy Mixed · Run-Walk"
+            },
+            "5": {
+              "name": "Easy Mixed · Full Body C"
+            },
+            "6": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_easy_full": {
+          "name": "Easy · Workout 5 Days",
+          "summary": "Five bodyweight strength days split into upper, lower, and core so the same muscles are not trained two days in a row. Active rest on Saturday, full rest on Sunday.",
+          "tips": [
+            "Start with 2-3 sets; stop one rep before your form breaks down.",
+            "If you are very sore, swap that day for active rest.",
+            "Add light cardio from Explore if you want variety."
+          ],
+          "days": {
+            "1": {
+              "name": "Easy · Chest & Shoulders"
+            },
+            "2": {
+              "name": "Easy · Legs & Abs"
+            },
+            "3": {
+              "name": "Easy · Back & Core"
+            },
+            "4": {
+              "name": "Easy · Chest & Arms"
+            },
+            "5": {
+              "name": "Easy · Legs & Full Body"
+            },
+            "6": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_medium_mix": {
+          "name": "Medium · Mixed 6 Days",
+          "summary": "Three bodyweight strength days and three cardio days (Easy Run, Fartlek, Long Run). Leg day follows an easy run, and Sunday is full rest.",
+          "tips": [
+            "Easy Run should feel easy; speed is trained in Fartlek.",
+            "If the 60-minute Long Run is too much, swap it for an Easy Run first.",
+            "Increase cardio duration by at most 10% per week."
+          ],
+          "days": {
+            "1": {
+              "name": "Medium Mixed · Push & Core"
+            },
+            "2": {
+              "name": "Medium Mixed · Easy Run"
+            },
+            "3": {
+              "name": "Medium Mixed · Legs & Back"
+            },
+            "4": {
+              "name": "Medium Mixed · Fartlek"
+            },
+            "5": {
+              "name": "Medium Mixed · Full Body"
+            },
+            "6": {
+              "name": "Medium Mixed · Long Run"
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_medium_full": {
+          "name": "Medium · Workout 6 Days",
+          "summary": "Six strength days with the push-up board and rope: push, pull, and legs alternate twice a week. Sunday is full rest.",
+          "tips": [
+            "The two leg days are separated by a day; do not stack them.",
+            "If your legs are still sore, cut one set on the next leg day.",
+            "Add an Easy Run from Explore on days that feel light."
+          ],
+          "days": {
+            "1": {
+              "name": "Medium · Chest & Triceps"
+            },
+            "2": {
+              "name": "Medium · Back & Shoulders"
+            },
+            "3": {
+              "name": "Medium · Legs & Core"
+            },
+            "4": {
+              "name": "Medium · Chest & Arms"
+            },
+            "5": {
+              "name": "Medium · Back & Shoulders B"
+            },
+            "6": {
+              "name": "Medium · Legs & Full Body"
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_hard_mix": {
+          "name": "Hard · Mixed 6 Days",
+          "summary": "Three hard bodyweight strength days and three cardio days (Intervals 4x4, Recovery Run, Tempo Run). Hard runs never fall the day before leg day, and Sunday is full rest.",
+          "tips": [
+            "Only two hard runs per week (Intervals and Tempo); everything else must be easy.",
+            "If you slept poorly or your resting heart rate is up, swap Intervals for Fartlek that day.",
+            "The Recovery Run is deliberately slow: it is for recovering your legs, not training speed."
+          ],
+          "days": {
+            "1": {
+              "name": "Hard Mixed · Push & Core"
+            },
+            "2": {
+              "name": "Hard Mixed · Intervals 4x4"
+            },
+            "3": {
+              "name": "Hard Mixed · Pull & Core"
+            },
+            "4": {
+              "name": "Hard Mixed · Legs & Burpees"
+            },
+            "5": {
+              "name": "Hard Mixed · Recovery Run"
+            },
+            "6": {
+              "name": "Hard Mixed · Tempo Run"
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_hard_full": {
+          "name": "Hard · Workout 6 Days",
+          "summary": "Six hard strength days with the push-up board and rope: higher volume and elevated-feet variations. Sunday is full rest.",
+          "tips": [
+            "Slow-tempo moves are about control, not speed.",
+            "Sleep 7-9 hours; recovery decides your results at this level.",
+            "If your form starts to break down, level down from the exercise detail."
+          ],
+          "days": {
+            "1": {
+              "name": "Hard · Chest & Triceps"
+            },
+            "2": {
+              "name": "Hard · Back & Rope"
+            },
+            "3": {
+              "name": "Hard · Legs & Core"
+            },
+            "4": {
+              "name": "Hard · Shoulders & Arms"
+            },
+            "5": {
+              "name": "Hard · Chest & Back"
+            },
+            "6": {
+              "name": "Hard · Conditioning"
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_easy_cardio": {
+          "name": "Easy · Cardio Focus 5 Days",
+          "summary": "Three light cardio days (Run-Walk and Brisk Walk) alternating with two bodyweight strength days. Ideal for beginners easing into running; Wednesday and Sunday are rest days.",
+          "tips": [
+            "On Run-Walk days, jog as slowly as you can; the walking minutes are part of the workout.",
+            "Strength days only need 2 sets; the goal is to prepare your legs and core for running.",
+            "Increase cardio duration by at most 10% per week."
+          ],
+          "days": {
+            "1": {
+              "name": "Easy Cardio · Run-Walk"
+            },
+            "2": {
+              "name": "Easy Cardio · Full Body"
+            },
+            "3": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "4": {
+              "name": "Easy Cardio · Run-Walk"
+            },
+            "5": {
+              "name": "Easy Cardio · Legs & Core"
+            },
+            "6": {
+              "name": "Easy Cardio · Brisk Walk"
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_easy_3day": {
+          "name": "Easy · Time-Saver 3 Days",
+          "summary": "Three full-body bodyweight sessions (Monday, Wednesday, Friday) with rest days between them. Great when time is short or you are restarting after a long break.",
+          "tips": [
+            "Each session takes about 20 minutes; consistency matters more than length.",
+            "On rest days, an easy walk is enough.",
+            "If it feels too easy after 3 weeks, move on to Easy · Workout 5 Days."
+          ],
+          "days": {
+            "1": {
+              "name": "Easy 3 Days · Full Body A"
+            },
+            "2": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "3": {
+              "name": "Easy 3 Days · Full Body B"
+            },
+            "4": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "5": {
+              "name": "Easy 3 Days · Full Body C"
+            },
+            "6": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_medium_3day": {
+          "name": "Medium · Time-Saver 3 Days",
+          "summary": "Three intermediate bodyweight sessions (Monday, Wednesday, Friday): push and legs, pull and core, then full body. Leg day never sits next to a hard cardio day.",
+          "tips": [
+            "Each session takes 25-30 minutes with on-time rests.",
+            "Add an Easy Run from Explore on rest days if you want cardio.",
+            "Add one set per exercise after 3 weeks."
+          ],
+          "days": {
+            "1": {
+              "name": "Medium 3 Days · Push & Legs"
+            },
+            "2": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "3": {
+              "name": "Medium 3 Days · Pull & Core"
+            },
+            "4": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "5": {
+              "name": "Medium 3 Days · Full Body"
+            },
+            "6": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_medium_core": {
+          "name": "Medium · Core & Cardio 5 Days",
+          "summary": "Three strength days emphasizing core, push, and legs, alternating with an Easy Run and a Fartlek. Saturday and Sunday are rest days.",
+          "tips": [
+            "A strong core keeps your running form when you tire.",
+            "Easy Run should feel easy; speed is trained in Fartlek.",
+            "Leg day falls the day after Fartlek, so cut one set if your legs are still heavy."
+          ],
+          "days": {
+            "1": {
+              "name": "Medium Core · Abs & Back"
+            },
+            "2": {
+              "name": "Medium Core · Easy Run"
+            },
+            "3": {
+              "name": "Medium Core · Push & Shoulders"
+            },
+            "4": {
+              "name": "Medium Core · Fartlek"
+            },
+            "5": {
+              "name": "Medium Core · Legs & Core"
+            },
+            "6": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_hard_3day": {
+          "name": "Hard · Dense 3 Days",
+          "summary": "Three dense, heavy sessions with the push-up board and rope (Monday, Wednesday, Friday): push, pull and core, then legs and conditioning. Rest days are for full recovery.",
+          "tips": [
+            "Heavy sessions need recovery; do not add sessions on rest days.",
+            "Take the full rest time, even on sets that feel light.",
+            "If your form breaks down, level down from the exercise detail."
+          ],
+          "days": {
+            "1": {
+              "name": "Hard 3 Days · Push"
+            },
+            "2": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "3": {
+              "name": "Hard 3 Days · Pull & Core"
+            },
+            "4": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "5": {
+              "name": "Hard 3 Days · Legs & Conditioning"
+            },
+            "6": {
+              "name": "Active rest",
+              "note": "An easy 15-20 minute walk and light stretching. Optional; feel free to fully relax."
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
+        },
+        "plan_hard_run": {
+          "name": "Hard · Running Focus 6 Days",
+          "summary": "Four cardio days (Intervals 4x4, Hill Repeats, Recovery Run, Long Run) plus two bodyweight strength days for legs and core. Only two hard runs per week; Sunday is full rest.",
+          "tips": [
+            "The Recovery Run is deliberately slow and must not be skipped.",
+            "Leg day is on Monday, after a full rest day, ahead of the hard run on Tuesday.",
+            "If your resting heart rate is up or you slept poorly, swap Intervals or Hills for Fartlek."
+          ],
+          "days": {
+            "1": {
+              "name": "Hard Running · Legs & Glutes"
+            },
+            "2": {
+              "name": "Hard Running · Intervals 4x4"
+            },
+            "3": {
+              "name": "Hard Running · Push & Core"
+            },
+            "4": {
+              "name": "Hard Running · Hill Repeats"
+            },
+            "5": {
+              "name": "Hard Running · Recovery Run"
+            },
+            "6": {
+              "name": "Hard Running · Long Run"
+            },
+            "7": {
+              "name": "Full rest",
+              "note": "Sleep well, eat regularly, and drink water. Muscles get stronger while recovering, not while training."
+            }
+          }
         }
       },
       "templates": {
@@ -488,7 +1381,18 @@
         "tpl_board_beginner_full": "Beginner Board Full Body",
         "tpl_board_chest_medium": "Chest & Triceps Intermediate",
         "tpl_rope_upper_medium": "Rope Upper Body",
-        "tpl_board_hard_full": "Hard Board Full Body"
+        "tpl_board_hard_full": "Hard Board Full Body",
+        "tpl_ne_legs_glutes_easy": "Legs & Glutes Beginner",
+        "tpl_ne_upper_easy": "Upper Body Beginner",
+        "tpl_ne_core_strong": "Strong Core Intermediate",
+        "tpl_ne_legs_medium": "Legs & Glutes Intermediate",
+        "tpl_ne_full_medium": "Full Body Intermediate",
+        "tpl_ne_push_hard": "Push Hard",
+        "tpl_ne_core_hard": "Core Hard",
+        "tpl_ne_legs_hard": "Legs & Conditioning Hard",
+        "tpl_board_hold_medium": "Board Isometric Intermediate",
+        "tpl_rope_legs_medium": "Rope Legs & Hips",
+        "tpl_rope_full_hard": "Rope Full Body Hard"
       },
       "device": {
         "name": "Multifunction push-up board + resistance rope",

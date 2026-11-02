@@ -865,6 +865,639 @@
           "sourceUrl": null
         }
       ]
+    },
+    {
+      "id": "ne_leg_glute_bridge",
+      "name": "Glute Bridge",
+      "mode": "NO_EQUIPMENT",
+      "category": "LEGS",
+      "difficulty": "EASY",
+      "boardZone": null,
+      "primaryMuscles": [
+        "glutes",
+        "hamstrings",
+        "lower back"
+      ],
+      "sets": 3,
+      "reps": 15,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Berbaring telentang, lutut ditekuk, telapak kaki rata di lantai selebar pinggul.",
+        "Tekan tumit ke lantai dan angkat pinggul sampai badan membentuk garis lurus dari bahu ke lutut.",
+        "Tahan sebentar di atas sambil mengencangkan bokong, lalu turunkan perlahan."
+      ],
+      "tips": [
+        "Bayangkan mendorong lantai menjauh dengan tumit."
+      ],
+      "commonMistakes": [
+        "Punggung bawah melengkung berlebihan di atas.",
+        "Mendorong dengan ujung kaki sehingga paha belakang mudah kram."
+      ],
+      "progressionId": "ne_leg_single_bridge",
+      "regressionId": null,
+      "images": [
+        {
+          "file": "ne_leg_glute_bridge.webp",
+          "alt": "Posisi awal dan akhir gerakan: Glute Bridge",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_leg_single_bridge",
+      "name": "Glute Bridge Satu Kaki",
+      "mode": "NO_EQUIPMENT",
+      "category": "LEGS",
+      "difficulty": "HARD",
+      "boardZone": null,
+      "primaryMuscles": [
+        "glutes",
+        "hamstrings"
+      ],
+      "sets": 3,
+      "reps": 8,
+      "durationSeconds": null,
+      "restSeconds": 60,
+      "steps": [
+        "Berbaring telentang, satu telapak kaki di lantai dan kaki lainnya lurus diangkat sejajar paha.",
+        "Tekan tumit yang menumpu dan angkat pinggul sampai badan lurus.",
+        "Turunkan perlahan tanpa pinggul miring, selesaikan semua ulangan lalu ganti kaki."
+      ],
+      "tips": [
+        "Jaga kedua tulang pinggul tetap sejajar; jangan biarkan satu sisi turun."
+      ],
+      "commonMistakes": [
+        "Pinggul berputar ke sisi kaki yang terangkat.",
+        "Terlalu cepat sehingga bokong tidak bekerja."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_leg_glute_bridge",
+      "images": [
+        {
+          "file": "ne_leg_single_bridge.webp",
+          "alt": "Posisi awal dan akhir gerakan: Glute Bridge Satu Kaki",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_leg_calf_raise",
+      "name": "Calf Raise",
+      "mode": "NO_EQUIPMENT",
+      "category": "LEGS",
+      "difficulty": "EASY",
+      "boardZone": null,
+      "primaryMuscles": [
+        "calves"
+      ],
+      "sets": 3,
+      "reps": 20,
+      "durationSeconds": null,
+      "restSeconds": 30,
+      "steps": [
+        "Berdiri tegak, kaki selebar pinggul; pegangan ke dinding atau kursi bila perlu.",
+        "Angkat tumit setinggi mungkin sampai bertumpu pada ujung jari kaki.",
+        "Tahan satu detik di atas, lalu turunkan tumit perlahan."
+      ],
+      "tips": [
+        "Turunkan selama tiga hitungan agar betis bekerja saat turun juga."
+      ],
+      "commonMistakes": [
+        "Lutut menekuk atau badan mencondong ke depan.",
+        "Gerakan memantul tanpa jeda di atas."
+      ],
+      "progressionId": null,
+      "regressionId": null,
+      "images": [
+        {
+          "file": "ne_leg_calf_raise.webp",
+          "alt": "Posisi awal dan akhir gerakan: Calf Raise",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_leg_wall_sit",
+      "name": "Wall Sit",
+      "mode": "NO_EQUIPMENT",
+      "category": "LEGS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "quads",
+        "glutes"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 30,
+      "restSeconds": 45,
+      "steps": [
+        "Sandarkan punggung ke dinding, kaki selangkah ke depan selebar pinggul.",
+        "Geser badan ke bawah sampai paha sejajar lantai dan lutut membentuk sudut 90 derajat.",
+        "Tahan posisi, napas teratur, tangan di paha atau disilangkan di dada."
+      ],
+      "tips": [
+        "Pastikan lutut tepat di atas pergelangan kaki, bukan di depan jari kaki."
+      ],
+      "commonMistakes": [
+        "Paha tidak sejajar lantai karena turun setengah.",
+        "Menekan tangan ke paha untuk membantu menahan."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_leg_squat",
+      "images": [
+        {
+          "file": "ne_leg_wall_sit.webp",
+          "alt": "Posisi tahan: Wall Sit",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_leg_single_deadlift",
+      "name": "Deadlift Satu Kaki",
+      "mode": "NO_EQUIPMENT",
+      "category": "LEGS",
+      "difficulty": "HARD",
+      "boardZone": null,
+      "primaryMuscles": [
+        "hamstrings",
+        "glutes",
+        "lower back"
+      ],
+      "sets": 3,
+      "reps": 8,
+      "durationSeconds": null,
+      "restSeconds": 60,
+      "steps": [
+        "Berdiri di satu kaki dengan lutut sedikit ditekuk, tangan di depan tubuh.",
+        "Condongkan badan ke depan dari pinggul sambil kaki lainnya terangkat lurus ke belakang.",
+        "Turun sampai badan dan kaki belakang hampir sejajar lantai, lalu kembali berdiri dengan mengencangkan bokong."
+      ],
+      "tips": [
+        "Pandangan ke lantai sedikit di depan kaki untuk menjaga keseimbangan."
+      ],
+      "commonMistakes": [
+        "Punggung membulat saat condong ke depan.",
+        "Pinggul terbuka ke samping sehingga badan berputar."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_back_good_morning",
+      "images": [
+        {
+          "file": "ne_leg_single_deadlift.webp",
+          "alt": "Posisi awal dan akhir gerakan: Deadlift Satu Kaki",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_abs_mountain_climber",
+      "name": "Mountain Climber",
+      "mode": "NO_EQUIPMENT",
+      "category": "ABS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "abs",
+        "shoulders",
+        "quads"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 30,
+      "restSeconds": 45,
+      "steps": [
+        "Mulai dari posisi plank tangan lurus, bahu tepat di atas pergelangan tangan.",
+        "Tarik satu lutut ke arah dada, lalu kembalikan.",
+        "Ganti kaki secara bergantian dengan irama stabil sambil menjaga pinggul tetap rendah."
+      ],
+      "tips": [
+        "Mulai pelan dulu; percepat hanya bila pinggul tetap stabil."
+      ],
+      "commonMistakes": [
+        "Pinggul naik tinggi seperti posisi piramida.",
+        "Tangan bergeser ke depan sehingga bahu kehilangan tumpuan."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_abs_plank",
+      "images": [
+        {
+          "file": "ne_abs_mountain_climber.webp",
+          "alt": "Posisi awal dan akhir gerakan: Mountain Climber",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_abs_bicycle_crunch",
+      "name": "Bicycle Crunch",
+      "mode": "NO_EQUIPMENT",
+      "category": "ABS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "abs",
+        "obliques"
+      ],
+      "sets": 3,
+      "reps": 16,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Berbaring telentang, tangan di belakang kepala, kedua kaki terangkat dengan lutut ditekuk.",
+        "Angkat bahu dan putar badan sehingga siku bertemu lutut yang berlawanan, kaki lainnya diluruskan.",
+        "Ganti sisi dengan gerakan mengayuh yang terkontrol."
+      ],
+      "tips": [
+        "Putar dari rusuk, bukan hanya menarik siku ke lutut."
+      ],
+      "commonMistakes": [
+        "Menarik leher dengan tangan.",
+        "Mengayuh terlalu cepat sehingga perut tidak bekerja."
+      ],
+      "progressionId": "ne_abs_v_up",
+      "regressionId": "ne_abs_crunch",
+      "images": [
+        {
+          "file": "ne_abs_bicycle_crunch.webp",
+          "alt": "Posisi awal dan akhir gerakan: Bicycle Crunch",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_abs_flutter_kick",
+      "name": "Flutter Kick",
+      "mode": "NO_EQUIPMENT",
+      "category": "ABS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "lower abs",
+        "quads"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 30,
+      "restSeconds": 45,
+      "steps": [
+        "Berbaring telentang, tangan di bawah pinggul, kedua kaki lurus terangkat sedikit dari lantai.",
+        "Ayunkan kaki naik-turun bergantian dengan gerakan kecil dan cepat.",
+        "Jaga punggung bawah tetap menempel ke lantai selama gerakan."
+      ],
+      "tips": [
+        "Semakin rendah kaki, semakin berat; angkat lebih tinggi bila punggung bawah terangkat."
+      ],
+      "commonMistakes": [
+        "Punggung bawah melengkung dari lantai.",
+        "Lutut menekuk sehingga beban berkurang."
+      ],
+      "progressionId": "ne_abs_hollow_hold",
+      "regressionId": "ne_abs_dead_bug",
+      "images": [
+        {
+          "file": "ne_abs_flutter_kick.webp",
+          "alt": "Posisi awal dan akhir gerakan: Flutter Kick",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_abs_v_up",
+      "name": "V-Up",
+      "mode": "NO_EQUIPMENT",
+      "category": "ABS",
+      "difficulty": "HARD",
+      "boardZone": null,
+      "primaryMuscles": [
+        "abs",
+        "lower abs"
+      ],
+      "sets": 3,
+      "reps": 10,
+      "durationSeconds": null,
+      "restSeconds": 60,
+      "steps": [
+        "Berbaring telentang, kedua tangan lurus di atas kepala dan kaki lurus.",
+        "Angkat badan atas dan kedua kaki bersamaan sampai tubuh membentuk huruf V, tangan menjangkau ujung kaki.",
+        "Turunkan perlahan dengan kontrol tanpa menjatuhkan badan."
+      ],
+      "tips": [
+        "Bila belum kuat, tekuk lutut sedikit saat naik."
+      ],
+      "commonMistakes": [
+        "Mengayun dengan momentum, bukan dengan perut.",
+        "Menjatuhkan badan dan kaki ke lantai di akhir."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_abs_bicycle_crunch",
+      "images": [
+        {
+          "file": "ne_abs_v_up.webp",
+          "alt": "Posisi awal dan akhir gerakan: V-Up",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_abs_hollow_hold",
+      "name": "Hollow Hold",
+      "mode": "NO_EQUIPMENT",
+      "category": "ABS",
+      "difficulty": "HARD",
+      "boardZone": null,
+      "primaryMuscles": [
+        "abs",
+        "lower abs"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 25,
+      "restSeconds": 60,
+      "steps": [
+        "Berbaring telentang, tangan lurus di atas kepala dan kaki lurus.",
+        "Tekan punggung bawah ke lantai, angkat bahu dan kaki beberapa sentimeter sehingga badan melengkung seperti perahu.",
+        "Tahan posisi sambil bernapas pendek dan teratur."
+      ],
+      "tips": [
+        "Turunkan kaki lebih rendah untuk menambah beban, naikkan bila punggung bawah mulai terangkat."
+      ],
+      "commonMistakes": [
+        "Punggung bawah terangkat dari lantai.",
+        "Menahan napas selama bertahan."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_abs_flutter_kick",
+      "images": [
+        {
+          "file": "ne_abs_hollow_hold.webp",
+          "alt": "Posisi tahan: Hollow Hold",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_back_swimmer",
+      "name": "Swimmer",
+      "mode": "NO_EQUIPMENT",
+      "category": "BACK",
+      "difficulty": "EASY",
+      "boardZone": null,
+      "primaryMuscles": [
+        "lower back",
+        "glutes",
+        "shoulders"
+      ],
+      "sets": 3,
+      "reps": null,
+      "durationSeconds": 30,
+      "restSeconds": 30,
+      "steps": [
+        "Berbaring tengkurap, tangan lurus ke depan dan kaki lurus ke belakang.",
+        "Angkat satu lengan dan kaki yang berlawanan beberapa sentimeter dari lantai.",
+        "Ganti sisi bergantian dengan gerakan kecil seperti berenang, leher tetap netral."
+      ],
+      "tips": [
+        "Pandangan ke lantai agar leher tidak terangkat berlebihan."
+      ],
+      "commonMistakes": [
+        "Mendongak sehingga leher tegang.",
+        "Mengangkat terlalu tinggi sampai punggung bawah menekuk tajam."
+      ],
+      "progressionId": "ne_back_bird_dog",
+      "regressionId": null,
+      "images": [
+        {
+          "file": "ne_back_swimmer.webp",
+          "alt": "Posisi awal dan akhir gerakan: Swimmer",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_back_good_morning",
+      "name": "Good Morning Tanpa Beban",
+      "mode": "NO_EQUIPMENT",
+      "category": "BACK",
+      "difficulty": "EASY",
+      "boardZone": null,
+      "primaryMuscles": [
+        "lower back",
+        "hamstrings",
+        "glutes"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Berdiri kaki selebar bahu, tangan di belakang kepala, lutut sedikit ditekuk.",
+        "Dorong pinggul ke belakang dan condongkan badan ke depan dengan punggung lurus sampai terasa tarikan di paha belakang.",
+        "Kembali berdiri dengan mengencangkan bokong."
+      ],
+      "tips": [
+        "Bayangkan menutup pintu mobil dengan pantat untuk merasakan gerakan pinggul."
+      ],
+      "commonMistakes": [
+        "Punggung membulat saat membungkuk.",
+        "Menekuk lutut terlalu dalam sehingga berubah menjadi squat."
+      ],
+      "progressionId": "ne_leg_single_deadlift",
+      "regressionId": null,
+      "images": [
+        {
+          "file": "ne_back_good_morning.webp",
+          "alt": "Posisi awal dan akhir gerakan: Good Morning Tanpa Beban",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_chest_incline_pushup",
+      "name": "Push-up Miring (Tangan Ditinggikan)",
+      "mode": "NO_EQUIPMENT",
+      "category": "CHEST",
+      "difficulty": "EASY",
+      "boardZone": null,
+      "primaryMuscles": [
+        "chest",
+        "triceps",
+        "shoulders"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Letakkan kedua tangan di tepi meja, kursi kokoh, atau anak tangga, selebar bahu sedikit lebih lebar.",
+        "Luruskan badan dari kepala sampai tumit dengan bertumpu pada ujung jari kaki.",
+        "Tekuk siku sampai dada mendekati tepi, lalu dorong kembali."
+      ],
+      "tips": [
+        "Semakin rendah permukaan tangan, semakin berat; turunkan bertahap tiap beberapa pekan."
+      ],
+      "commonMistakes": [
+        "Pinggul turun atau naik sehingga badan tidak lurus.",
+        "Siku melebar ke samping sampai 90 derajat."
+      ],
+      "progressionId": "ne_chest_pushup",
+      "regressionId": "ne_chest_wall_pushup",
+      "images": [
+        {
+          "file": "ne_chest_incline_pushup.webp",
+          "alt": "Posisi awal dan akhir gerakan: Push-up Miring (Tangan Ditinggikan)",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_chest_decline_pushup",
+      "name": "Push-up Kaki Ditinggikan",
+      "mode": "NO_EQUIPMENT",
+      "category": "CHEST",
+      "difficulty": "HARD",
+      "boardZone": null,
+      "primaryMuscles": [
+        "chest",
+        "shoulders",
+        "triceps"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 75,
+      "steps": [
+        "Letakkan ujung kaki di kursi atau bangku, tangan di lantai selebar bahu sedikit lebih lebar.",
+        "Luruskan badan dari kepala sampai tumit, perut dan bokong tegang.",
+        "Turunkan dada sampai hampir menyentuh lantai, lalu dorong kembali."
+      ],
+      "tips": [
+        "Naikkan tinggi bangku bertahap; semakin tinggi, semakin banyak beban pada bahu."
+      ],
+      "commonMistakes": [
+        "Pinggul turun sehingga punggung bawah melengkung.",
+        "Kepala menunduk atau mendongak berlebihan."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_chest_pushup",
+      "images": [
+        {
+          "file": "ne_chest_decline_pushup.webp",
+          "alt": "Posisi awal dan akhir gerakan: Push-up Kaki Ditinggikan",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_shoulder_plank_tap",
+      "name": "Plank Shoulder Tap",
+      "mode": "NO_EQUIPMENT",
+      "category": "SHOULDERS",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "shoulders",
+        "abs",
+        "chest"
+      ],
+      "sets": 3,
+      "reps": 12,
+      "durationSeconds": null,
+      "restSeconds": 45,
+      "steps": [
+        "Mulai dari posisi plank tangan lurus, kaki sedikit lebih lebar dari bahu agar stabil.",
+        "Angkat satu tangan dan ketuk bahu di sisi yang berlawanan.",
+        "Letakkan kembali dan ganti sisi; jaga pinggul tidak bergoyang."
+      ],
+      "tips": [
+        "Lebarkan kaki bila pinggul masih goyang; sempitkan seiring bertambah kuat."
+      ],
+      "commonMistakes": [
+        "Pinggul berputar atau bergoyang saat satu tangan terangkat.",
+        "Terburu-buru sehingga bahu kehilangan kontrol."
+      ],
+      "progressionId": null,
+      "regressionId": "ne_abs_plank",
+      "images": [
+        {
+          "file": "ne_shoulder_plank_tap.webp",
+          "alt": "Posisi awal dan akhir gerakan: Plank Shoulder Tap",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
+    },
+    {
+      "id": "ne_full_inchworm",
+      "name": "Inchworm",
+      "mode": "NO_EQUIPMENT",
+      "category": "FULL_BODY",
+      "difficulty": "MEDIUM",
+      "boardZone": null,
+      "primaryMuscles": [
+        "full body",
+        "shoulders",
+        "hamstrings",
+        "abs"
+      ],
+      "sets": 3,
+      "reps": 8,
+      "durationSeconds": null,
+      "restSeconds": 60,
+      "steps": [
+        "Berdiri tegak, lalu bungkukkan badan dan letakkan kedua tangan di lantai (lutut boleh sedikit ditekuk).",
+        "Jalankan tangan ke depan sampai badan membentuk posisi plank.",
+        "Jalankan kaki mendekati tangan, lalu berdiri dan ulangi."
+      ],
+      "tips": [
+        "Pertahankan perut tegang saat tangan berjalan agar pinggul tidak turun."
+      ],
+      "commonMistakes": [
+        "Pinggul turun saat berada di posisi plank.",
+        "Melangkah terlalu pendek sehingga manfaat peregangan hilang."
+      ],
+      "progressionId": "ne_full_burpee_no_jump",
+      "regressionId": "ne_full_march",
+      "images": [
+        {
+          "file": "ne_full_inchworm.webp",
+          "alt": "Posisi awal dan akhir gerakan: Inchworm",
+          "license": "OWN",
+          "author": "ActivaPlan",
+          "sourceUrl": null
+        }
+      ]
     }
   ],
   "templates": [
@@ -889,6 +1522,102 @@
         "ne_abs_plank",
         "ne_back_bird_dog",
         "ne_leg_lunge"
+      ]
+    },
+    {
+      "id": "tpl_ne_legs_glutes_easy",
+      "name": "Kaki & Bokong Pemula",
+      "difficulty": "EASY",
+      "items": [
+        "ne_leg_glute_bridge",
+        "ne_leg_squat",
+        "ne_leg_calf_raise",
+        "ne_back_good_morning",
+        "ne_abs_dead_bug"
+      ]
+    },
+    {
+      "id": "tpl_ne_upper_easy",
+      "name": "Tubuh Atas Pemula",
+      "difficulty": "EASY",
+      "items": [
+        "ne_chest_incline_pushup",
+        "ne_arm_wall_triceps",
+        "ne_shoulder_arm_circles",
+        "ne_back_swimmer",
+        "ne_abs_dead_bug"
+      ]
+    },
+    {
+      "id": "tpl_ne_core_strong",
+      "name": "Inti Kuat Sedang",
+      "difficulty": "MEDIUM",
+      "items": [
+        "ne_abs_mountain_climber",
+        "ne_abs_bicycle_crunch",
+        "ne_abs_flutter_kick",
+        "ne_shoulder_plank_tap",
+        "ne_abs_plank"
+      ]
+    },
+    {
+      "id": "tpl_ne_legs_medium",
+      "name": "Kaki & Bokong Sedang",
+      "difficulty": "MEDIUM",
+      "items": [
+        "ne_leg_wall_sit",
+        "ne_leg_lunge",
+        "ne_leg_glute_bridge",
+        "ne_leg_calf_raise",
+        "ne_leg_squat"
+      ]
+    },
+    {
+      "id": "tpl_ne_full_medium",
+      "name": "Tubuh Penuh Sedang",
+      "difficulty": "MEDIUM",
+      "items": [
+        "ne_full_inchworm",
+        "ne_chest_pushup",
+        "ne_leg_lunge",
+        "ne_back_bird_dog",
+        "ne_abs_plank"
+      ]
+    },
+    {
+      "id": "tpl_ne_push_hard",
+      "name": "Dorong Sulit",
+      "difficulty": "HARD",
+      "items": [
+        "ne_chest_decline_pushup",
+        "ne_chest_diamond",
+        "ne_shoulder_pike",
+        "ne_arm_diamond_knee",
+        "ne_abs_plank"
+      ]
+    },
+    {
+      "id": "tpl_ne_core_hard",
+      "name": "Inti Sulit",
+      "difficulty": "HARD",
+      "items": [
+        "ne_abs_v_up",
+        "ne_abs_hollow_hold",
+        "ne_abs_leg_raise",
+        "ne_back_reverse_plank",
+        "ne_shoulder_plank_tap"
+      ]
+    },
+    {
+      "id": "tpl_ne_legs_hard",
+      "name": "Kaki & Kondisi Sulit",
+      "difficulty": "HARD",
+      "items": [
+        "ne_leg_single_deadlift",
+        "ne_leg_single_bridge",
+        "ne_leg_jump_squat",
+        "ne_leg_lunge",
+        "ne_full_burpee"
       ]
     }
   ]

@@ -21,7 +21,12 @@ data class TemplateSummary(
     val estimatedMinutes: Int,
 )
 
-data class RoutinesData(val routines: List<RoutineSummary>, val templates: List<TemplateSummary>)
+data class RoutinesData(
+    val routines: List<RoutineSummary>,
+    val templates: List<TemplateSummary>,
+    /** Rencana mingguan; kosong bila katalog rencana tidak tersedia. */
+    val plans: List<PlanSummary> = emptyList(),
+)
 
 /** Isi pratinjau template; [exercises] hanya latihan yang ada di katalog, sudah diterjemahkan. */
 data class TemplateDetail(

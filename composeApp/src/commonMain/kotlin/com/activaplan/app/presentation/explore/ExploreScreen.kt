@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.designsystem.ActivaDimens
 import com.activaplan.app.designsystem.ActivaPlanTheme
@@ -57,13 +58,22 @@ import com.activaplan.app.designsystem.components.LevelBadge
 import com.activaplan.app.designsystem.components.TextBadge
 import com.activaplan.app.designsystem.components.ZoneChip
 import com.activaplan.app.domain.i18n.StringKey
+import com.activaplan.app.domain.i18n.Strings
+import com.activaplan.app.domain.model.ActivityKind
 import com.activaplan.app.domain.model.BoardZone
+import com.activaplan.app.domain.model.CardioBlock
+import com.activaplan.app.domain.model.CardioSegment
+import com.activaplan.app.domain.model.CardioType
+import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.Category
 import com.activaplan.app.domain.model.Difficulty
 import com.activaplan.app.domain.model.Exercise
 import com.activaplan.app.domain.model.ExploreQuery
 import com.activaplan.app.domain.model.Mode
+import com.activaplan.app.domain.model.Motion
+import com.activaplan.app.domain.model.SegmentKind
 import com.activaplan.app.domain.model.initialExploreMode
+import com.activaplan.app.domain.usecase.FilterCardioUseCase
 import com.activaplan.app.domain.usecase.FilterExercisesUseCase
 import com.activaplan.app.domain.usecase.ObserveSettingsUseCase
 import com.activaplan.app.presentation.ScreenListSkeleton
@@ -82,10 +92,14 @@ class ExploreActions(
     val onResetFilters: () -> Unit,
     val onReload: () -> Unit,
     val onOpenExercise: (String) -> Unit,
+    val onKind: (ActivityKind) -> Unit = {},
+    /** Membuka detail kardio; bawaannya sama dengan [onOpenExercise] (mode pilih mengembalikan ID apa pun). */
+    val onOpenCardio: (String) -> Unit = onOpenExercise,
 )
 
 /**
- * Jelajah: cari dan filter latihan per mode, kategori, dan level. [onOpenExercise] menerima ID latihan.
+ * Jelajah: cari dan filter latihan per jenis (Kekuatan/Kardio), mode, kategori, dan level. [onOpenExercise] menerima
+ * ID latihan kekuatan dan [onOpenCardio] ID kardio (bila null, memakai [onOpenExercise]).
  * Bila [onBack] diberikan, layar dalam mode pilih (dari Builder): ada tombol kembali, dan mengetuk kartu
  * memanggil [onOpenExercise] dengan latihan yang dipilih. Daftar mulai dari atas lagi tiap [scrollResetToken] berubah.
  */
@@ -95,24 +109,35 @@ fun ExploreScreen(
     modifier: Modifier = Modifier,
     onBack: (() -> Unit)? = null,
     scrollResetToken: Int = 0,
+    onOpenCardio: ((String) -> Unit)? = null,
 ) {
     val repository = koinInject<ExerciseRepository>()
+    val cardioRepository = koinInject<CardioRepository>()
     val filter = koinInject<FilterExercisesUseCase>()
+    val filterCardio = koinInject<FilterCardioUseCase>()
     val observeSettings = koinInject<ObserveSettingsUseCase>()
     val language = ActivaPlanTheme.strings.language
     val viewModel = viewModel(key = "explore-${if (onBack != null) "pick-" else ""}${language.code}") {
-        ExploreViewModel(repository, filter, language) { observeSettings().first().initialExploreMode() }
+        ExploreViewModel(repository, cardioRepository, filter, filterCardio, language) { observeSettings().first().initialExploreMode() }
     }
     val query by viewModel.query.collectAsStateWithLifecycle()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val actions = ExploreActions(
         viewModel::onMode, viewModel::onText, viewModel::onCategory, viewModel::onDifficulty,
-        viewModel::resetFilters, viewModel::reload, onOpenExercise,
+        viewModel::resetFilters, viewModel::reload, onOpenExercise, viewModel::onKind, onOpenCardio ?: onOpenExercise,
     )
     ExploreContent(query, state, actions, modifier, onBack, scrollResetToken)
 }
 
 private val modes = listOf(Mode.NO_EQUIPMENT, Mode.PUSHUP_BOARD, Mode.BOARD_ROPE)
+private val kinds = listOf(ActivityKind.STRENGTH, ActivityKind.CARDIO)
+
+private fun kindLabel(strings: Strings, kind: ActivityKind): String = strings[
+    when (kind) {
+        ActivityKind.STRENGTH -> StringKey.EXPLORE_KIND_STRENGTH
+        ActivityKind.CARDIO -> StringKey.EXPLORE_KIND_CARDIO
+    },
+]
 
 @Composable
 fun ExploreContent(
@@ -140,8 +165,12 @@ fun ExploreContent(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 item { Filters(query, actions, onBack) }
-                if (state.results.isEmpty()) {
+                if (state.isEmpty) {
                     item { EmptyState(actions.onResetFilters) }
+                } else if (query.kind == ActivityKind.CARDIO) {
+                    items(state.cardioResults, key = { it.id }) {
+                        CardioCard(it, picking = onBack != null) { actions.onOpenCardio(it.id) }
+                    }
                 } else {
                     items(state.results, key = { it.id }) {
                         ExerciseCard(it, picking = onBack != null) { actions.onOpenExercise(it.id) }
@@ -179,6 +208,12 @@ private fun Filters(query: ExploreQuery, actions: ExploreActions, onBack: (() ->
             Text(strings[StringKey.EXPLORE_TITLE], style = ActivaPlanTheme.type.screenTitle, color = ActivaPlanTheme.colors.text)
         }
         Spacer(Modifier.height(12.dp))
+        ActivaSegmentedControl(
+            options = kinds.map { kindLabel(strings, it) },
+            selectedIndex = kinds.indexOf(query.kind),
+            onSelect = { actions.onKind(kinds[it]) },
+        )
+        Spacer(Modifier.height(4.dp))
         ActivaTextField(
             value = query.text,
             onValueChange = actions.onText,
@@ -186,21 +221,23 @@ private fun Filters(query: ExploreQuery, actions: ExploreActions, onBack: (() ->
             leadingIcon = ActivaIconKind.SEARCH,
             clearLabel = strings[StringKey.EXPLORE_CLEAR_SEARCH],
         )
-        Spacer(Modifier.height(8.dp))
-        ActivaSegmentedControl(
-            options = modes.map { strings.label(it) },
-            selectedIndex = modes.indexOf(query.mode),
-            onSelect = { actions.onMode(modes[it]) },
-        )
-        ChipRow {
-            (listOf<Category?>(null) + Category.entries).forEach { category ->
-                val isSelected = query.category == category
-                ActivaChip(
-                    label = category?.let { strings.label(it) } ?: strings[StringKey.EXPLORE_ALL_CATEGORIES],
-                    selected = isSelected,
-                    onClick = { actions.onCategory(category) },
-                    modifier = Modifier.semantics { selected = isSelected },
-                )
+        if (query.kind == ActivityKind.STRENGTH) {
+            Spacer(Modifier.height(8.dp))
+            ActivaSegmentedControl(
+                options = modes.map { strings.label(it) },
+                selectedIndex = modes.indexOf(query.mode),
+                onSelect = { actions.onMode(modes[it]) },
+            )
+            ChipRow {
+                (listOf<Category?>(null) + Category.entries).forEach { category ->
+                    val isSelected = query.category == category
+                    ActivaChip(
+                        label = category?.let { strings.label(it) } ?: strings[StringKey.EXPLORE_ALL_CATEGORIES],
+                        selected = isSelected,
+                        onClick = { actions.onCategory(category) },
+                        modifier = Modifier.semantics { selected = isSelected },
+                    )
+                }
             }
         }
         ChipRow {
@@ -249,6 +286,46 @@ private fun ExerciseCard(exercise: Exercise, picking: Boolean, onClick: () -> Un
             }
             if (picking) {
                 val addLabel = strings.format(StringKey.PICKER_ADD, exercise.name)
+                Box(
+                    Modifier.size(36.dp).background(c.primarySoft, CircleShape).semantics { contentDescription = addLabel },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    ActivaIcon(ActivaIconKind.PLUS, c.primary, size = 18.dp)
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun CardioCard(workout: CardioWorkout, picking: Boolean, onClick: () -> Unit) {
+    val c = ActivaPlanTheme.colors
+    val strings = ActivaPlanTheme.strings
+    ActivaCard(Modifier.fillMaxWidth(), onClick) {
+        Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                Modifier.size(76.dp).clip(ActivaShapes.thumbnail).background(c.primarySoft),
+                contentAlignment = Alignment.Center,
+            ) {
+                ActivaIcon(ActivaIconKind.PULSE, c.primary, size = 28.dp)
+            }
+            Column(Modifier.weight(1f)) {
+                Text(workout.name, style = ActivaPlanTheme.type.cardTitle, color = c.text, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Spacer(Modifier.height(6.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    LevelBadge(workout.difficulty)
+                    TextBadge(strings.label(workout.type))
+                }
+                Spacer(Modifier.height(6.dp))
+                Text(
+                    strings.cardioMeta(workout),
+                    style = ActivaPlanTheme.type.body.copy(fontSize = 13.sp, lineHeight = 18.sp),
+                    color = c.textMuted,
+                )
+            }
+            if (picking) {
+                val addLabel = strings.format(StringKey.PICKER_ADD, workout.name)
                 Box(
                     Modifier.size(36.dp).background(c.primarySoft, CircleShape).semantics { contentDescription = addLabel },
                     contentAlignment = Alignment.Center,
@@ -346,6 +423,33 @@ private fun ExploreNoEquipmentDarkPreview() = ExplorePreview(
     ExploreUiState.Ready(previewResults.map { it.copy(mode = Mode.NO_EQUIPMENT, boardZone = null) }),
     previewQuery.copy(mode = Mode.NO_EQUIPMENT),
 )
+
+private val previewCardio = listOf(
+    CardioWorkout(
+        id = "cd_walk_brisk", name = "Jalan Cepat", type = CardioType.WALK, difficulty = Difficulty.EASY, summary = "",
+        blocks = listOf(CardioBlock(segments = listOf(CardioSegment(SegmentKind.STEADY, Motion.WALK, 1200, 5)))),
+        tips = emptyList(), commonMistakes = emptyList(),
+    ),
+    CardioWorkout(
+        id = "cd_fartlek", name = "Fartlek", type = CardioType.FARTLEK, difficulty = Difficulty.MEDIUM, summary = "",
+        blocks = listOf(
+            CardioBlock(repeat = 6, segments = listOf(CardioSegment(SegmentKind.WORK, Motion.RUN, 60, 7), CardioSegment(SegmentKind.RECOVERY, Motion.JOG, 120, 3))),
+        ),
+        tips = emptyList(), commonMistakes = emptyList(),
+    ),
+)
+
+private val previewCardioQuery = ExploreQuery(mode = Mode.NO_EQUIPMENT, kind = ActivityKind.CARDIO)
+
+@Preview(widthDp = 390, heightDp = 844, showBackground = true)
+@Composable
+private fun ExploreCardioLightPreview() =
+    ExplorePreview(false, ExploreUiState.Ready(emptyList(), previewCardio), previewCardioQuery)
+
+@Preview(widthDp = 390, heightDp = 844, showBackground = true)
+@Composable
+private fun ExploreCardioDarkPreview() =
+    ExplorePreview(true, ExploreUiState.Ready(emptyList(), previewCardio), previewCardioQuery)
 
 @Preview(widthDp = 390, heightDp = 844, showBackground = true)
 @Composable

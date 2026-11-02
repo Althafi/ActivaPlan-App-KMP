@@ -14,6 +14,10 @@ data object ExercisePickerRoute
 @Serializable
 data class TemplatePreviewRoute(val id: String)
 
+/** Pratinjau rencana mingguan; [id] adalah `WeeklyPlan.id`. */
+@Serializable
+data class PlanPreviewRoute(val id: String)
+
 /** Sesi latihan; [routineId] adalah `Routine.id`. */
 @Serializable
 data class SessionRoute(val routineId: String)

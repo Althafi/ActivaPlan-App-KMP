@@ -10,6 +10,8 @@ fun interface ExerciseDataSource {
 object ExerciseFiles {
     const val GENERAL = "exercises_general.json"
     const val PUSHUP_BOARD = "exercises_pushup_board.json"
+    const val CARDIO = "cardio_workouts.json"
+    const val PLANS = "weekly_plans.json"
     const val I18N = "i18n_exercises.json"
 }
 

@@ -1,6 +1,8 @@
 package com.activaplan.app.domain.usecase
 
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
+import com.activaplan.app.data.repository.WeeklyPlanRepository
 import com.activaplan.app.data.repository.UserDataRepository
 import com.activaplan.app.domain.i18n.Language
 import com.activaplan.app.domain.i18n.resolve
@@ -23,6 +25,8 @@ class ObserveRoutinesUseCase(
     private val userData: UserDataRepository,
     private val exercises: ExerciseRepository,
     private val estimate: EstimateRoutineMinutesUseCase = EstimateRoutineMinutesUseCase(),
+    private val cardio: CardioRepository? = null,
+    private val plans: WeeklyPlanRepository? = null,
 ) {
 
     operator fun invoke(): Flow<RoutinesData> =
@@ -31,12 +35,14 @@ class ObserveRoutinesUseCase(
 
     private suspend fun build(validated: UserDataValidation, language: Language): RoutinesData {
         val byId = exercises.catalog().exercises.associateBy { it.id }
+        val levels = byId.mapValues { it.value.difficulty } +
+            cardio?.catalog()?.workouts?.associate { it.id to it.difficulty }.orEmpty()
         val slots = validated.schedule.groupBy({ it.routineId }, { ScheduleSlot(it.dayOfWeek, it.timeMinutes) })
         val routines = validated.routines.map { routine ->
             RoutineSummary(
                 id = routine.id,
                 name = routine.name,
-                level = routine.items.mapNotNull { byId[it.exerciseId]?.difficulty }.maxOrNull(),
+                level = routine.items.mapNotNull { levels[it.exerciseId] }.maxOrNull(),
                 exerciseCount = routine.items.size,
                 estimatedMinutes = estimate(routine),
                 schedule = slots[routine.id].orEmpty().sortedWith(compareBy({ it.dayOfWeek }, { it.timeMinutes })),
@@ -50,7 +56,12 @@ class ObserveRoutinesUseCase(
                 TemplateSummary(template.id, template.name, template.difficulty, items.size, estimate(items))
             }
         }
-        return RoutinesData(routines, templates)
+        val planSummaries = if (plans != null && cardio != null) {
+            summarizePlans(plans.plans(language), PlanCatalog.load(exercises, cardio, language), estimate)
+        } else {
+            emptyList()
+        }
+        return RoutinesData(routines, templates, planSummaries)
     }
 }
 

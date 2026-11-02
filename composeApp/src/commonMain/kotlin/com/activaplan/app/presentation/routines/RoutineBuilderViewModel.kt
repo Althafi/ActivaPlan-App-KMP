@@ -2,8 +2,10 @@ package com.activaplan.app.presentation.routines
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.activaplan.app.data.repository.CardioRepository
 import com.activaplan.app.data.repository.ExerciseRepository
 import com.activaplan.app.domain.i18n.Language
+import com.activaplan.app.domain.model.CardioWorkout
 import com.activaplan.app.domain.model.DraftLoad
 import com.activaplan.app.domain.model.Exercise
 import com.activaplan.app.domain.model.Routine
@@ -40,6 +42,8 @@ sealed interface BuilderUiState {
         val isNew: Boolean,
         val isDirty: Boolean,
         val nameError: Boolean = false,
+        /** Kardio menurut ID; item rutinitas yang ID-nya ada di sini tampil sebagai kardio, bukan latihan set/rep. */
+        val cardioCatalog: Map<String, CardioWorkout> = emptyMap(),
     ) : BuilderUiState
 }
 
@@ -57,6 +61,7 @@ class BuilderViewModel(
     private val routineId: String?,
     private val language: Language,
     private val exercises: ExerciseRepository,
+    private val cardio: CardioRepository,
     private val loadDraft: LoadRoutineDraftUseCase,
     private val saveRoutine: SaveRoutineUseCase,
 ) : ViewModel() {
@@ -78,12 +83,13 @@ class BuilderViewModel(
             _uiState.value = BuilderUiState.Loading
             _uiState.value = try {
                 val catalog = exercises.exercises(language = language).associateBy { it.id }
+                val cardioCatalog = cardio.workouts(language = language).associateBy { it.id }
                 when (val load = loadDraft(routineId)) {
                     DraftLoad.NotFound -> BuilderUiState.NotFound
                     is DraftLoad.Loaded -> {
                         baseline = load.baseline
                         if (load.skippedItems > 0) _events.send(BuilderEvent.SkippedItems)
-                        BuilderUiState.Ready(load.draft, catalog, isNew = routineId == null, isDirty = false)
+                        BuilderUiState.Ready(load.draft, catalog, isNew = routineId == null, isDirty = false, cardioCatalog = cardioCatalog)
                     }
                 }
             } catch (e: CancellationException) {
@@ -104,11 +110,11 @@ class BuilderViewModel(
 
     fun onMove(from: Int, to: Int) = edit { it.move(from, to) }
 
-    /** Menambah latihan hasil mode pilih; ID yang tidak dikenal diabaikan. */
+    /** Menambah latihan atau kardio hasil mode pilih; ID yang tidak dikenal diabaikan. */
     fun onExercisePicked(exerciseId: String) {
         val ready = _uiState.value as? BuilderUiState.Ready ?: return
-        val exercise = ready.catalog[exerciseId] ?: return
-        val added = ready.draft.add(exercise.toRoutineItem())
+        val item = ready.catalog[exerciseId]?.toRoutineItem() ?: ready.cardioCatalog[exerciseId]?.toRoutineItem() ?: return
+        val added = ready.draft.add(item)
         if (added == null) _events.trySend(BuilderEvent.Full) else edit { added }
     }
 
