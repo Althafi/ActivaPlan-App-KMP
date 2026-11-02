@@ -3,6 +3,8 @@ package com.activaplan.app.data
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.activaplan.app.data.local.UserDataStore
 import com.activaplan.app.data.repository.ExerciseDataSource
 import com.activaplan.app.data.repository.ExerciseRepository
@@ -67,6 +69,26 @@ class UserDataPersistenceTest {
             assertEquals(420, settings.defaultTimeMinutes)
         } finally {
             second.close()
+        }
+    }
+
+    @Test
+    fun corruptJsonIsBackedUpBeforeBeingOverwritten() = runBlocking {
+        val file = File.createTempFile("activaplan", ".preferences_pb").also { it.delete(); it.deleteOnExit() }
+        val routine = Routine("r1", "Pagi", listOf(RoutineItem("a", sets = 3, reps = 10, restSeconds = 30)))
+        val corrupt = "{bukan json"
+
+        val session = Session(file, json)
+        try {
+            session.dataStore.edit { it[stringPreferencesKey("routines")] = corrupt }
+            assertEquals(emptyList(), session.repository.routines.first())
+
+            session.repository.saveRoutine(routine)
+
+            assertEquals(listOf(routine), session.repository.routines.first())
+            assertEquals(corrupt, session.dataStore.data.first()[stringPreferencesKey("routines_corrupt")])
+        } finally {
+            session.close()
         }
     }
 }

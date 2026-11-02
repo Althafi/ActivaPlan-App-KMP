@@ -1,8 +1,10 @@
 package com.activaplan.app.data.local
 
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.activaplan.app.domain.model.Mode
 import com.activaplan.app.domain.model.Routine
@@ -21,7 +23,8 @@ import kotlinx.serialization.json.jsonObject
  * Menyimpan data pengguna di DataStore sebagai JSON, satu kunci per koleksi:
  * `routines`, `schedule`, `session_logs`, `settings`.
  *
- * Nilai yang tidak terbaca (JSON rusak) dianggap kosong/default agar aplikasi tetap terbuka.
+ * Nilai yang tidak terbaca (JSON rusak) dianggap kosong/default agar aplikasi tetap terbuka. Sebelum pembaruan
+ * berikutnya menimpanya, teks aslinya disalin ke kunci `<nama>_corrupt` agar data masih bisa dipulihkan.
  * Kegagalan tulis dilempar ke pemanggil supaya UI dapat menampilkan "Gagal menyimpan".
  */
 class UserDataStore(
@@ -33,6 +36,11 @@ class UserDataStore(
     /** Membaca, mengubah, dan menulis kembali dalam satu transaksi; hanya kunci yang berubah ditulis. */
     suspend fun update(transform: (UserData) -> UserData) {
         dataStore.edit { prefs ->
+            backUpCorrupt<List<Routine>>(prefs, ROUTINES, ROUTINES_CORRUPT)
+            backUpCorrupt<List<ScheduleEntry>>(prefs, SCHEDULE, SCHEDULE_CORRUPT)
+            backUpCorrupt<List<SessionLog>>(prefs, SESSION_LOGS, SESSION_LOGS_CORRUPT)
+            backUpCorrupt<Settings>(prefs, SETTINGS, SETTINGS_CORRUPT)
+            if (prefs[SCHEMA_VERSION] != CURRENT_SCHEMA_VERSION) prefs[SCHEMA_VERSION] = CURRENT_SCHEMA_VERSION
             val before = read(prefs)
             val after = transform(before)
             if (after.routines != before.routines) prefs[ROUTINES] = json.encodeToString(after.routines)
@@ -72,15 +80,23 @@ class UserDataStore(
         }
     }
 
-    private inline fun <reified T> decode(raw: String?, fallback: T): T {
-        if (raw == null) return fallback
+    private inline fun <reified T> decode(raw: String?, fallback: T): T = decodeOrNull<T>(raw) ?: fallback
+
+    private inline fun <reified T> decodeOrNull(raw: String?): T? {
+        if (raw == null) return null
         return try {
             json.decodeFromString<T>(raw)
         } catch (_: SerializationException) {
-            fallback
+            null
         } catch (_: IllegalArgumentException) {
-            fallback
+            null
         }
+    }
+
+    /** Menyalin teks yang tidak bisa didekode ke [backupKey] sebelum nilai default menimpanya. */
+    private inline fun <reified T> backUpCorrupt(prefs: MutablePreferences, key: Preferences.Key<String>, backupKey: Preferences.Key<String>) {
+        val raw = prefs[key] ?: return
+        if (decodeOrNull<T>(raw) == null) prefs[backupKey] = raw
     }
 
     private companion object {
@@ -88,6 +104,13 @@ class UserDataStore(
         val SCHEDULE = stringPreferencesKey("schedule")
         val SESSION_LOGS = stringPreferencesKey("session_logs")
         val SETTINGS = stringPreferencesKey("settings")
+        val ROUTINES_CORRUPT = stringPreferencesKey("routines_corrupt")
+        val SCHEDULE_CORRUPT = stringPreferencesKey("schedule_corrupt")
+        val SESSION_LOGS_CORRUPT = stringPreferencesKey("session_logs_corrupt")
+        val SETTINGS_CORRUPT = stringPreferencesKey("settings_corrupt")
+        /** Versi skema penyimpanan; naikkan bersama migrasi bila bentuk JSON berubah tidak kompatibel. */
+        val SCHEMA_VERSION = intPreferencesKey("schema_version")
+        const val CURRENT_SCHEMA_VERSION = 1
         const val ONBOARDING_FLAG = "onboardingDone"
     }
 }

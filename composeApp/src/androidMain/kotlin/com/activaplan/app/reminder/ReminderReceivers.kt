@@ -24,6 +24,8 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 /** Memulihkan seluruh alarm setelah reboot, pembaruan aplikasi, perubahan zona waktu, atau perubahan izin alarm tepat waktu. */
 class ReminderRestoreReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        // Receiver diekspor agar menerima broadcast sistem; intent dari aplikasi lain dengan aksi lain diabaikan.
+        if (intent.action !in SYSTEM_ACTIONS) return
         val pending = goAsync()
         CoroutineScope(Dispatchers.Default).launch {
             try {
@@ -34,5 +36,15 @@ class ReminderRestoreReceiver : BroadcastReceiver() {
                 pending.finish()
             }
         }
+    }
+
+    private companion object {
+        val SYSTEM_ACTIONS = setOf(
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_MY_PACKAGE_REPLACED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+            // Konstanta AlarmManager baru ada di API 31; minSdk 26 memakai teks aksinya.
+            "android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED",
+        )
     }
 }
