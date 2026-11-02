@@ -121,7 +121,7 @@ private fun HistoryRow(item: HistoryItem) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     ActivaCard(Modifier.fillMaxWidth()) {
-        Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
                 Text(
                     item.routineName ?: strings[StringKey.HISTORY_ROUTINE_DELETED],
