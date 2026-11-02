@@ -311,6 +311,22 @@ enum class StringKey(val id: String, val en: String) {
     SESSION_DONE("Selesai", "Done"),
     SESSION_HISTORY("Lihat Riwayat", "View History"),
 
+    HISTORY_TITLE("Riwayat", "History"),
+    HISTORY_SUMMARY("{0} sesi, {1} selesai", "{0} sessions, {1} completed"),
+    HISTORY_MONTH_HEADER("{0} {1}", "{0} {1}"),
+    HISTORY_DATE("{0}, {1} {2}", "{0}, {2} {1}"),
+    HISTORY_SETS("{0}/{1} set", "{0}/{1} sets"),
+    HISTORY_ROUTINE_DELETED("Rutinitas dihapus", "Routine deleted"),
+    HISTORY_EMPTY_TITLE("Belum ada riwayat sesi", "No session history yet"),
+    HISTORY_EMPTY_BODY(
+        "Selesaikan satu latihan dan hasilnya muncul di sini.",
+        "Finish a workout and it will show up here.",
+    ),
+    HISTORY_OFF_BODY(
+        "Penyimpanan riwayat sedang mati. Nyalakan \"Simpan riwayat sesi\" di Setelan agar sesi berikutnya tercatat.",
+        "History saving is off. Turn on \"Save session history\" in Settings so future sessions are recorded.",
+    ),
+
     SCHEDULE_TITLE("Jadwal Latihan", "Workout Schedule"),
     SCHEDULE_DATE_HEADER("{0}, {1} {2}", "{0}, {2} {1}"),
     SCHEDULE_MINUTES("{0} mnt", "{0} min"),

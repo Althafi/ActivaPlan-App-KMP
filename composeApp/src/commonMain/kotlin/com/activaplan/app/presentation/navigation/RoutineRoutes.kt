@@ -22,6 +22,10 @@ data class PlanPreviewRoute(val id: String)
 @Serializable
 data class SessionRoute(val routineId: String)
 
+/** Riwayat sesi; dibuka dari layar Selesai. */
+@Serializable
+data object HistoryRoute
+
 /** Kunci `savedStateHandle` entri sebelumnya: ID latihan terpilih (String?) dari mode pilih. */
 const val PICKED_EXERCISE_KEY = "picked_exercise"
 

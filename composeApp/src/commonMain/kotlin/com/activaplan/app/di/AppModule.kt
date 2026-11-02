@@ -31,6 +31,7 @@ import com.activaplan.app.domain.usecase.GetTemplateDetailUseCase
 import com.activaplan.app.domain.usecase.GetWeeklyPlanDetailUseCase
 import com.activaplan.app.domain.usecase.LoadRoutineDraftUseCase
 import com.activaplan.app.domain.usecase.LoadSessionPlanUseCase
+import com.activaplan.app.domain.usecase.ObserveHistoryUseCase
 import com.activaplan.app.domain.usecase.ObserveHomeUseCase
 import com.activaplan.app.domain.usecase.ObserveRoutinesUseCase
 import com.activaplan.app.domain.usecase.ObserveScheduleUseCase
@@ -81,6 +82,7 @@ val commonModule = module {
     factory { GetWeeklyPlanDetailUseCase(get(), get(), get()) }
     factory { ApplyWeeklyPlanUseCase(get(), get(), get(), get()) }
     factory { LoadRoutineDraftUseCase(get(), get(), cardio = get()) }
+    factory { ObserveHistoryUseCase(get()) }
     factory { SaveRoutineUseCase(get()) }
     factory { DeleteRoutineUseCase(get()) }
     factory { CreateRoutineFromTemplateUseCase(get(), get()) }

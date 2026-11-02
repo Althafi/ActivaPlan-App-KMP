@@ -100,6 +100,7 @@ class SettingsActions(
     val onReplayIntro: () -> Unit,
     val onGpsTracking: (Boolean) -> Unit = {},
     val onAge: (Int) -> Unit = {},
+    val onOpenHistory: () -> Unit = {},
 )
 
 /** Dialog konfirmasi hapus yang sedang terbuka. */
@@ -107,10 +108,10 @@ private enum class DeleteTarget { HISTORY, ALL }
 
 /**
  * Layar Setelan: tema, pengingat, data, dan tentang. [onDataCleared] dipanggil setelah semua data terhapus, agar navigasi kembali ke Beranda.
- * [onReplayIntro] membuka Perkenalan 1-3 lagi.
+ * [onReplayIntro] membuka Perkenalan 1-3 lagi. [onOpenHistory] membuka layar Riwayat.
  */
 @Composable
-fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifier: Modifier = Modifier) {
+fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifier: Modifier = Modifier, onOpenHistory: () -> Unit = {}) {
     val observe = koinInject<ObserveSettingsUseCase>()
     val setTheme = koinInject<SetThemeUseCase>()
     val setLanguage = koinInject<SetLanguageUseCase>()
@@ -177,6 +178,7 @@ fun SettingsScreen(onDataCleared: () -> Unit, onReplayIntro: () -> Unit, modifie
         onReplayIntro = onReplayIntro,
         onGpsTracking = viewModel::onGpsTracking,
         onAge = viewModel::onAge,
+        onOpenHistory = onOpenHistory,
     )
     settings?.let { SettingsContent(it, permissionState, appInfo.versionName, actions, snackbarHostState, modifier) }
 
@@ -259,6 +261,8 @@ fun SettingsContent(
             }
 
             SettingsGroup(strings[StringKey.SETTINGS_GROUP_DATA]) {
+                NavigationRow(strings[StringKey.SESSION_HISTORY], actions.onOpenHistory) {}
+                RowDivider()
                 ToggleRow(strings[StringKey.SETTINGS_KEEP_HISTORY], settings.keepHistory, actions.onKeepHistory)
                 RowDivider()
                 DangerRow(strings[StringKey.SETTINGS_CLEAR_HISTORY], actions.onClearHistory)

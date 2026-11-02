@@ -22,6 +22,7 @@ import com.activaplan.app.designsystem.components.ActivaBottomNavItem
 import com.activaplan.app.presentation.navigation.ActivaNavHost
 import com.activaplan.app.presentation.navigation.ExerciseDetailRoute
 import com.activaplan.app.presentation.navigation.ExercisePickerRoute
+import com.activaplan.app.presentation.navigation.HistoryRoute
 import com.activaplan.app.presentation.navigation.IntroReplayRoute
 import com.activaplan.app.presentation.navigation.RoutineBuilderRoute
 import com.activaplan.app.presentation.navigation.SessionRoute
@@ -46,7 +47,7 @@ fun MainScaffold() {
             previousTab = current
         }
     }
-    // Detail, Builder, mode pilih, pratinjau template, sesi, dan pengantar ulang tampil tanpa bottom nav, seperti di Figma.
+    // Detail, Builder, mode pilih, pratinjau template, sesi, riwayat, dan pengantar ulang tampil tanpa bottom nav, seperti di Figma.
     val destination = backStackEntry?.destination
     val showBottomNav = listOf(
         destination?.hasRoute<ExerciseDetailRoute>(),
@@ -55,6 +56,7 @@ fun MainScaffold() {
         destination?.hasRoute<TemplatePreviewRoute>(),
         destination?.hasRoute<SessionRoute>(),
         destination?.hasRoute<IntroReplayRoute>(),
+        destination?.hasRoute<HistoryRoute>(),
     ).none { it == true }
     Scaffold(
         containerColor = ActivaPlanTheme.colors.bg,

@@ -12,6 +12,7 @@ import androidx.navigation.toRoute
 import com.activaplan.app.presentation.detail.CardioDetailScreen
 import com.activaplan.app.presentation.detail.ExerciseDetailScreen
 import com.activaplan.app.presentation.explore.ExploreScreen
+import com.activaplan.app.presentation.history.HistoryScreen
 import com.activaplan.app.presentation.home.HomeScreen
 import com.activaplan.app.presentation.onboarding.IntroReplayScreen
 import com.activaplan.app.presentation.routines.PlanPreviewScreen
@@ -123,12 +124,15 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
             SessionScreen(
                 routineId = entry.toRoute<SessionRoute>().routineId,
                 onExit = { navController.popBackStack() },
-                // Layar riwayat belum ada; sementara menuju tab Jadwal.
+                // Sesi ditutup lebih dulu agar Kembali dari Riwayat menuju layar sebelum sesi, bukan ke sesi yang sudah selesai.
                 onOpenHistory = {
                     navController.popBackStack()
-                    navController.navigateToTab(TopLevelDestination.SCHEDULE)
+                    navController.navigate(HistoryRoute) { launchSingleTop = true }
                 },
             )
+        }
+        composable<HistoryRoute> {
+            HistoryScreen(onBack = { navController.popBackStack() })
         }
         composable<IntroReplayRoute> {
             IntroReplayScreen(onClose = { navController.popBackStack() })
@@ -139,6 +143,7 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
         composable(TopLevelDestination.SETTINGS.route) {
             SettingsScreen(
                 onReplayIntro = { navController.navigate(IntroReplayRoute) { launchSingleTop = true } },
+                onOpenHistory = { navController.navigate(HistoryRoute) { launchSingleTop = true } },
                 onDataCleared = {
                     // Beranda selalu ada di dasar back stack; bendera dibaca saat entrinya tampil kembali.
                     navController.getBackStackEntry(TopLevelDestination.HOME.route).savedStateHandle[DATA_CLEARED_KEY] = true
