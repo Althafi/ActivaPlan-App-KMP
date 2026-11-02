@@ -26,6 +26,7 @@ captures/
 
 # Secrets
 .env
+keystore.properties
 google-services.json
 
 # Sisa folder Gradle di luar modul (hanya berisi .gradle/file-system.probe)
