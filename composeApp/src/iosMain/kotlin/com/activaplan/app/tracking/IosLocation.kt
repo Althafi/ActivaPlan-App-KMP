@@ -18,6 +18,7 @@ import platform.CoreLocation.kCLAuthorizationStatusNotDetermined
 import platform.CoreLocation.kCLDistanceFilterNone
 import platform.CoreLocation.kCLLocationAccuracyBest
 import platform.Foundation.NSURL
+import platform.Foundation.timeIntervalSince1970
 import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.darwin.NSObject
@@ -27,7 +28,7 @@ import platform.darwin.NSObject
  * perangkat (tanpa internet). Pembaruan latar butuh `UIBackgroundModes = location` di Info.plist.
  */
 @OptIn(ExperimentalForeignApi::class)
-internal object IosLocationHub : NSObject(), CLLocationManagerDelegateProtocol {
+internal class IosLocationHubDelegate : NSObject(), CLLocationManagerDelegateProtocol {
     private val manager = CLLocationManager()
     private var pendingAuthorization: (() -> Unit)? = null
 
@@ -90,6 +91,9 @@ internal object IosLocationHub : NSObject(), CLLocationManagerDelegateProtocol {
         }
     }
 }
+
+/** Satu instance bersama, karena Kotlin/Native tidak mendukung `object` yang mewarisi NSObject. */
+internal val IosLocationHub = IosLocationHubDelegate()
 
 class IosLocationTracker : LocationTracker {
     override val points: Flow<TrackPoint> = IosLocationHub.points

@@ -33,7 +33,7 @@ import kotlin.coroutines.suspendCoroutine
 private const val PENDING_LIMIT = 64
 
 /** Tanpa delegate, iOS menyembunyikan notifikasi yang tiba saat aplikasi sedang terbuka. */
-private object ForegroundPresenter : NSObject(), UNUserNotificationCenterDelegateProtocol {
+private class ForegroundPresenter : NSObject(), UNUserNotificationCenterDelegateProtocol {
     override fun userNotificationCenter(
         center: UNUserNotificationCenter,
         willPresentNotification: UNNotification,
@@ -45,8 +45,11 @@ private object ForegroundPresenter : NSObject(), UNUserNotificationCenterDelegat
     }
 }
 
+// Delegate iOS hanya direferensikan lemah, jadi instance ini harus dipegang di sini.
+private val foregroundPresenter = ForegroundPresenter()
+
 internal fun installForegroundPresenter() {
-    UNUserNotificationCenter.currentNotificationCenter().delegate = ForegroundPresenter
+    UNUserNotificationCenter.currentNotificationCenter().delegate = foregroundPresenter
 }
 
 class IosNotificationPermission : NotificationPermission {
