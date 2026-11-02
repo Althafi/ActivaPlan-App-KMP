@@ -20,7 +20,13 @@ data class ExerciseCatalog(
     val dictionary: ExerciseDictionary,
     /** Catatan keselamatan perangkat (`device.safetyNotes`) dalam bahasa sumber. */
     val safetyNotes: List<String> = emptyList(),
-)
+) {
+    /** Indeks id → latihan, dibangun sekali; katalog tidak berubah setelah dimuat. */
+    val byId: Map<String, Exercise> by lazy { exercises.associateBy { it.id } }
+
+    /** Indeks id → mode, dibangun sekali; dipakai Beranda yang dihitung ulang tiap menit. */
+    val modeById: Map<String, Mode> by lazy { exercises.associate { it.id to it.mode } }
+}
 
 /** Filter katalog; properti null berarti tidak memfilter. */
 data class ExerciseFilter(
@@ -46,6 +52,7 @@ class ExerciseRepository(
 ) {
     private val mutex = Mutex()
     private var cache: Loaded? = null
+    private val templateCache = mutableMapOf<Language, List<Template>>()
 
     private class Loaded(val catalog: ExerciseCatalog, val localizer: ExerciseLocalizer)
 
@@ -68,9 +75,9 @@ class ExerciseRepository(
         return l.catalog.exercises.firstOrNull { it.id == id }?.let { l.localizer.localize(it, language) }
     }
 
-    suspend fun templates(language: Language): List<Template> {
-        val l = loaded()
-        return l.catalog.templates.map { l.localizer.localize(it, language) }
+    suspend fun templates(language: Language): List<Template> = mutex.withLock {
+        val l = loadedLocked()
+        templateCache.getOrPut(language) { l.catalog.templates.map { l.localizer.localize(it, language) } }
     }
 
     /** Catatan keselamatan board + tali; memakai teks sumber bila terjemahan tidak ada. */
@@ -79,9 +86,10 @@ class ExerciseRepository(
         return l.localizer.deviceText(language)?.safetyNotes ?: l.catalog.safetyNotes
     }
 
-    private suspend fun loaded(): Loaded = mutex.withLock {
-        cache ?: load().also { cache = it }
-    }
+    private suspend fun loaded(): Loaded = mutex.withLock { loadedLocked() }
+
+    /** Hanya dipanggil saat [mutex] dipegang. */
+    private suspend fun loadedLocked(): Loaded = cache ?: load().also { cache = it }
 
     private suspend fun load(): Loaded {
         val files = listOf(ExerciseFiles.GENERAL, ExerciseFiles.PUSHUP_BOARD)

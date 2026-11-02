@@ -68,7 +68,7 @@ class CreateRoutineFromTemplateUseCase(
 
     suspend operator fun invoke(templateId: String, language: Language): Routine? {
         val template = exercises.templates(language).firstOrNull { it.id == templateId } ?: return null
-        val byId = exercises.catalog().exercises.associateBy { it.id }
+        val byId = exercises.catalog().byId
         val items = byId.routineItems(template.items)
         if (items.isEmpty()) return null
         val routine = Routine(newId(), template.name.trim().take(RoutineRules.MAX_NAME_LENGTH), items)

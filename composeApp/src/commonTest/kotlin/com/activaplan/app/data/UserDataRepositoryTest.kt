@@ -116,6 +116,16 @@ class UserDataRepositoryTest {
     }
 
     @Test
+    fun sessionLogsAreCappedKeepingTheNewest() = runTest {
+        repeat(1_001) { repository.appendSessionLog(log("r$it")) }
+
+        val logs = repository.sessionLogs.first()
+        assertEquals(1_000, logs.size)
+        assertEquals("r1", logs.first().routineId)
+        assertEquals("r1000", logs.last().routineId)
+    }
+
+    @Test
     fun turningKeepHistoryOffKeepsOldLogsUntilCleared() = runTest {
         repository.appendSessionLog(log())
         repository.updateSettings { it.copy(keepHistory = false) }
@@ -184,6 +194,6 @@ class UserDataRepositoryTest {
         repository.updateSettings { it.copy(theme = ThemeMode.DARK) }
 
         val keys = dataStore.data.first().asMap().keys.map { it.name }.toSet()
-        assertEquals(setOf("routines", "schedule", "session_logs", "settings"), keys)
+        assertEquals(setOf("routines", "schedule", "session_logs", "settings", "schema_version"), keys)
     }
 }

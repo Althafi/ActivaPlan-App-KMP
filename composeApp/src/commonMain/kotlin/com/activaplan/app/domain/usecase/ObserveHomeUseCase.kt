@@ -49,8 +49,9 @@ class ObserveHomeUseCase(
     private class Snapshot(val validated: UserDataValidation, val logs: List<SessionLog>, val settings: Settings)
 
     private suspend fun build(s: Snapshot): HomeData {
-        val byId = exercises.catalog().exercises.associateBy { it.id }
-        val modes: Map<String, Mode> = byId.mapValues { it.value.mode }
+        val catalog = exercises.catalog()
+        val byId = catalog.byId
+        val modes: Map<String, Mode> = catalog.modeById
         val now = clock.now()
         val templates = exercises.templates(s.settings.language.resolve())
         return HomeData(

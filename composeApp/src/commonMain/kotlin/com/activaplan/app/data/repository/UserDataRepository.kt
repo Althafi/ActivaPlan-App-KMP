@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
+/** Batas riwayat tersimpan; yang terlama dibuang agar satu JSON di DataStore tidak membengkak tanpa batas. */
+private const val MAX_SESSION_LOGS = 1_000
+
 /** Akses data pengguna (rutinitas, jadwal, riwayat sesi, setelan) di atas [UserDataStore]. */
 class UserDataRepository(
     private val store: UserDataStore,
@@ -103,7 +106,7 @@ class UserDataRepository(
         var written = false
         store.update { d ->
             written = d.settings.keepHistory
-            if (written) d.copy(sessionLogs = d.sessionLogs + log) else d
+            if (written) d.copy(sessionLogs = (d.sessionLogs + log).takeLast(MAX_SESSION_LOGS)) else d
         }
         return written
     }

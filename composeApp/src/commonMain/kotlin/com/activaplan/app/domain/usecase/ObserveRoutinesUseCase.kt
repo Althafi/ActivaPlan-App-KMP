@@ -34,7 +34,7 @@ class ObserveRoutinesUseCase(
             .map { (validated, language) -> build(validated, language.resolve()) }
 
     private suspend fun build(validated: UserDataValidation, language: Language): RoutinesData {
-        val byId = exercises.catalog().exercises.associateBy { it.id }
+        val byId = exercises.catalog().byId
         val levels = byId.mapValues { it.value.difficulty } +
             cardio?.catalog()?.workouts?.associate { it.id to it.difficulty }.orEmpty()
         val slots = validated.schedule.groupBy({ it.routineId }, { ScheduleSlot(it.dayOfWeek, it.timeMinutes) })
