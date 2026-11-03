@@ -112,6 +112,10 @@ enum class StringKey(val id: String, val en: String) {
     HOME_EXERCISE_ONE("{0} latihan", "{0} exercise"),
     HOME_MINUTES("{0} menit", "{0} min"),
     HOME_START("Mulai Latihan", "Start Workout"),
+    HOME_START_LOCKED("Tersedia hari {0}", "Available on {0}"),
+    HOME_NEXT("Berikutnya", "Next"),
+    HOME_DONE_TODAY("Latihan hari ini sudah selesai. Kerja bagus!", "Today's workout is done. Great job!"),
+    HOME_VIEW_HISTORY("Lihat Riwayat", "View History"),
     HOME_STREAK_TITLE("Streak minggu ini", "This week's streak"),
     HOME_STREAK_DAYS("{0} hari", "{0} days"),
     HOME_STREAK_DAY_ONE("{0} hari", "{0} day"),
@@ -324,6 +328,7 @@ enum class StringKey(val id: String, val en: String) {
     SESSION_STREAK("Streak {0} hari berturut-turut", "{0}-day streak"),
     SESSION_DONE("Selesai", "Done"),
     SESSION_HISTORY("Lihat Riwayat", "View History"),
+    SESSION_EXERCISE_DETAIL("Detail gerakan", "Exercise details"),
 
     HISTORY_TITLE("Riwayat", "History"),
     HISTORY_SUMMARY("{0} sesi, {1} selesai", "{0} sessions, {1} completed"),

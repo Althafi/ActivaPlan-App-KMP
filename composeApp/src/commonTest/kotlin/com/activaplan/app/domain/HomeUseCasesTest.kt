@@ -151,6 +151,103 @@ class GetTodayWorkoutUseCaseTest {
         assertEquals("r2", getToday(schedule, withEmpty, modes, at(monday, 8))!!.routineId)
         assertNull(getToday(schedule.take(2), withEmpty, modes, at(monday, 8)))
     }
+
+    @Test
+    fun passedTimeAloneNeverLocksTodaysWorkout() {
+        val today = getToday(listOf(entry("s1", MON, 21 * 60, "r1")), routines, modes, at(monday, 22))!!
+
+        assertTrue(today.passed)
+        assertFalse(today.locked)
+        assertEquals(0, today.daysAhead)
+    }
+
+    @Test
+    fun completedTodayShowsTheNextScheduledDayLocked() {
+        val schedule = listOf(entry("s1", MON, 600, "r1"), entry("s2", WED, 600, "r2"))
+
+        val today = getToday(schedule, routines, modes, at(monday, 20), listOf(log(oct(26), "r1")))!!
+
+        assertEquals("r2", today.routineId)
+        assertEquals(WED, today.dayOfWeek)
+        assertEquals(2, today.daysAhead)
+        assertTrue(today.locked)
+        assertFalse(today.passed)
+    }
+
+    @Test
+    fun completedOnlyScheduleWrapsToTheSameWeekdayNextWeek() {
+        val today = getToday(listOf(entry("s1", MON, 600, "r1")), routines, modes, at(monday, 20), listOf(log(oct(26), "r1")))!!
+
+        assertEquals("r1", today.routineId)
+        assertEquals(MON, today.dayOfWeek)
+        assertEquals(7, today.daysAhead)
+        assertTrue(today.locked)
+    }
+
+    @Test
+    fun nextScheduledDayWrapsAcrossTheWeekend() {
+        // Jumat selesai; jadwal lain hanya Senin, jadi tiga hari lagi.
+        val schedule = listOf(entry("s1", FRI, 600, "r1"), entry("s2", MON, 600, "r2"))
+
+        val today = getToday(schedule, routines, modes, at(30, 20), listOf(log(oct(30), "r1")))!!
+
+        assertEquals("r2", today.routineId)
+        assertEquals(3, today.daysAhead)
+    }
+
+    @Test
+    fun partialAndAbandonedSessionsDoNotCompleteTheSchedule() {
+        val logs = listOf(log(oct(26), "r1", SessionStatus.PARTIAL), log(oct(26), "r1", SessionStatus.ABANDONED))
+
+        val today = getToday(listOf(entry("s1", MON, 600, "r1")), routines, modes, at(monday, 20), logs)!!
+
+        assertFalse(today.locked)
+    }
+
+    @Test
+    fun logsFromOtherDaysOrRoutinesDoNotCount() {
+        val logs = listOf(log(oct(19), "r1"), log(oct(26), "r2"))
+
+        val today = getToday(listOf(entry("s1", MON, 600, "r1")), routines, modes, at(monday, 20), logs)!!
+
+        assertFalse(today.locked)
+        assertEquals("r1", today.routineId)
+    }
+
+    @Test
+    fun finishedEntryIsSkippedAndTheRemainingOneStaysStartable() {
+        val schedule = listOf(entry("s1", MON, 6 * 60, "r1"), entry("s2", MON, 18 * 60, "r2"))
+
+        val today = getToday(schedule, routines, modes, at(monday, 10), listOf(log(oct(26), "r1")))!!
+
+        assertEquals("r2", today.routineId)
+        assertFalse(today.locked)
+    }
+
+    @Test
+    fun missedMorningEntryStaysStartableAfterItsTime() {
+        val schedule = listOf(entry("s1", MON, 6 * 60, "r1"), entry("s2", MON, 18 * 60, "r2"))
+
+        // Pagi terlewat, malam sudah selesai: yang tersisa hanya pagi, tetap bisa dimulai walau jamnya lewat.
+        val today = getToday(schedule, routines, modes, at(monday, 20), listOf(log(oct(26), "r2")))!!
+
+        assertEquals("r1", today.routineId)
+        assertTrue(today.passed)
+        assertFalse(today.locked)
+    }
+
+    @Test
+    fun sameRoutineScheduledTwiceNeedsTwoCompletions() {
+        val schedule = listOf(entry("s1", MON, 6 * 60, "r1"), entry("s2", MON, 18 * 60, "r1"))
+        val one = listOf(log(oct(26), "r1"))
+
+        val afterOne = getToday(schedule, routines, modes, at(monday, 10), one)!!
+        val afterTwo = getToday(schedule, routines, modes, at(monday, 10), one + one)!!
+
+        assertFalse(afterOne.locked)
+        assertEquals(18 * 60, afterOne.timeMinutes)
+        assertTrue(afterTwo.locked)
+    }
 }
 
 class CalculateWeekStreakUseCaseTest {

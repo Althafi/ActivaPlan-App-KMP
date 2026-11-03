@@ -35,6 +35,7 @@ fun ActivaNavHost(navController: NavHostController, modifier: Modifier = Modifie
                 onOpenTemplate = { navController.navigate(TemplatePreviewRoute(it)) },
                 onOpenPlan = { navController.navigate(PlanPreviewRoute(it)) },
                 onOpenProgram = { navController.navigate(ProgramPreviewRoute(it)) },
+                onOpenHistory = { navController.navigate(HistoryRoute) { launchSingleTop = true } },
                 dataClearedNotice = dataCleared,
                 onDataClearedNoticeShown = { entry.savedStateHandle[DATA_CLEARED_KEY] = false },
             )

@@ -113,9 +113,25 @@ class ObserveHomeUseCaseTest {
         assertEquals(1, today.exerciseCount)
         assertEquals(4, today.estimatedMinutes)
         assertFalse(today.passed)
+        // Sudah selesai hari ini: kartu menunjuk Senin berikutnya dan terkunci sampai harinya tiba.
+        assertTrue(today.locked)
+        assertEquals(7, today.daysAhead)
         assertEquals(1, home.week.streak)
         assertTrue(home.week.days.first().completed)
         assertTrue(home.week.days.first().isToday)
+    }
+
+    @Test
+    fun todaysWorkoutIsStartableUntilItIsCompleted() = runTest {
+        useIndonesian()
+        repository.saveRoutine(routine)
+        repository.saveScheduleEntry(mondayEntry.copy(timeMinutes = 9 * 60))
+
+        val today = observe().first().today!!
+
+        // Jam 09.00 sudah lewat pada 16.00, tetapi jam hanya pengingat.
+        assertTrue(today.passed)
+        assertFalse(today.locked)
     }
 
     @Test

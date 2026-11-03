@@ -283,7 +283,7 @@ internal fun SectionTitle(text: String) =
     Text(text, style = ActivaPlanTheme.type.cardTitle.copy(fontSize = 18.sp), color = ActivaPlanTheme.colors.text)
 
 @Composable
-private fun Steps(steps: List<String>) {
+internal fun Steps(steps: List<String>) {
     val c = ActivaPlanTheme.colors
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         SectionTitle(ActivaPlanTheme.strings[StringKey.DETAIL_STEPS])

@@ -90,6 +90,7 @@ fun HomeScreen(
     onDataClearedNoticeShown: () -> Unit = {},
     onOpenPlan: (String) -> Unit = {},
     onOpenProgram: (String) -> Unit = {},
+    onOpenHistory: () -> Unit = {},
 ) {
     val observeHome = koinInject<ObserveHomeUseCase>()
     val viewModel = viewModel { HomeViewModel(observeHome) }
@@ -108,7 +109,9 @@ fun HomeScreen(
     }
 
     Box(modifier) {
-        HomeContent(state, onOpenSchedule, onStartWorkout, onOpenTemplate, viewModel::reload, onOpenPlan = onOpenPlan, onOpenProgram = onOpenProgram)
+        HomeContent(state, onOpenSchedule, onStartWorkout, onOpenTemplate, viewModel::reload,
+            onOpenPlan = onOpenPlan, onOpenProgram = onOpenProgram, onOpenHistory = onOpenHistory,
+        )
         ActivaSnackbarHost(snackbarHostState, Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 12.dp))
     }
 }
@@ -123,12 +126,13 @@ fun HomeContent(
     modifier: Modifier = Modifier,
     onOpenPlan: (String) -> Unit = {},
     onOpenProgram: (String) -> Unit = {},
+    onOpenHistory: () -> Unit = {},
 ) {
     Box(modifier.fillMaxSize().background(ActivaPlanTheme.colors.bg).statusBarsPadding()) {
         if (rememberShowSkeleton(state == HomeUiState.Loading, state is HomeUiState.Ready)) ScreenListSkeleton(cardCount = 4) else when (state) {
             HomeUiState.Loading -> Unit
             HomeUiState.Error -> LoadError(onReload)
-            is HomeUiState.Ready -> HomeReady(state.data, onOpenSchedule, onStartWorkout, onOpenTemplate, onOpenPlan, onOpenProgram)
+            is HomeUiState.Ready -> HomeReady(state.data, onOpenSchedule, onStartWorkout, onOpenTemplate, onOpenPlan, onOpenProgram, onOpenHistory)
         }
     }
 }
@@ -141,6 +145,7 @@ private fun HomeReady(
     onOpenTemplate: (String) -> Unit,
     onOpenPlan: (String) -> Unit,
     onOpenProgram: (String) -> Unit,
+    onOpenHistory: () -> Unit,
 ) {
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState())
@@ -149,7 +154,7 @@ private fun HomeReady(
     ) {
         Header(data.greeting, onOpenSchedule)
         val today = data.today
-        if (today != null) TodayCard(today, onStartWorkout) else EmptyTodayCard(onOpenSchedule)
+        if (today != null) TodayCard(today, onStartWorkout, onOpenHistory) else EmptyTodayCard(onOpenSchedule)
         data.program?.let { ProgramSection(it, onOpenPlan, onOpenProgram) }
         StreakSection(data.week)
         if (data.recommendations.isNotEmpty()) Recommendations(data.recommendations, onOpenTemplate)
@@ -191,11 +196,16 @@ private fun Header(greeting: GreetingPeriod, onOpenSchedule: () -> Unit) {
 }
 
 @Composable
-private fun TodayCard(today: TodayWorkout, onStartWorkout: (TodayWorkout) -> Unit) {
+private fun TodayCard(today: TodayWorkout, onStartWorkout: (TodayWorkout) -> Unit, onOpenHistory: () -> Unit) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     val eyebrow = buildString {
-        append(strings[StringKey.HOME_TODAY]).append(" · ").append(formatClock(today.timeMinutes))
+        if (today.locked) {
+            append(strings[StringKey.HOME_NEXT]).append(" · ").append(strings.dayName(today.dayOfWeek))
+        } else {
+            append(strings[StringKey.HOME_TODAY])
+        }
+        append(" · ").append(formatClock(today.timeMinutes))
         if (today.passed) append(" · ").append(strings[StringKey.HOME_TODAY_PASSED])
     }.uppercase()
     Surface(color = c.primary, contentColor = c.onPrimary, shape = ActivaShapes.card, modifier = Modifier.fillMaxWidth()) {
@@ -221,14 +231,30 @@ private fun TodayCard(today: TodayWorkout, onStartWorkout: (TodayWorkout) -> Uni
                     color = c.onPrimary,
                 )
             }
+            if (today.locked) {
+                Spacer(Modifier.height(12.dp))
+                Text(strings[StringKey.HOME_DONE_TODAY], style = ActivaPlanTheme.type.body, color = c.onPrimary)
+            }
             Spacer(Modifier.height(20.dp))
+            // Jadwal hari lain belum boleh dimulai; jam hanya pengingat, jadi jadwal hari ini selalu bisa dimulai.
             ActivaButton(
-                text = strings[StringKey.HOME_START],
+                text = if (today.locked) strings.format(StringKey.HOME_START_LOCKED, strings.dayName(today.dayOfWeek)) else strings[StringKey.HOME_START],
                 onClick = { onStartWorkout(today) },
                 modifier = Modifier.fillMaxWidth(),
                 style = ButtonStyle.SECONDARY,
-                icon = ActivaIconKind.PLAY,
+                enabled = !today.locked,
+                icon = if (today.locked) ActivaIconKind.CLOCK else ActivaIconKind.PLAY,
             )
+            // Riwayat hanya ditawarkan setelah ada sesi yang selesai hari ini.
+            if (today.locked) {
+                Spacer(Modifier.height(10.dp))
+                ActivaButton(
+                    text = strings[StringKey.HOME_VIEW_HISTORY],
+                    onClick = onOpenHistory,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = ButtonStyle.SECONDARY,
+                )
+            }
         }
     }
 }
@@ -464,6 +490,13 @@ private fun HomeDarkPreview() = HomePreview(darkTheme = true, data = previewData
 @Preview(widthDp = 390, heightDp = 844, showBackground = true)
 @Composable
 private fun HomeEmptyLightPreview() = HomePreview(darkTheme = false, data = previewData.copy(today = null, recommendations = emptyList()))
+
+@Preview(widthDp = 390, heightDp = 844, showBackground = true)
+@Composable
+private fun HomeDoneLightPreview() = HomePreview(
+    darkTheme = false,
+    data = previewData.copy(today = previewData.today?.copy(dayOfWeek = 2, daysAhead = 1)),
+)
 
 @Preview(widthDp = 390, heightDp = 844, showBackground = true)
 @Composable

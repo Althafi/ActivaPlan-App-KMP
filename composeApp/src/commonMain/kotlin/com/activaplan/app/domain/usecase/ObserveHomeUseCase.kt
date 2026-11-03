@@ -65,7 +65,7 @@ class ObserveHomeUseCase(
         val templates = exercises.templates(language)
         return HomeData(
             greeting = GreetingPeriod.at(now.hour),
-            today = getToday(s.validated.schedule, s.validated.routines, modes, now),
+            today = getToday(s.validated.schedule, s.validated.routines, modes, now, s.logs),
             week = calculateWeekStreak(s.validated.schedule, s.logs, now.date),
             recommendations = recommendTemplates(
                 templates, s.validated.routines, s.logs, byId,

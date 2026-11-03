@@ -17,6 +17,10 @@ enum class GreetingPeriod {
 /**
  * Jadwal yang ditampilkan di kartu "Hari ini". [passed] true bila semua jadwal hari ini sudah lewat dan ini yang terakhir.
  * [requiresSafetyCheck] true bila ada latihan tali, jadi sesi diawali cek keselamatan.
+ *
+ * Jam hanya pengingat: jadwal hari ini tetap bisa dimulai sepanjang hari sampai selesai. Bila semua jadwal hari ini
+ * sudah selesai, kartu menampilkan jadwal berikutnya: [daysAhead] > 0 dan [dayOfWeek] hari itu (1 = Senin .. 7 = Minggu),
+ * dan sesi baru boleh dimulai saat harinya tiba ([locked]).
  */
 data class TodayWorkout(
     val routineId: String,
@@ -26,7 +30,12 @@ data class TodayWorkout(
     val estimatedMinutes: Int,
     val passed: Boolean,
     val requiresSafetyCheck: Boolean,
-)
+    val dayOfWeek: Int = 0,
+    val daysAhead: Int = 0,
+) {
+    /** True bila jadwal hari ini sudah selesai dan ini jadwal hari lain, jadi belum boleh dimulai. */
+    val locked: Boolean get() = daysAhead > 0
+}
 
 /** Satu lingkaran streak. [dayOfWeek]: 1 = Senin .. 7 = Minggu. */
 data class StreakDay(val dayOfWeek: Int, val completed: Boolean, val isToday: Boolean)

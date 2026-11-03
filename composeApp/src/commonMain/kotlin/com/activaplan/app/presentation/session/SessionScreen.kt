@@ -29,7 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -219,10 +221,12 @@ fun SessionContent(
 @Composable
 private fun ReadyContent(ready: SessionUiState.Ready, actions: SessionActions) {
     val state = ready.state
+    // Detail gerakan dari kartu di layar latihan atau istirahat; sheet menjeda timer selama terbuka.
+    var detail by remember { mutableStateOf<SessionExercise?>(null) }
     when (val phase = state.phase) {
         SessionPhase.SafetyCheck -> SafetyCheckContent(state, actions)
-        is SessionPhase.Working -> WorkingContent(state, phase, actions, ready.tracking, ready.age)
-        is SessionPhase.Resting -> RestContent(state, phase, actions)
+        is SessionPhase.Working -> WorkingContent(state, phase, actions, ready.tracking, ready.age, onShowDetail = { detail = it })
+        is SessionPhase.Resting -> RestContent(state, phase, actions, onShowDetail = { detail = it })
         is SessionPhase.Finished -> if (phase.showsSummary) {
             CompleteContent(
                 phase.summary.copy(distanceMeters = ready.tracking.stats.roundedMeters),
@@ -232,6 +236,7 @@ private fun ReadyContent(ready: SessionUiState.Ready, actions: SessionActions) {
             )
         }
     }
+    detail?.let { ExerciseDetailSheet(it, state.paused, actions.onTogglePause) { detail = null } }
     when (state.overlay) {
         SessionOverlay.NONE -> Unit
         // Menutup sheet tanpa memilih sama dengan Coba lagi: pengguna tetap di set yang sama.
@@ -261,6 +266,7 @@ private fun WorkingContent(
     actions: SessionActions,
     tracking: TrackingUi = TrackingUi(),
     age: Int? = null,
+    onShowDetail: (SessionExercise) -> Unit = {},
 ) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
@@ -346,9 +352,9 @@ private fun WorkingContent(
         }
         if (step != null) {
             CardioGuide(step.segment, tracking, age)
-            state.exercises.getOrNull(state.index + 1)?.let { UpNextCard(it) }
+            state.exercises.getOrNull(state.index + 1)?.let { UpNextCard(it, onShowDetail) }
         } else {
-            cue(exercise, state.setNumber)?.let { CueCard(it) }
+            cue(exercise, state.setNumber)?.let { CueCard(it) { onShowDetail(item) } }
         }
     }
 }
@@ -385,10 +391,11 @@ private fun CardioGuide(segment: CardioSegment, tracking: TrackingUi, age: Int?)
 
 /** Segmen atau latihan yang menyusul, supaya pelari tahu perubahan sebelum bunyi/getar datang. */
 @Composable
-private fun UpNextCard(next: SessionExercise) {
+private fun UpNextCard(next: SessionExercise, onShowDetail: (SessionExercise) -> Unit) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
-    ActivaCard(Modifier.fillMaxWidth()) {
+    // Segmen kardio tidak punya langkah atau tips, jadi hanya latihan biasa yang bisa dibuka detailnya.
+    ActivaCard(Modifier.fillMaxWidth(), onClick = if (next.cardio == null) ({ onShowDetail(next) }) else null) {
         Text(
             strings[StringKey.SESSION_REST_UP_NEXT],
             style = ActivaPlanTheme.type.labelSmall.copy(fontWeight = FontWeight.SemiBold),
@@ -406,6 +413,7 @@ private fun UpNextCard(next: SessionExercise) {
             style = ActivaPlanTheme.type.body,
             color = c.textMuted,
         )
+        if (step == null) DetailHint()
     }
 }
 
@@ -415,15 +423,28 @@ internal fun cue(exercise: Exercise, setNumber: Int): String? {
     return if (cues.isEmpty()) null else cues[(setNumber - 1).coerceAtLeast(0) % cues.size]
 }
 
+/** Petunjuk singkat; menyentuh kartu membuka detail gerakan (langkah, tips, kesalahan umum). */
 @Composable
-private fun CueCard(text: String) {
+private fun CueCard(text: String, onClick: () -> Unit) {
     val c = ActivaPlanTheme.colors
-    ActivaCard(Modifier.fillMaxWidth()) {
+    ActivaCard(Modifier.fillMaxWidth(), onClick = onClick) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
             ActivaIcon(ActivaIconKind.INFO, c.primary, size = 20.dp)
             Text(text, style = ActivaPlanTheme.type.body.copy(fontSize = 15.sp, lineHeight = 22.sp), color = c.text, modifier = Modifier.weight(1f))
         }
+        DetailHint()
     }
+}
+
+/** Ajakan kecil di kartu yang bisa dibuka menjadi detail gerakan. */
+@Composable
+private fun DetailHint() {
+    Spacer(Modifier.height(8.dp))
+    Text(
+        ActivaPlanTheme.strings[StringKey.SESSION_EXERCISE_DETAIL],
+        style = ActivaPlanTheme.type.label.copy(fontWeight = FontWeight.SemiBold),
+        color = ActivaPlanTheme.colors.primary,
+    )
 }
 
 // endregion
@@ -431,7 +452,12 @@ private fun CueCard(text: String) {
 // region Istirahat
 
 @Composable
-private fun RestContent(state: SessionState, phase: SessionPhase.Resting, actions: SessionActions) {
+private fun RestContent(
+    state: SessionState,
+    phase: SessionPhase.Resting,
+    actions: SessionActions,
+    onShowDetail: (SessionExercise) -> Unit = {},
+) {
     val c = ActivaPlanTheme.colors
     val strings = ActivaPlanTheme.strings
     SessionLayout(
@@ -463,7 +489,8 @@ private fun RestContent(state: SessionState, phase: SessionPhase.Resting, action
             Text(strings[StringKey.SESSION_PAUSED], style = ActivaPlanTheme.type.label, color = c.textMuted)
         }
         state.nextUp?.let { next ->
-            ActivaCard(Modifier.fillMaxWidth()) {
+            val openable = next.exercise.cardio == null
+            ActivaCard(Modifier.fillMaxWidth(), onClick = if (openable) ({ onShowDetail(next.exercise) }) else null) {
                 Text(
                     strings[StringKey.SESSION_REST_UP_NEXT],
                     style = ActivaPlanTheme.type.labelSmall.copy(fontWeight = FontWeight.SemiBold),
@@ -476,6 +503,7 @@ private fun RestContent(state: SessionState, phase: SessionPhase.Resting, action
                     style = ActivaPlanTheme.type.body,
                     color = c.textMuted,
                 )
+                if (openable) DetailHint()
             }
         }
     }
